@@ -15,7 +15,6 @@ import { SharedModule } from './shared/shared.module';
 import { AdminComponent } from './layouts/admin/admin.component';
 import { BreadcrumbsComponent } from './layouts/admin/breadcrumbs/breadcrumbs.component';
 
-
 @NgModule({
   declarations: [
     AppComponent,

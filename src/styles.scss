@@ -24576,8 +24576,6 @@ body {
       -o-transition: opacity 0.3s linear;
       border-bottom: 2px solid;
       &:before {
-        content: "\e6de";
-        font-family: 'themify';
         margin-right: 10px;
       }
       &[menu-title-theme="theme1"] {

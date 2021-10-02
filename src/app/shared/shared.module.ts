@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import {CommonModule} from '@angular/common';
 
-import { MenuItems } from './menu-items/menu-items';
 import { AccordionAnchorDirective, AccordionLinkDirective, AccordionDirective } from './accordion';
 import { ToggleFullscreenDirective } from './fullscreen/toggle-fullscreen.directive';
 import {CardRefreshDirective} from './card/card-refresh.directive';
@@ -11,8 +10,14 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {ModalAnimationComponent} from './modal-animation/modal-animation.component';
 import {ModalBasicComponent} from './modal-basic/modal-basic.component';
-import {TodoService} from './todo/todo.service';
 import {SpinnerComponent} from './spinner/spinner.component';
+import { MenuItems } from './menu-items/menu-items';
+import {PERFECT_SCROLLBAR_CONFIG, PerfectScrollbarConfigInterface, PerfectScrollbarModule} from 'ngx-perfect-scrollbar';
+import {ClickOutsideModule} from 'ng-click-outside';
+
+const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
+    suppressScrollX: true
+}
 
 @NgModule({
   imports: [
@@ -20,6 +25,8 @@ import {SpinnerComponent} from './spinner/spinner.component';
       FormsModule,
       ReactiveFormsModule,
       NgbModule,
+      ClickOutsideModule,
+      PerfectScrollbarModule
   ],
   declarations: [
       AccordionAnchorDirective,
@@ -47,10 +54,15 @@ import {SpinnerComponent} from './spinner/spinner.component';
       ReactiveFormsModule,
       ModalBasicComponent,
       ModalAnimationComponent,
+      PerfectScrollbarModule,
+      ClickOutsideModule
   ],
   providers: [
-      MenuItems,
-      TodoService
+    MenuItems,
+    {
+        provide: PERFECT_SCROLLBAR_CONFIG,
+        useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG
+      }
   ]
 })
 export class SharedModule { }
