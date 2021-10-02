@@ -28,7 +28,8 @@ export class AuthService {
     const provider = new firebase.auth.GoogleAuthProvider();
     return this.oAuthLogin(provider)
       .then((googleAuth) => {
-        googleAuth.user.getIdToken().then((tkn) => { this.router.navigateByUrl('/');
+        googleAuth.user.getIdToken().then((tkn) => {
+          this.zone.run(() => this.router.navigateByUrl('/'));
         });
       })
       .catch((error) => {
