@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, NgZone } from '@angular/core';
 import { Router } from '@angular/router';
 import * as firebase from 'firebase/app';
 import 'rxjs/add/operator/switchMap';
@@ -17,29 +17,25 @@ export class AuthService {
   constructor(
     private afAuth: AngularFireAuth,
     private router: Router,
-    private httpClient: HttpClient
+    private httpClient: HttpClient,
+    private zone: NgZone
   ) {}
   getCri(tkn): Observable<string> {
-    return this.httpClient
-            .get<string>(`${this.baseURL}`)
-            .pipe(pluck('data'));
+    return this.httpClient.get<string>(`${this.baseURL}`).pipe(pluck('data'));
   }
 
   googleLogin() {
     const provider = new firebase.auth.GoogleAuthProvider();
-    return  this.oAuthLogin(provider)
+    return this.oAuthLogin(provider)
       .then((googleAuth) => {
         googleAuth.user.getIdToken().then((tkn) => {
+          this.zone.run(() => this.router.navigateByUrl('/'));
         });
-        this.router.navigateByUrl('/dash-board');
       })
       .catch((error) => {
         console.log('Something went wrong: ', error);
       });
-      
   }
-
-  
 
   private oAuthLogin(provider) {
     return this.afAuth.auth.signInWithPopup(provider);
@@ -47,7 +43,7 @@ export class AuthService {
 
   logout() {
     this.afAuth.auth.signOut().then(() => {
-      this.router.navigate(['/dash-board']);
+      this.router.navigate(['/auth']);
     });
   }
 }

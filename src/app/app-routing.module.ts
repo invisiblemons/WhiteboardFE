@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AdminComponent } from './layouts/admin/admin.component';
+import { AuthComponent } from './layouts/auth/auth.component';
 
 const routes: Routes = [
   {
@@ -19,6 +20,21 @@ const routes: Routes = [
       {
         path: 'reviewer',
         loadChildren: () => import('./pages/reviewer/reviewer.module').then(m => m.ReviewerModule)
+      }
+    ]
+  },
+  {
+    path: '',
+    component: AuthComponent,
+    children: [
+      {
+        path: '',
+        redirectTo: 'auth',
+        pathMatch: 'full'
+      },
+      {
+        path: 'auth',
+        loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule)
       }
     ]
   },

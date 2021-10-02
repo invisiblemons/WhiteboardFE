@@ -8,18 +8,20 @@ import { AngularFireModule } from '@angular/fire';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { AuthService } from './core/auth.service';
+import { AuthService } from './auth/auth.service';
 import { environment } from '../environments/environment';
 import { HttpClientModule } from '@angular/common/http';
 import { SharedModule } from './shared/shared.module';
 import { AdminComponent } from './layouts/admin/admin.component';
 import { BreadcrumbsComponent } from './layouts/admin/breadcrumbs/breadcrumbs.component';
+import { AuthComponent } from './layouts/auth/auth.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     AdminComponent,
-    BreadcrumbsComponent
+    BreadcrumbsComponent,
+    AuthComponent
   ],
   imports: [
     BrowserModule,
