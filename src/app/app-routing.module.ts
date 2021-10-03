@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { AuthGuardService } from './auth/auth-guard.service';
 import { AdminComponent } from './layouts/admin/nav-sidebar/nav-sidebar.component';
 import { AuthComponent } from './layouts/auth/auth.component';
 
@@ -7,6 +8,7 @@ const routes: Routes = [
   {
     path:'',
     component: AdminComponent,
+    canActivate: [AuthGuardService],
     children : [
       {
         path: '',
@@ -22,25 +24,6 @@ const routes: Routes = [
         loadChildren: () => import('./pages/reviewer/reviewer.module').then(m => m.ReviewerModule)
       }
     ]
-  },
-  {
-    path: '',
-    component: AuthComponent,
-    children: [
-      {
-        path: '',
-        redirectTo: 'auth',
-        pathMatch: 'full'
-      },
-      {
-        path: 'auth',
-        loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule)
-      }
-    ]
-  },
-  {
-    path: '**',
-    redirectTo: 'dashboard'
   }
 ];
 
