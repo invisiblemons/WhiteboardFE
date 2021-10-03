@@ -17,3 +17,30 @@
         color: white;
       }
 }
+.auth-sep {
+  margin-top: 36px;
+  margin-bottom: 10px;
+  line-height: 20px;
+  font-size: 16px;
+  text-align: center;
+  display: block;
+  position: relative;
+  & > span {
+    display: table-cell;
+    width: 30%;
+    white-space: nowrap;
+    padding: 0 24px;
+    color: black;
+    & > span {
+      margin-top: -12px;
+      display: block;
+    }
+  }
+  &:before, &:after {
+    border-top: solid 1px black;
+    content: "";
+    height: 1px;
+    width: 35%;
+    display: table-cell;
+  }
+}

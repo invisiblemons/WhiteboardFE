@@ -21,7 +21,7 @@ import { AuthComponent } from './layouts/auth/auth.component';
     AppComponent,
     AdminComponent,
     BreadcrumbsComponent,
-    AuthComponent
+    AuthComponent,
   ],
   imports: [
     BrowserModule,

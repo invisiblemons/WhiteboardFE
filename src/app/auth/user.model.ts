@@ -1,8 +1,9 @@
 export class user {
-  id: string;
+  token: string;
   firebaseUId: string;
+  exp: Date;
   name?: string;
-  avatar?: string;
+  avatarURL?: string;
   email?: string;
   birthday?: string;
   phoneNumbers?: number;

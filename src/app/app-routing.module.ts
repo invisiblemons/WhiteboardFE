@@ -22,6 +22,14 @@ const routes: Routes = [
       {
         path: 'reviewer',
         loadChildren: () => import('./pages/reviewer/reviewer.module').then(m => m.ReviewerModule)
+      },
+      {
+        path: 'campaign',
+        loadChildren: () => import('./pages/campaign/campaign.module').then(m => m.CampaignModule)
+      },
+      {
+        path: 'university',
+        loadChildren: () => import('./pages/university/university.module').then(m => m.UniversityModule)
       }
     ]
   },

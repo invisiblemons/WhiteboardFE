@@ -11,12 +11,14 @@ export class LocalStorageService {
   setUser(user:user) {
     localStorage.setItem(USER, JSON.stringify(user))
   }
-  getUser() : user{
+  getUserToken() : string{
+    return localStorage.getItem(USER);
+  }
+  getUserObject() : user{
     return JSON.parse(localStorage.getItem(USER));
   }
-
-  removeUser()
+  removeUser(user:string)
   {
-    return localStorage.removeItem(USER);
+    return localStorage.removeItem(user);
   }
 }

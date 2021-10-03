@@ -2,6 +2,9 @@ import {Component, ElementRef, OnInit, ViewChild, ViewEncapsulation} from '@angu
 import {state, style, transition, animate, trigger, AUTO_STYLE} from '@angular/animations';
 import 'rxjs/add/operator/filter';
 import {MenuItems} from '../../../shared/menu-items/menu-items';
+import { LocalStorageService } from 'src/app/auth/local-storage.service';
+import { Router } from '@angular/router';
+import { user } from 'src/app/auth/user.model';
 
 @Component({
   selector: 'app-admin',
@@ -64,14 +67,25 @@ export class AdminComponent implements OnInit {
 
   config: any;
 
-  constructor(public menuItems: MenuItems) {
+  userToken: string;
+
+  //information admin
+  avatarUrl: string;
+  name: string;
+
+  constructor(public menuItems: MenuItems, private localStorageService: LocalStorageService, private router: Router) {
     const scrollHeight = window.screen.height - 150;
     this.innerHeight = scrollHeight + 'px';
     this.windowWidth = window.innerWidth;
     this.setMenuAttributs(this.windowWidth);
   }
 
-  ngOnInit() { }
+  ngOnInit() { 
+    this.userToken = this.localStorageService.getUserToken();
+    let user: user = JSON.parse(this.userToken);
+    this.avatarUrl = user.avatarURL;
+    this.name = user.name;
+  }
 
   onClickedOutside(e: Event) {
     if (this.windowWidth < 768 && this.toggleOn && this.verticalNavType !== 'offcanvas') {
@@ -130,14 +144,6 @@ export class AdminComponent implements OnInit {
     });
   }
 
-  toggleChat() {
-    this.chatToggle = this.chatToggle === 'out' ? 'in' : 'out';
-  }
-
-  toggleChatInner() {
-    this.chatInnerToggle = this.chatInnerToggle === 'off' ? 'on' : 'off';
-  }
-
   toggleOpened() {
     if (this.windowWidth < 768) {
       this.toggleOn = this.verticalNavType === 'offcanvas' ? true : this.toggleOn;
@@ -152,6 +158,11 @@ export class AdminComponent implements OnInit {
 
   onScroll(event) {
     this.isScrolled = false;
+  }
+
+  signOut() {
+    this.localStorageService.removeUser(this.userToken);
+    this.router.navigate(['/auth/login']);
   }
 
 }

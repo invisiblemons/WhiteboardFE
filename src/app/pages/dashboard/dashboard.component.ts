@@ -75,7 +75,14 @@ export class DashboardComponent implements OnInit {
       }
     }
   };
-  constructor() {}
+
+  avatarImgSrc: string = 'assets/images/avatar.jpg';
+  userName: string = 'Bknds';
+  userPost: string = 'FrontEnd';
+
+  constructor() {
+    
+  }
 
   ngOnInit() {}
 

@@ -5,8 +5,6 @@ import 'rxjs/add/operator/switchMap';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
-import { pluck } from 'rxjs/operators';
-import { Observable } from 'rxjs';
 import { user } from './user.model';
 import { LocalStorageService } from './local-storage.service';
 
@@ -20,18 +18,18 @@ export class AuthService {
     private afAuth: AngularFireAuth,
     private router: Router,
     private httpClient: HttpClient,
-    private localStorageService: LocalStorageService
+    private localStorageService: LocalStorageService,
+    private ngZone: NgZone
   ) {}
    googleAuth(){
     const provider = new firebase.auth.GoogleAuthProvider();
     return this.oAuthLogin(provider)
       .then((googleAuth) => {
-        googleAuth.user.getIdToken().then((tkn) => {
-          this.httpClient.post<user>(`${this.baseURL}`, {
-            idToken: tkn,
+        googleAuth.user.getIdToken().then((tkn)=> this.ngZone.run(() => {
+          this.httpClient.post<user>(`${this.baseURL}`, {idToken: tkn
           }).subscribe(
-            (user:user) => {
-              this.localStorageService.setUser(user);
+            (res: user) => {
+              this.localStorageService.setUser(res);
               this.router.navigate(['/']);
             },
             (error) => {
@@ -43,7 +41,7 @@ export class AuthService {
               }
             }
           )
-        });
+        }));
       })
       .catch((error) => {
         console.log('Something went wrong: ', error);

@@ -8,7 +8,7 @@
             <i class="pi pi-bars"></i>
           </a>
           <a [routerLink]="['/']">
-            <img class="img-fluid" src="assets/images/logo.png" alt="Theme-Logo" />
+            <img class="img-fluid m-t-5" src="assets/images/logo-whiteboard.png" alt="Logo" />
           </a>
           <a (click)="onMobileMenu()" class="mobile-options">
             <i class="pi pi-ellipsis-v"></i>
@@ -73,12 +73,12 @@
               </li>
               <li class="user-profile header-notification">
                 <a [routerLink]="['/']">
-                  <img src="assets/images/user.png" alt="User-Profile-Image">
-                  <span>John Doe</span>
+                  <img src="{{avatarUrl}}" class="avatar-wrap" alt="Avatar">
+                  <span>{{name}}</span>
                   <i class="pi pi-angle-down"></i>
                 </a>
                 <ul class="show-notification profile-notification">
-                  <li>
+                  <!-- <li>
                     <a [routerLink]="['/crm-contact']">
                       <i class="pi pi-cog"></i> Settings
                     </a>
@@ -87,9 +87,9 @@
                     <a [routerLink]="['/user/profile']">
                       <i class="pi pi-user-edit"></i> Profile
                     </a>
-                  </li>
+                  </li> -->
                   <li>
-                    <a [routerLink]="['/']">
+                    <a [routerLink]="['/']" (click)="signOut()">
                       <i class="pi pi-sign-out"></i> Logout
                     </a>
                   </li>
@@ -102,7 +102,7 @@
     </nav>
 
     
-    <div class="pcoded-main-container" style="margin-top: 56px;">
+    <div class="pcoded-main-container" style="margin-top: 65px;">
       <div class="pcoded-wrapper">
         <nav id="main_navbar" class=" pcoded-navbar" (clickOutside)="onClickedOutside($event)" [exclude]="'#mobile-collapse'" navbar-theme="themelight1" active-item-theme="theme4" sub-item-theme="theme2" active-item-style="style0" pcoded-navbar-position="fixed" pcoded-header-position="fixed">
           <div class="sidebar_toggle"><a href="javascript:;"><i class="icon-close icons"></i></a></div>

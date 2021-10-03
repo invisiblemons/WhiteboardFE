@@ -66,8 +66,8 @@ const MENUITEMS = [
     label: 'Operations',
     main: [
       {
-        state: 'campaigns',
-        name: 'Campaigns',
+        state: 'campaign',
+        name: 'Campaign',
         type: 'link',
         icon: 'pi pi-globe'
       }

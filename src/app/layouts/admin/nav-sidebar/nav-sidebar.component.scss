@@ -14,9 +14,20 @@ aside.pcoded-slider.ng-sidebar {
     display: none;
   }
 }
-.img-fluid {
+
+.avatar-wrap {
+  margin: 0 auto;
+  border: 2px solid white;
+  width: 70px;
   height: 40px;
-  img {
-    max-height: 100%;
-  }
+  border-radius: 50%;
+  overflow: hidden;
+  object-fit: cover;
 }
+
+.pcoded .pcoded-navbar[navbar-theme=themelight1] .pcoded-item>li.active>a {
+  background-color: #0073aa!important;
+    color: #fff!important;
+}
+
+
