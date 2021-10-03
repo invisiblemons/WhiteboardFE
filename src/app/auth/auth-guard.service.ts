@@ -13,7 +13,7 @@ export class AuthGuardService implements CanActivate{
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
     let user:user = this.localStorage.getUser();
 
-    if(user.firebaseUId){
+    if(null!==user && user.firebaseUId){
       return true;
     }
     this.router.navigate(['/auth']);

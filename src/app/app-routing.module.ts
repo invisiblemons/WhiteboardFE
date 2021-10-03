@@ -24,6 +24,21 @@ const routes: Routes = [
         loadChildren: () => import('./pages/reviewer/reviewer.module').then(m => m.ReviewerModule)
       }
     ]
+  },
+  {
+    path: '',
+    component: AuthComponent,
+    children: [
+      {
+        path: '',
+        redirectTo: 'auth',
+        pathMatch: 'full'
+      },
+      {
+        path: 'auth',
+        loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule)
+      }
+    ]
   }
 ];
 
