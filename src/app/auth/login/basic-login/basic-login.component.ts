@@ -15,7 +15,7 @@ export class BasicLoginComponent implements OnInit {
   }
 
   loginGoogle() {
-    this.authService.googleLogin();
+    this.authService.googleAuth();
   }
 
 }

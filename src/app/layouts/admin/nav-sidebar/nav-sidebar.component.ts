@@ -1,12 +1,12 @@
 import {Component, ElementRef, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
 import {state, style, transition, animate, trigger, AUTO_STYLE} from '@angular/animations';
 import 'rxjs/add/operator/filter';
-import {MenuItems} from '../../shared/menu-items/menu-items';
+import {MenuItems} from '../../../shared/menu-items/menu-items';
 
 @Component({
   selector: 'app-admin',
-  templateUrl: './admin.component.html',
-  styleUrls: ['./admin.component.scss'],
+  templateUrl: './nav-sidebar.component.html',
+  styleUrls: ['./nav-sidebar.component.scss'],
   encapsulation: ViewEncapsulation.None,
   animations: [
     trigger('slideInOut', [
