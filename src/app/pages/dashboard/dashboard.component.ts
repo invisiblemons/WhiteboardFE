@@ -78,8 +78,8 @@ export class DashboardComponent implements OnInit {
   };
 
   avatarImgSrc: string = 'assets/images/avatar.jpg';
-  userName: string = 'Bknds';
-  userPost: string = 'FrontEnd';
+  userName: string = 'longdaica';
+  userPost: string = 'Đại học FPT';
 
   closeResult = '';
 
