@@ -17,8 +17,8 @@ export class LocalStorageService {
   getUserObject() : user{
     return JSON.parse(localStorage.getItem(USER));
   }
-  removeUser(user:string)
+  removeUser()
   {
-    return localStorage.removeItem(user);
+    return localStorage.removeItem("user");
   }
 }
