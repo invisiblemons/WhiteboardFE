@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Reviewer } from './reviewer.model';
+import { ReviewerService } from './reviewer.service';
 
 @Component({
   selector: 'app-reviewer',
@@ -7,7 +9,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ReviewerComponent implements OnInit {
 
-  constructor() { }
+  reviewers: Reviewer[];
+
+  constructor(private service: ReviewerService) { 
+    this.service.get().subscribe( (res:Reviewer[]) => {
+      this.reviewers = res;
+      console.log(this.reviewers);
+    })
+  }
 
   ngOnInit(): void {
   }

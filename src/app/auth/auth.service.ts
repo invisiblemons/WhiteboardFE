@@ -33,7 +33,6 @@ export class AuthService {
               this.router.navigate(['/']);
             },
             (error) => {
-              console.log(error);
               if(error.status !== 400) {
                 alert('Error in the Server, please try again later!')
               } else if(error.status === 400) {

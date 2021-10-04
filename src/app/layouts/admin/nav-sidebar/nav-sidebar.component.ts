@@ -83,7 +83,6 @@ export class AdminComponent implements OnInit {
   ngOnInit() { 
     this.userToken = this.localStorageService.getUserToken();
     let user: user = JSON.parse(this.userToken);
-    console.log(user);
     this.avatarUrl = user.avatarURL;
     this.name = user.name;
   }
