@@ -15,7 +15,7 @@
       </div>
       <div class="card-footer">
         <span class="float-left" style="color: #3fa23d">Xem chi tiết</span>
-        <a class="circle-right" href="javascript:void(0)">
+        <a class="circle-right" (click)="openSuccess(contentSuccess)" href="javascript:void(0)">
           <span
             ><i
               class="pi pi-chevron-circle-right"
@@ -43,7 +43,7 @@
       </div>
       <div class="card-footer">
         <span class="float-left" style="color: #f1ba00">Xem chi tiết</span>
-        <a class="circle-right" href="javascript:void(0)">
+        <a class="circle-right" (click)="openWarning(contentWarning)" href="javascript:void(0)">
           <span
             ><i
               class="pi pi-chevron-circle-right"
@@ -72,7 +72,7 @@
         <span class="float-left" style="color: rgb(250, 50, 50)"
           >Xem chi tiết</span
         >
-        <a class="circle-right" href="javascript:void(0)">
+        <a class="circle-right" (click)="openDanger(contentDanger)" href="javascript:void(0)">
           <span
             ><i
               class="pi pi-chevron-circle-right"
@@ -179,3 +179,177 @@
     </app-card>
   </div>
 </div>
+
+<!-- modal -->
+<ng-template #contentSuccess let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">Bài Post được chấp thuận!</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="row">
+      <div class="col-sm-12 col-xl-12 ">
+        <div class="input-group">
+          <input type="search" class="form-control rounded" placeholder="Tìm kiếm tiêu đề bài viết!" aria-label="Search"
+            aria-describedby="search-addon" />
+          <button type="button" class="btn btn-outline-primary">search</button>
+        </div>
+      </div>
+    </div>
+    <div class="row border m-15 p-10">
+    <div class="col-sm-12 col-xl-12">
+      <h4 class="sub-title">HORIZONTAL DESCRIPTION</h4>
+      <dl class="dl-horizontal row">
+        <dt class="col-sm-3">Description lists</dt>
+        <dd class="col-sm-9">
+          A description list is perfect for defining terms.
+        </dd>
+        <dt class="col-sm-3">Euismod</dt>
+        <dd class="col-sm-9">
+          Vestibulum id ligula porta felis euismod semper eget lacinia odio
+          sem nec elit.
+        </dd>
+        <dd class="col-sm-12 col-sm-offset-3">
+          Donec id elit non mi porta gravida at eget metus.
+        </dd>
+        <dt class="col-sm-3">Malesuada porta</dt>
+        <dd class="col-sm-9">
+          Etiam porta sem malesuada magna mollis euismod.
+        </dd>
+        <dt class="col-sm-3 text-truncate">Truncated term is truncated</dt>
+        <dd class="col-sm-9">
+          Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum
+          nibh, ut fermentum massa justo sit amet risus.
+        </dd>
+        <div class="col-md-6 text-center">
+          <button class="btn btn-primary btn-round">Published</button>
+        </div>
+        <div class="col-md-6 text-center">
+          <button class="btn btn-danger btn-round">Unpublished</button>
+        </div>
+      </dl>
+    </div>
+  </div>
+  </div>
+  <div class="modal-footer">
+    <!-- <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button> -->
+  </div>
+</ng-template>
+
+<ng-template #contentWarning let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">Bài Post đang chờ xét duyệt!</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="row">
+      <div class="col-sm-12 col-xl-12 ">
+        <div class="input-group">
+          <input type="search" class="form-control rounded" placeholder="Tìm kiếm tiêu đề bài viết!" aria-label="Search"
+            aria-describedby="search-addon" />
+          <button type="button" class="btn btn-outline-primary">search</button>
+        </div>
+      </div>
+    </div>
+    <div class="row border m-15 p-10">
+      <div class="col-sm-12 col-xl-12">
+        <h4 class="sub-title">HORIZONTAL DESCRIPTION</h4>
+        <dl class="dl-horizontal row">
+          <dt class="col-sm-3">Description lists</dt>
+          <dd class="col-sm-9">
+            A description list is perfect for defining terms.
+          </dd>
+          <dt class="col-sm-3">Euismod</dt>
+          <dd class="col-sm-9">
+            Vestibulum id ligula porta felis euismod semper eget lacinia odio
+            sem nec elit.
+          </dd>
+          <dd class="col-sm-12 col-sm-offset-3">
+            Donec id elit non mi porta gravida at eget metus.
+          </dd>
+          <dt class="col-sm-3">Malesuada porta</dt>
+          <dd class="col-sm-9">
+            Etiam porta sem malesuada magna mollis euismod.
+          </dd>
+          <dt class="col-sm-3 text-truncate">Truncated term is truncated</dt>
+          <dd class="col-sm-9">
+            Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum
+            nibh, ut fermentum massa justo sit amet risus.
+          </dd>
+          <div class="col-md-6 text-center">
+            <button class="btn btn-primary btn-round">Published</button>
+          </div>
+          <div class="col-md-6 text-center">
+            <button class="btn btn-danger btn-round">Unpublished</button>
+          </div>
+        </dl>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <!-- <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button> -->
+  </div>
+</ng-template>
+
+<ng-template #contentDanger let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">Bài Post bị từ chối!</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="row">
+      <div class="col-sm-12 col-xl-12 ">
+        <div class="input-group">
+          <input type="search" class="form-control rounded" placeholder="Tìm kiếm tiêu đề bài viết!" aria-label="Search"
+            aria-describedby="search-addon" />
+          <button type="button" class="btn btn-outline-primary">search</button>
+        </div>
+      </div>
+    </div>
+    <div class="row border m-15 p-10">
+      <div class="col-sm-12 col-xl-12">
+        <h4 class="sub-title">HORIZONTAL DESCRIPTION</h4>
+        <dl class="dl-horizontal row">
+          <dt class="col-sm-3">Description lists</dt>
+          <dd class="col-sm-9">
+            A description list is perfect for defining terms.
+          </dd>
+          <dt class="col-sm-3">Euismod</dt>
+          <dd class="col-sm-9">
+            Vestibulum id ligula porta felis euismod semper eget lacinia odio
+            sem nec elit.
+          </dd>
+          <dd class="col-sm-12 col-sm-offset-3">
+            Donec id elit non mi porta gravida at eget metus.
+          </dd>
+          <dt class="col-sm-3">Malesuada porta</dt>
+          <dd class="col-sm-9">
+            Etiam porta sem malesuada magna mollis euismod.
+          </dd>
+          <dt class="col-sm-3 text-truncate">Truncated term is truncated</dt>
+          <dd class="col-sm-9">
+            Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum
+            nibh, ut fermentum massa justo sit amet risus.
+          </dd>
+          <div class="col-md-6 text-center">
+            <button class="btn btn-primary btn-round">Published</button>
+          </div>
+          <div class="col-md-6 text-center">
+            <button class="btn btn-danger btn-round">Unpublished</button>
+          </div>
+        </dl>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <!-- <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button> -->
+  </div>
+</ng-template>
+
+

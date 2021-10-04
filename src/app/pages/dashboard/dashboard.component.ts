@@ -1,4 +1,5 @@
 import {Component, OnInit, ViewEncapsulation} from '@angular/core';
+import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 declare var $: any;
 
 @Component({
@@ -80,10 +81,24 @@ export class DashboardComponent implements OnInit {
   userName: string = 'Bknds';
   userPost: string = 'FrontEnd';
 
-  constructor() {
+  closeResult = '';
+
+  constructor(private modalService: NgbModal) {
     
   }
 
   ngOnInit() {}
 
+
+  openSuccess(content) {
+    this.modalService.open(content, { size: 'xl' });
+  }
+
+  openWarning(content) {
+    this.modalService.open(content, { size: 'xl' });
+  }
+
+  openDanger(content) {
+    this.modalService.open(content, { size: 'xl' });
+  }
 }
