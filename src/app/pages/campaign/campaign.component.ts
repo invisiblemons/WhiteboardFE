@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { CampaignService } from './campaign.service';
 
 @Component({
   selector: 'app-campaign',
@@ -7,9 +8,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CampaignComponent implements OnInit {
 
-  constructor() { }
+  constructor(private service: CampaignService) { 
+    
+  }
 
   ngOnInit(): void {
+
   }
+  
 
 }
