@@ -3,13 +3,13 @@ import { CommonModule } from '@angular/common';
 
 import { ReviewerRoutingModule } from './reviewer-routing.module';
 import { ReviewerComponent } from './reviewer.component';
-import {SharedModule} from '../../shared/shared.module';
+import { ComponentsModule } from 'src/app/components/components.module';
 
 @NgModule({
   imports: [
     CommonModule,
     ReviewerRoutingModule,
-    SharedModule
+    ComponentsModule
   ],
   declarations: [ReviewerComponent]
 })

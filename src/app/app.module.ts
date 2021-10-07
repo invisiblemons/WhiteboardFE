@@ -1,39 +1,41 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { NgModule } from "@angular/core";
+import { FormsModule } from "@angular/forms";
+import { RouterModule } from "@angular/router";
+import { CommonModule } from "@angular/common";
+import { ToastrModule } from "ngx-toastr";
 
+import { AppComponent } from "./app.component";
+import { AdminLayoutComponent } from "./layouts/admin-layout/admin-layout.component";
+
+import { AppRoutingModule } from "./app-routing.module";
+import { ComponentsModule } from "./components/components.module";
+import { AuthLayoutComponent } from "./layouts/auth-layout/auth-layout.component";
+import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
+import { AuthService } from "./pages/login/auth.service";
+import { AngularFireModule } from "@angular/fire";
+import { environment } from "src/environments/environment";
 import { AngularFireAuthModule } from "@angular/fire/auth";
-import { AngularFireModule } from '@angular/fire';
-
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { AuthService } from './auth/auth.service';
-import { environment } from '../environments/environment';
-import { HttpClientModule } from '@angular/common/http';
-import { SharedModule } from './shared/shared.module';
-import { AdminComponent } from './layouts/admin/nav-sidebar/nav-sidebar.component';
-import { BreadcrumbsComponent } from './layouts/admin/breadcrumbs/breadcrumbs.component';
-import { AuthComponent } from './layouts/auth/auth.component';
+import { JwtIntercepter } from "./pages/login/jwt.interceptor";
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    AdminComponent,
-    BreadcrumbsComponent,
-    AuthComponent,
-  ],
+  declarations: [AppComponent, AdminLayoutComponent, AuthLayoutComponent],
   imports: [
-    BrowserModule,
+    CommonModule,
+    FormsModule,
     BrowserAnimationsModule,
+    RouterModule,
     AppRoutingModule,
-    NgbModule,
+    ToastrModule.forRoot(),
+    ComponentsModule,
+    HttpClientModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireAuthModule,
-    HttpClientModule,
-    SharedModule
   ],
-  providers: [AuthService],
-  bootstrap: [AppComponent]
+  providers: [
+    AuthService,
+    { provide: HTTP_INTERCEPTORS, useClass: JwtIntercepter, multi: true },
+  ],
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

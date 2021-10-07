@@ -2,15 +2,14 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { CampaignRoutingModule } from './campaign-routing.module';
-import { SharedModule } from 'src/app/shared/shared.module';
-
+import { ComponentsModule } from "../../components/components.module";
 
 @NgModule({
   declarations: [],
   imports: [
     CommonModule,
     CampaignRoutingModule,
-    SharedModule
+    ComponentsModule
   ]
 })
 export class CampaignModule { }

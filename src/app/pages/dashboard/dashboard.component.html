@@ -1,140 +1,329 @@
-<div class="row">
-  <div class="col-xl-4 col-lg-6">
-    <!-- success -->
-    <div class="card text-white bg-success">
-      <div class="card-header">
-        <div class="row">
-          <div class="col col-xs-3">
-            <i class="pi pi-check" style="font-size: 5rem"></i>
-          </div>
-          <div class="col col-xs-9 text-right">
-            <div class="d-block huge">0</div>
-            <div class="d-block">Bài review được chấp thuận!</div>
-          </div>
-        </div>
-      </div>
-      <div class="card-footer">
-        <span class="float-left" style="color: #3fa23d">Xem chi tiết</span>
-        <a
-          class="circle-right"
-          (click)="openSuccess(contentSuccess)"
-          href="javascript:void(0)"
-        >
-          <span
-            ><i
-              class="pi pi-chevron-circle-right"
-              style="color: #3fa23d; font-size: 1.5rem"
-            ></i
-          ></span>
-        </a>
-      </div>
-    </div>
-  </div>
-
-  <!-- warning -->
-  <div class="col-xl-4 col-lg-6">
-    <div class="card text-white bg-warning">
-      <div class="card-header">
-        <div class="row">
-          <div class="col col-xs-3">
-            <i class="pi pi-refresh" style="font-size: 5rem"></i>
-          </div>
-          <div class="col col-xs-9 text-right">
-            <div class="d-block huge">1</div>
-            <div class="d-block">Bài review đang chờ xét duyệt!</div>
-          </div>
-        </div>
-      </div>
-      <div class="card-footer">
-        <span class="float-left" style="color: #f1ba00">Xem chi tiết</span>
-        <a
-          class="circle-right"
-          (click)="openWarning(contentWarning)"
-          href="javascript:void(0)"
-        >
-          <span
-            ><i
-              class="pi pi-chevron-circle-right"
-              style="color: #f1ba00; font-size: 1.5rem"
-            ></i
-          ></span>
-        </a>
-      </div>
-    </div>
-  </div>
-  <!-- danger -->
-  <div class="col-xl-4 col-lg-12">
-    <div class="card text-white bg-danger">
-      <div class="card-header">
-        <div class="row">
-          <div class="col col-xs-3">
-            <i class="pi pi-ban" style="font-size: 5rem"></i>
-          </div>
-          <div class="col col-xs-9 text-right">
-            <div class="d-block huge">0</div>
-            <div class="d-block">Bài review bị từ chối!</div>
-          </div>
-        </div>
-      </div>
-      <div class="card-footer">
-        <span class="float-left" style="color: rgb(250, 50, 50)"
-          >Xem chi tiết</span
-        >
-        <a
-          class="circle-right"
-          (click)="openDanger(contentDanger)"
-          href="javascript:void(0)"
-        >
-          <span
-            ><i
-              class="pi pi-chevron-circle-right"
-              style="color: rgb(250, 50, 50); font-size: 1.5rem"
-            ></i
-          ></span>
-        </a>
-      </div>
-    </div>
-  </div>
-  <!-- end-danger -->
-</div>
-<div class="row">
-  <div class="col-sm-12">
-    <app-card [title]="'review'" [headerContent]="'Duyệt bài review của Reviewer'">
-      <div class="row">
-        <div class="col-sm-12 col-xl-6">
-          <h4 class="sub-title">Thông tin Reviewer</h4>
-          <div class="card">
-            <div class="profile-wrap animated fadeIn">
-              <div class="info-wrap">
-                <div class="avatar-wrap">
-                  <img src="{{ avatarImgSrc }}" alt="avatar" />
+<div class=" content">
+    <div class=" row">
+      <div class=" col-lg-4 col-md-6">
+        <div class=" card card-stats">
+          <div class=" card-body">
+            <div class=" row">
+              <div class=" col-3">
+                <div class=" info-icon text-center icon-primary">
+                  <i class=" tim-icons icon-chat-33"> </i>
                 </div>
-                <span class="user-name">{{ userName }}</span>
-                <span class="user-post">{{ userPost }}</span>
-                <span class="map-location">
-                  <i class="fa fa-map-marker"></i>
-                  <span>longdaica</span>
-                </span>
               </div>
-              <div class="profile-head">
-                <img
-                  src="{{ avatarImgSrc }}"
-                  alt="profile-head-bg"
-                  class="profile-head-bg"
-                />
+              <div class=" col-9">
+                <div class=" numbers">
+                  <p class=" card-category">Bài review được chấp thuận!</p>
+                  <h3 class=" card-title">0 bài</h3>
+                </div>
               </div>
             </div>
           </div>
+          <div class=" card-footer">
+            <hr />
+  
+            <div class=" stats">
+              <a
+            class="circle-right"
+            (click)="openSuccess(contentSuccess)"
+            href="javascript:void(0)"
+          >
+            <span
+              ><i
+                class="pi pi-chevron-circle-right"
+                style="font-size: 1.5rem"
+              ></i
+            ></span>
+          </a> Xem chi tiết
+            </div>
+          </div>
         </div>
-        <div class="col-sm-12 col-xl-6">
-          <h4 class="sub-title">Nội dung bài review!</h4>
+      </div>
+      <div class=" col-lg-4 col-md-6">
+        <div class=" card card-stats">
+          <div class=" card-body">
+            <div class=" row">
+              <div class=" col-3">
+                <div class=" info-icon text-center icon-warning">
+                  <i class=" tim-icons icon-chat-33"> </i>
+                </div>
+              </div>
+              <div class=" col-9">
+                <div class=" numbers">
+                  <p class=" card-category">Bài review đang chờ xét duyệt!</p>
+                  <h3 class=" card-title">1 bài</h3>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class=" card-footer">
+            <hr />
+  
+            <div class=" stats">
+              <a
+            class="circle-right"
+            (click)="openWarning(contentWarning)"
+            href="javascript:void(0)"
+          >
+            <span
+              ><i
+                class="pi pi-chevron-circle-right"
+                style=" font-size: 1.5rem"
+              ></i
+            ></span>
+          </a> Xem chi tiết
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class=" col-lg-4 col-md-12">
+        <div class=" card card-stats">
+          <div class=" card-body">
+            <div class=" row">
+              <div class=" col-3">
+                <div class=" info-icon text-center icon-danger">
+                  <i class=" tim-icons icon-molecule-40"> </i>
+                </div>
+              </div>
+              <div class=" col-9">
+                <div class=" numbers">
+                  <p class=" card-category">Bài review bị từ chối!</p>
+                  <h3 class=" card-title">0 bài</h3>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class=" card-footer">
+            <hr />
+  
+            <div class=" stats">
+              <a
+            class="circle-right"
+            (click)="openDanger(contentDanger)"
+            href="javascript:void(0)"
+          >
+            <span
+              ><i
+                class="pi pi-chevron-circle-right"
+                style=" font-size: 1.5rem"
+              ></i
+            ></span>
+          </a> Xem chi tiết
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+    <div class="row">
+      <div class="col-sm-12">
+        <app-card [title]="'review'" [headerContent]="'Duyệt bài review của Reviewer'">
+          <div class="row">
+            <div class="col-sm-12 col-xl-6">
+              <h4 class="sub-title">Thông tin Reviewer</h4>
+              <div class="card">
+                <div class="profile-wrap animated fadeIn">
+                  <div class="info-wrap">
+                    <div class="avatar-wrap">
+                      <img src="{{ avatarImgSrc }}" alt="avatar" />
+                    </div>
+                    <span class="user-name">{{ userName }}</span>
+                    <span class="user-post">{{ userPost }}</span>
+                    <span class="map-location">
+                      <i class="fa fa-map-marker"></i>
+                      <span>longdaica</span>
+                    </span>
+                  </div>
+                  <div class="profile-head">
+                    <img
+                      src="{{ avatarImgSrc }}"
+                      alt="profile-head-bg"
+                      class="profile-head-bg"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-12 col-xl-6">
+              <h4 class="sub-title">Nội dung bài review!</h4>
+              <dl class="dl-horizontal row">
+                <dt class="col-sm-3">Tiêu đề</dt>
+                <dd class="col-sm-9">
+                  A description list is perfect for defining terms.
+                </dd>
+                <dt class="col-sm-3">Nội dung</dt>
+    
+                <dd class="col-sm-12 col-sm-offset-3">
+                  Vestibulum id ligula porta felis euismod semper eget lacinia odio
+                  sem nec elit. Donec id elit non mi porta gravida at eget metus.
+                </dd>
+                <dt class="col-sm-3 text-truncate">Tiêu chí review</dt>
+                <dd class="col-sm-9">
+                  Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum
+                  nibh, ut fermentum massa justo sit amet risus.
+                </dd>
+                <dt class="col-sm-3">Campaign</dt>
+                <dd class="col-sm-9">
+                  Etiam porta sem malesuada magna mollis euismod.
+                </dd>
+                <div class="col-md-6 text-center">
+                  <button class="btn btn-primary btn-round">Published</button>
+                </div>
+                <div class="col-md-6 text-center">
+                  <button class="btn btn-danger btn-round">Unpublished</button>
+                </div>
+              </dl>
+            </div>
+            <div class="col-sm-12 col-xl-12">
+              <h4 class="sub-title">PICTURES</h4>
+              <div
+                id="carouselExampleIndicators"
+                class="carousel slide"
+                data-ride="carousel"
+              >
+                <ol class="carousel-indicators">
+                  <li
+                    data-target="#carouselExampleIndicators"
+                    data-slide-to="0"
+                    class="active"
+                  ></li>
+                  <li
+                    data-target="#carouselExampleIndicators"
+                    data-slide-to="1"
+                  ></li>
+                  <li
+                    data-target="#carouselExampleIndicators"
+                    data-slide-to="2"
+                  ></li>
+                </ol>
+                <div class="carousel-inner">
+                  <div class="carousel-item active">
+                    <img
+                      class="d-block w-100"
+                      src="https://images.unsplash.com/photo-1601807576163-587225545555?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=773&q=80"
+                      alt="First slide"
+                    />
+                  </div>
+                  <div class="carousel-item">
+                    <img
+                      class="d-block w-100"
+                      src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1770&q=80"
+                      alt="Second slide"
+                    />
+                  </div>
+                  <div class="carousel-item">
+                    <img
+                      class="d-block w-100"
+                      src="https://images.unsplash.com/photo-1535982330050-f1c2fb79ff78?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=774&q=80"
+                      alt="Third slide"
+                    />
+                  </div>
+                </div>
+                <a
+                  class="carousel-control-prev"
+                  href="#carouselExampleIndicators"
+                  role="button"
+                  data-slide="prev"
+                >
+                  <span
+                    class="carousel-control-prev-icon"
+                    aria-hidden="true"
+                  ></span>
+                  <span class="sr-only">Previous</span>
+                </a>
+                <a
+                  class="carousel-control-next"
+                  href="#carouselExampleIndicators"
+                  role="button"
+                  data-slide="next"
+                >
+                  <span
+                    class="carousel-control-next-icon"
+                    aria-hidden="true"
+                  ></span>
+                  <span class="sr-only">Next</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </app-card>
+      </div>
+    </div>
+  </div>
+  
+  <!-- modal -->
+  <ng-template #contentSuccess let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title">Bài review được chấp thuận!</h4>
+      <button
+        type="button"
+        class="close"
+        aria-label="Close"
+        (click)="modal.dismiss('Cross click')"
+      >
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="row">
+        <div class="col-sm-12 col-xl-12">
+          <div class="input-group">
+            <input
+              type="search"
+              class="form-control rounded"
+              placeholder="Tìm kiếm tiêu đề bài viết!"
+              aria-label="Search"
+              aria-describedby="search-addon"
+            />
+            <button type="button" class="btn btn-outline-primary">search</button>
+          </div>
+        </div>
+      </div>
+      <div class="row border m-15 p-10">
+        <div class="col-sm-12 col-xl-12"></div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <!-- <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button> -->
+    </div>
+  </ng-template>
+  
+  <ng-template #contentWarning let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title">Bài review đang chờ xét duyệt!</h4>
+      <button
+        type="button"
+        class="close"
+        aria-label="Close"
+        (click)="modal.dismiss('Cross click')"
+      >
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="row">
+        <div class="col-sm-12 col-xl-12">
+          <div class="input-group">
+            <input
+              type="search"
+              class="form-control rounded"
+              placeholder="Tìm kiếm tiêu đề bài viết!"
+              aria-label="Search"
+              aria-describedby="search-addon"
+            />
+            <button type="button" class="btn btn-outline-primary">search</button>
+          </div>
+        </div>
+      </div>
+      <div class="row border m-15 p-10">
+        <div class="col-sm-12 col-xl-12">
+          <h4 class="sub-title">Reviewr: longdaica</h4>
           <dl class="dl-horizontal row">
             <dt class="col-sm-3">Tiêu đề</dt>
             <dd class="col-sm-9">
               A description list is perfect for defining terms.
             </dd>
             <dt class="col-sm-3">Nội dung</dt>
-
+  
             <dd class="col-sm-12 col-sm-offset-3">
               Vestibulum id ligula porta felis euismod semper eget lacinia odio
               sem nec elit. Donec id elit non mi porta gravida at eget metus.
@@ -156,216 +345,47 @@
             </div>
           </dl>
         </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <!-- <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button> -->
+    </div>
+  </ng-template>
+  
+  <ng-template #contentDanger let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title">Bài review bị từ chối!</h4>
+      <button
+        type="button"
+        class="close"
+        aria-label="Close"
+        (click)="modal.dismiss('Cross click')"
+      >
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="row">
         <div class="col-sm-12 col-xl-12">
-          <h4 class="sub-title">PICTURES</h4>
-          <div
-            id="carouselExampleIndicators"
-            class="carousel slide"
-            data-ride="carousel"
-          >
-            <ol class="carousel-indicators">
-              <li
-                data-target="#carouselExampleIndicators"
-                data-slide-to="0"
-                class="active"
-              ></li>
-              <li
-                data-target="#carouselExampleIndicators"
-                data-slide-to="1"
-              ></li>
-              <li
-                data-target="#carouselExampleIndicators"
-                data-slide-to="2"
-              ></li>
-            </ol>
-            <div class="carousel-inner">
-              <div class="carousel-item active">
-                <img
-                  class="d-block w-100"
-                  src="../../../assets/images/slider1.jpg"
-                  alt="First slide"
-                />
-              </div>
-              <div class="carousel-item">
-                <img
-                  class="d-block w-100"
-                  src="../../../assets/images/slider2.jpg"
-                  alt="Second slide"
-                />
-              </div>
-              <div class="carousel-item">
-                <img
-                  class="d-block w-100"
-                  src="../../../assets/images/slider3.jpg"
-                  alt="Third slide"
-                />
-              </div>
-            </div>
-            <a
-              class="carousel-control-prev"
-              href="#carouselExampleIndicators"
-              role="button"
-              data-slide="prev"
-            >
-              <span
-                class="carousel-control-prev-icon"
-                aria-hidden="true"
-              ></span>
-              <span class="sr-only">Previous</span>
-            </a>
-            <a
-              class="carousel-control-next"
-              href="#carouselExampleIndicators"
-              role="button"
-              data-slide="next"
-            >
-              <span
-                class="carousel-control-next-icon"
-                aria-hidden="true"
-              ></span>
-              <span class="sr-only">Next</span>
-            </a>
+          <div class="input-group">
+            <input
+              type="search"
+              class="form-control rounded"
+              placeholder="Tìm kiếm tiêu đề bài viết!"
+              aria-label="Search"
+              aria-describedby="search-addon"
+            />
+            <button type="button" class="btn btn-outline-primary">search</button>
           </div>
         </div>
       </div>
-    </app-card>
-  </div>
-</div>
-
-<!-- modal -->
-<ng-template #contentSuccess let-modal>
-  <div class="modal-header">
-    <h4 class="modal-title">Bài review được chấp thuận!</h4>
-    <button
-      type="button"
-      class="close"
-      aria-label="Close"
-      (click)="modal.dismiss('Cross click')"
-    >
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-  <div class="modal-body">
-    <div class="row">
-      <div class="col-sm-12 col-xl-12">
-        <div class="input-group">
-          <input
-            type="search"
-            class="form-control rounded"
-            placeholder="Tìm kiếm tiêu đề bài viết!"
-            aria-label="Search"
-            aria-describedby="search-addon"
-          />
-          <button type="button" class="btn btn-outline-primary">search</button>
-        </div>
+      <div class="row border m-15 p-10">
+        <div class="col-sm-12 col-xl-12"></div>
       </div>
     </div>
-    <div class="row border m-15 p-10">
-      <div class="col-sm-12 col-xl-12"></div>
+    <div class="modal-footer">
+      <!-- <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button> -->
     </div>
-  </div>
-  <div class="modal-footer">
-    <!-- <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button> -->
-  </div>
-</ng-template>
-
-<ng-template #contentWarning let-modal>
-  <div class="modal-header">
-    <h4 class="modal-title">Bài review đang chờ xét duyệt!</h4>
-    <button
-      type="button"
-      class="close"
-      aria-label="Close"
-      (click)="modal.dismiss('Cross click')"
-    >
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-  <div class="modal-body">
-    <div class="row">
-      <div class="col-sm-12 col-xl-12">
-        <div class="input-group">
-          <input
-            type="search"
-            class="form-control rounded"
-            placeholder="Tìm kiếm tiêu đề bài viết!"
-            aria-label="Search"
-            aria-describedby="search-addon"
-          />
-          <button type="button" class="btn btn-outline-primary">search</button>
-        </div>
-      </div>
-    </div>
-    <div class="row border m-15 p-10">
-      <div class="col-sm-12 col-xl-12">
-        <h4 class="sub-title">Reviewr: longdaica</h4>
-        <dl class="dl-horizontal row">
-          <dt class="col-sm-3">Tiêu đề</dt>
-          <dd class="col-sm-9">
-            A description list is perfect for defining terms.
-          </dd>
-          <dt class="col-sm-3">Nội dung</dt>
-
-          <dd class="col-sm-12 col-sm-offset-3">
-            Vestibulum id ligula porta felis euismod semper eget lacinia odio
-            sem nec elit. Donec id elit non mi porta gravida at eget metus.
-          </dd>
-          <dt class="col-sm-3 text-truncate">Tiêu chí review</dt>
-          <dd class="col-sm-9">
-            Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum
-            nibh, ut fermentum massa justo sit amet risus.
-          </dd>
-          <dt class="col-sm-3">Campaign</dt>
-          <dd class="col-sm-9">
-            Etiam porta sem malesuada magna mollis euismod.
-          </dd>
-          <div class="col-md-6 text-center">
-            <button class="btn btn-primary btn-round">Published</button>
-          </div>
-          <div class="col-md-6 text-center">
-            <button class="btn btn-danger btn-round">Unpublished</button>
-          </div>
-        </dl>
-      </div>
-    </div>
-  </div>
-  <div class="modal-footer">
-    <!-- <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button> -->
-  </div>
-</ng-template>
-
-<ng-template #contentDanger let-modal>
-  <div class="modal-header">
-    <h4 class="modal-title">Bài review bị từ chối!</h4>
-    <button
-      type="button"
-      class="close"
-      aria-label="Close"
-      (click)="modal.dismiss('Cross click')"
-    >
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-  <div class="modal-body">
-    <div class="row">
-      <div class="col-sm-12 col-xl-12">
-        <div class="input-group">
-          <input
-            type="search"
-            class="form-control rounded"
-            placeholder="Tìm kiếm tiêu đề bài viết!"
-            aria-label="Search"
-            aria-describedby="search-addon"
-          />
-          <button type="button" class="btn btn-outline-primary">search</button>
-        </div>
-      </div>
-    </div>
-    <div class="row border m-15 p-10">
-      <div class="col-sm-12 col-xl-12"></div>
-    </div>
-  </div>
-  <div class="modal-footer">
-    <!-- <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button> -->
-  </div>
-</ng-template>
+  </ng-template>
+  
+  

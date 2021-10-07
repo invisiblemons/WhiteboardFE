@@ -1,13 +1,14 @@
-import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
-import { AuthGuardService } from './auth/auth-guard.service';
-import { AdminComponent } from './layouts/admin/nav-sidebar/nav-sidebar.component';
-import { AuthComponent } from './layouts/auth/auth.component';
+import { NgModule } from "@angular/core";
+import { Routes, RouterModule } from "@angular/router";
+
+import { AdminLayoutComponent } from "./layouts/admin-layout/admin-layout.component";
+import { AuthGuardService } from "./pages/login/auth-guard.service";
+import { AuthLayoutComponent } from "./layouts/auth-layout/auth-layout.component";
 
 const routes: Routes = [
   {
     path:'',
-    component: AdminComponent,
+    component: AdminLayoutComponent,
     canActivate: [AuthGuardService],
     children : [
       {
@@ -35,7 +36,7 @@ const routes: Routes = [
   },
   {
     path: '',
-    component: AuthComponent,
+    component: AuthLayoutComponent,
     children: [
       {
         path: '',
@@ -44,7 +45,7 @@ const routes: Routes = [
       },
       {
         path: 'auth',
-        loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule)
+        loadChildren: () => import('./pages/login/auth.module').then(m => m.AuthModule)
       }
     ]
   }
@@ -54,4 +55,4 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes, { initialNavigation: 'enabled' })],
   exports: [RouterModule]
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

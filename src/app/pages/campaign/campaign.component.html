@@ -1,1 +1,67 @@
-<p>campaign works!</p>
+<!-- <div class=" content">
+<p-table [value]="campaigns" dataKey="name" responsiveLayout="scroll">
+    <ng-template pTemplate="header">
+        <tr>
+            <th style="width: 3rem"></th>
+            <th pSortableColumn="name">Name <p-sortIcon field="name"></p-sortIcon></th>
+            <th>Image</th>
+            <th pSortableColumn="startDay">Start Day <p-sortIcon field="startDay"></p-sortIcon></th>
+            <th pSortableColumn="endDay">End Day <p-sortIcon field="endDay"></p-sortIcon></th>
+            <th></th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-campaign let-expanded="expanded">
+        <tr>
+            <td>
+                <button type="button" pButton pRipple [pRowToggler]="campaign" class="p-button-text p-button-rounded p-button-plain" [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>
+            </td>
+            <td>{{campaign.name}}</td>
+            <td><img [src]="'assets/showcase/images/demo/product/' + campaign.image" [alt]="campaign.name" width="100" class="p-shadow-4" /></td>
+            <td>{{campaign.startDay | date }}</td>
+            <td>{{campaign.endDay | date}}</td>
+            <td>
+                <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success p-mr-2" (click)="editCampaign(campaign)"></button>
+                <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deleteCampaign(campaign)"></button>
+            </td>
+        </tr>
+    </ng-template>
+    
+    <ng-template pTemplate="rowexpansion" let-campaign>
+        <tr>
+            <td colspan="7">
+                <div class="p-p-3">
+                    <p-table [value]="campaign.criterions" dataKey="id">
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th pSortableColumn="id">Id <p-sortIcon field="id"></p-sortIcon></th>
+                                <th pSortableColumn="name">Name <p-sortIcon field="name"></p-sortIcon></th>
+                                <th style="width: 4rem"></th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-criteria>
+                            <tr>
+                                <td>{{criteria.id}}</td>
+                                <td>{{criteria.name}}</td>
+                                <td>
+                                    <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success p-mr-2" (click)="editCriteria(criteria)"></button>
+                                    <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deleteCriteria(criteria)"></button>
+                                </td>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="emptymessage">
+                            <tr>
+                                <td colspan="6">There are no criteria for this campaign yet.</td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </div>
+            </td>
+        </tr>
+    </ng-template>
+</p-table>
+</div> -->
+
+<div class=" content">
+    <p>reviewer works!</p>
+</div>
+    
