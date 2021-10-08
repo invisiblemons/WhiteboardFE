@@ -28,6 +28,13 @@ export interface ChildrenItems2 {
 }
 //Menu Items
 export const ROUTES: RouteInfo[] = [
+  
+  {
+    path: "/dashboard",
+    title: "Review",
+    type: "link",
+    icontype: "tim-icons icon-chart-pie-36"
+  },
   {
     path: "/campaign",
     title: "Campaign",
@@ -35,12 +42,6 @@ export const ROUTES: RouteInfo[] = [
     icontype: "tim-icons icon-image-02",
     collapse: "pages",
     isCollapsed: true,
-  },
-  {
-    path: "/dashboard",
-    title: "Review",
-    type: "link",
-    icontype: "tim-icons icon-chart-pie-36"
   },
   {
     path: "/university",

@@ -1,5 +1,5 @@
 .btn-gg {
-    padding: 20px;
+    padding: 15px;
     display: inherit;
     justify-content: center;
     .google {
@@ -44,3 +44,9 @@
     display: table-cell;
   }
 }
+@media all and ( min-width: 480px) {
+  #contentLogin {
+    margin-left: 0px;
+    margin-top: 50px;
+  }
+ }

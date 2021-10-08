@@ -17,6 +17,8 @@ import { AngularFireModule } from "@angular/fire";
 import { environment } from "src/environments/environment";
 import { AngularFireAuthModule } from "@angular/fire/auth";
 import { JwtIntercepter } from "./pages/login/jwt.interceptor";
+import { ConfirmationService, MessageService } from "primeng/api";
+
 
 @NgModule({
   declarations: [AppComponent, AdminLayoutComponent, AuthLayoutComponent],
@@ -30,12 +32,13 @@ import { JwtIntercepter } from "./pages/login/jwt.interceptor";
     ComponentsModule,
     HttpClientModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
-    AngularFireAuthModule,
+    AngularFireAuthModule
   ],
   providers: [
     AuthService,
     { provide: HTTP_INTERCEPTORS, useClass: JwtIntercepter, multi: true },
+    MessageService, ConfirmationService
   ],
-  bootstrap: [AppComponent],
+  bootstrap: [AppComponent]
 })
 export class AppModule {}

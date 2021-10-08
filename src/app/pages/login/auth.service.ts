@@ -30,7 +30,7 @@ export class AuthService {
           }).subscribe(
             (res: user) => {
               this.localStorageService.setUser(res);
-              this.router.navigate(['/campaign']);
+              this.router.navigate(['/dashboard']);
             },
             (error) => {
               console.log(error);

@@ -12,6 +12,12 @@
     padding-left: 280px;
   }
 }
+@media screen and (max-width: 480px) {
+  .main-panel .content {
+    padding-left: 0;
+    padding-right: 15px;
+  }
+}
 @media screen and (max-width: 768px) {
   .main-panel .content {
     padding-left: 15px;
@@ -46,7 +52,7 @@
 @media screen and (max-width: 991px) {
   .main-panel {
     .content {
-      padding-left: 30px !important;
+      padding-left: 222px !important;
     }
   }
   .fixed-plugin .dropdown-toggle:after {

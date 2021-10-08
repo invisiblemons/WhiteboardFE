@@ -19,4 +19,16 @@ export class CampaignService {
   getCriterions(id:string) {
     return this.httpClient.post<Campaign[]>(`${this.baseURL}`,id);
   }
+
+  insertCampaign(campaign: Campaign) {
+    return this.httpClient.post<Campaign>(`${this.baseURL}`, campaign);
+  }
+
+  deleteCampaign(campaign: Campaign) {
+    return this.httpClient.delete<boolean>(`${this.baseURL}/${campaign.id}`);
+  }
+
+  updateCampaign(campaign: Campaign) {
+    return this.httpClient.put<Campaign>(`${this.baseURL}`, campaign);
+  }
 }
