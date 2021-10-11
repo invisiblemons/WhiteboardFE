@@ -1,129 +1,300 @@
-<div class=" content">
-<p-table [value]="campaigns" dataKey="name" responsiveLayout="scroll">
+<div class="content">
+  <p-toolbar styleClass="p-mb-4">
+    <span class="mx-auto">
+      <p-dropdown
+        [options]="universities"
+        [(ngModel)]="university"
+        placeholder="Chọn truờng đại học"
+        editable="true"
+        optionLabel="name"
+        (onChange)="onChangeUni($event)"
+      ></p-dropdown>
+      <p-dropdown
+        [options]="campusList"
+        [(ngModel)]="campus"
+        editable="true"
+        placeholder="Chọn campus"
+        [disabled]="!hasUni"
+        optionLabel="name"
+      ></p-dropdown>
+    </span>
+  </p-toolbar>
+  <p-table [value]="campaigns" dataKey="name" responsiveLayout="scroll">
     <ng-template pTemplate="caption">
-        <div class="p-d-flex p-ai-center p-jc-between">
-            <h2 class="p-m-0" style="font-weight: 500;">Quản lý các chiến dịch</h2>
-            <!-- <span class="p-input-icon-left">
-                <i class="pi pi-search"></i>
-                <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')" placeholder="Tìm kiếm chiến dịch..." />
-            </span> -->
-                <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-success p-mr-2" style="text-align: right;" (click)="openNewCampaign()"></button>
+      <div class="d-flex bd-highlight">
+        <div class="p-2 w-100 bd-highlight">
+          <h2 class="p-m-0" style="font-weight: 500">Quản lý chiến dịch</h2>
         </div>
+        <div class="p-2 flex-shrink-0 bd-highlight">
+          <button
+            pButton
+            pRipple
+            label="Thêm mới"
+            icon="pi pi-plus"
+            class="p-button-success p-mr-2"
+            (click)="openNewCampaign()"
+          ></button>
+        </div>
+      </div>
     </ng-template>
     <ng-template pTemplate="header">
-        <tr>
-            <th style="width: 3rem" class="text-center"></th>
-            <th pSortableColumn="name" style="width: 20rem">Tên chiến dịch<p-sortIcon field="name" class="text-center"></p-sortIcon></th>
-            <th class="text-center" style="width: 15rem">Hình ảnh</th>
-            <th pSortableColumn="startDay" style="text-align: right;">Ngày bắt đầu<p-sortIcon field="startDay" ></p-sortIcon></th>
-            <th pSortableColumn="endDay" style="text-align: right;">Ngày kết thúc<p-sortIcon field="endDay" ></p-sortIcon></th>
-            <th></th>
-        </tr>
+      <tr>
+        <th style="width: 3rem" class="text-center"></th>
+        <th pSortableColumn="name" style="width: 10rem">
+          Tên chiến dịch<p-sortIcon
+            field="name"
+            class="text-center"
+          ></p-sortIcon>
+        </th>
+        <th class="text-center">Hình ảnh</th>
+        <th
+          pSortableColumn="description"
+          style="width: 20rem"
+          class="text-center"
+        >
+          Mô tả<p-sortIcon field="description" class="text-center"></p-sortIcon>
+        </th>
+        <th pSortableColumn="startDay" style="text-align: right">
+          Ngày bắt đầu<p-sortIcon field="startDay"></p-sortIcon>
+        </th>
+        <th pSortableColumn="endDay" style="text-align: right">
+          Ngày kết thúc<p-sortIcon field="endDay"></p-sortIcon>
+        </th>
+        <th></th>
+      </tr>
     </ng-template>
     <ng-template pTemplate="body" let-campaign let-expanded="expanded">
-        <tr>
-            <td>
-                <button type="button" pButton pRipple [pRowToggler]="campaign" class="p-button-text p-button-rounded p-button-plain" [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>
-            </td>
-            <td>{{campaign.name}}</td>
-            <td><img [src]="campaign.image" [alt]="campaign.name" width="150" class="p-shadow-4 rounded mx-auto d-block" /></td>
-            <td style="text-align: right;">{{campaign.startDay}}</td>
-            <td style="text-align: right;">{{campaign.endDay}}</td>
-            <td style="text-align: right;">
-                <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success" style="margin-right: 15px;" (click)="editCampaign(campaign)"></button>
-                <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deleteCampaign(campaign)"></button>
-            </td>
-        </tr>
+      <tr>
+        <td>
+          <button
+            type="button"
+            (click)="openCriteria(campaign)"
+            pButton
+            pRipple
+            [pRowToggler]="campaign"
+            class="p-button-text p-button-rounded p-button-plain"
+            [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"
+          ></button>
+        </td>
+        <td>{{ campaign.name }}</td>
+        <td>
+          <img
+            [src]="campaign.image"
+            [alt]="campaign.name"
+            width="150"
+            class="p-shadow-4 rounded mx-auto d-block"
+          />
+        </td>
+        <td>{{ campaign.description }}</td>
+        <td style="text-align: right">
+          {{ campaign.startDay | date: "dd/MM/yyyy" }}
+        </td>
+        <td style="text-align: right">
+          {{ campaign.endDay | date: "dd/MM/yyyy" }}
+        </td>
+        <td style="text-align: right">
+          <button
+            pButton
+            pRipple
+            icon="pi pi-pencil"
+            class="p-button-rounded p-button-success"
+            style="margin-right: 15px"
+            (click)="editCampaign(campaign)"
+          ></button>
+          <button
+            pButton
+            pRipple
+            icon="pi pi-trash"
+            class="p-button-rounded p-button-warning"
+            (click)="deleteCampaign(campaign)"
+          ></button>
+        </td>
+      </tr>
     </ng-template>
-    
+
     <ng-template pTemplate="rowexpansion" let-campaign>
-        <tr>
-            <td colspan="6">
-                <div class="p-p-3">
-                    <p-table [value]="campaign.criterions" dataKey="id">
-                        <ng-template pTemplate="header">
-                            <tr>
-                                <th pSortableColumn="id">Id<p-sortIcon field="id"></p-sortIcon></th>
-                                <th pSortableColumn="name">Tên tiêu chí<p-sortIcon field="name"></p-sortIcon></th>
-                                <th style="width: 4rem"></th>
-                            </tr>
-                        </ng-template>
-                        <ng-template pTemplate="body" let-criteria>
-                            <tr>
-                                <td>{{criteria.id}}</td>
-                                <td>{{criteria.name}}</td>
-                                <td>
-                                    <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success p-mr-2" (click)="editCriteria(criteria)"></button>
-                                    <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deleteCriteria(criteria)"></button>
-                                </td>
-                            </tr>
-                        </ng-template>
-                        <ng-template pTemplate="emptymessage">
-                            <tr>
-                                <td colspan="6">Chiến dịch này không có tiêu chí.</td>
-                            </tr>
-                        </ng-template>
-                    </p-table>
-                </div>
-            </td>
-        </tr>
+      <tr>
+        <td></td>
+        <td colspan="6">
+          <div class="p-p-3">
+            <p-table [value]="campaign.criterions" dataKey="id">
+              <ng-template pTemplate="header">
+                <tr>
+                  <th pSortableColumn="name">
+                    Tên tiêu chí<p-sortIcon field="name"></p-sortIcon>
+                  </th>
+                  <th style="width: 10rem"></th>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-criteria>
+                <tr>
+                  <td>{{ criteria.name }}</td>
+                  <td>
+                    <button
+                      pButton
+                      pRipple
+                      icon="pi pi-pencil"
+                      class="p-button-rounded p-button-success p-mr-2"
+                      (click)="editCriteria(criteria)"
+                    ></button>
+                    <button
+                      pButton
+                      pRipple
+                      icon="pi pi-trash"
+                      class="p-button-rounded p-button-warning"
+                      (click)="deleteCriteria(criteria)"
+                    ></button>
+                  </td>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="emptymessage">
+                <tr>
+                  <td colspan="6">Chiến dịch này không có tiêu chí.</td>
+                </tr>
+              </ng-template>
+            </p-table>
+          </div>
+        </td>
+      </tr>
     </ng-template>
-</p-table>
-<!-- campaign modal -->
-<p-dialog [(visible)]="campaignDialog" [style]="{width: '600px'}" header="Thông tin chiến dịch" [modal]="true" styleClass="p-fluid">
+  </p-table>
+  <!-- campaign modal -->
+  <p-dialog
+    [(visible)]="campaignDialog"
+    [style]="{ width: '600px' }"
+    header="Thông tin chiến dịch"
+    [modal]="true"
+    styleClass="p-fluid"
+  >
     <ng-template pTemplate="content">
-        <div class="p-field">
-            <label for="name">Tên chiến dịch</label>
-            <input type="text" pInputText id="name" [(ngModel)]="campaign.name" required autofocus />
-            <small class="p-invalid" *ngIf="campaignSubmitted && !campaign.name">Name is required.</small>
-        </div>
-        <div class="p-field">
-            <label for="description">Description</label>
-            <textarea id="description" pInputTextarea [(ngModel)]="campaign.description" required rows="3" cols="20"></textarea>
-        </div>
+      <div class="p-field">
+        <label for="name">Tên chiến dịch</label>
+        <input
+          type="text"
+          pInputText
+          id="name"
+          [(ngModel)]="campaign.name"
+          required
+          autofocus
+        />
+        <small class="p-invalid" *ngIf="campaignSubmitted && !campaign.name"
+          >Name is required.</small
+        >
+      </div>
+      <div class="p-field mt-3">
+        <label for="description">Description</label>
+        <textarea
+          id="description"
+          pInputTextarea
+          [(ngModel)]="campaign.description"
+          required
+          rows="3"
+          cols="20"
+        ></textarea>
+      </div>
 
-        <div class="p-formgrid p-grid">
-            <div class="p-field p-col-12 p-md-4">
-                <label for="startDay">Ngày bắt đầu</label>
-                <p-calendar [(ngModel)]="startDay" [showIcon]="true" inputId="startDay"></p-calendar>
-            </div>
-            <div class="p-field p-col-12 p-md-4">
-                <label for="endDay">Ngày kết thúc</label>
-                <p-calendar [(ngModel)]="endDay" [showIcon]="true" inputId="endDay"></p-calendar>
-            </div>
+      <div class="p-formgrid p-grid">
+        <div class="p-field p-col-12 mt-3">
+          <label for="startDay">Ngày bắt đầu</label>
+          <p-calendar
+            [(ngModel)]="campaign.startDay"
+            dateFormat="dd-mm-yy"
+            [showIcon]="true"
+            inputId="startDay"
+          ></p-calendar>
         </div>
-        <!-- <div class="p-field">
-            <label for="New">Thêm tiêu chí</label>
-            <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-success p-mr-2" (click)="openNewCriteria()"></button>
-        </div> -->
-        <div class="p-field">
-            <label for="Import">Thêm ảnh</label>
-            <p-fileUpload mode="basic" accept="image/*" [maxFileSize]="1000000" label="Import" chooseLabel="Import" class="p-mr-2 p-d-inline-block"></p-fileUpload>
+        <div class="p-field p-col-12 mt-3">
+          <label for="endDay">Ngày kết thúc</label>
+          <p-calendar
+            [(ngModel)]="campaign.endDay"
+            dateFormat="dd-mm-yy"
+            [showIcon]="true"
+            inputId="endDay"
+          ></p-calendar>
         </div>
-
+      </div>
+      <div class="p-field mt-3">
+        <label for="Thêm mới">Tiêu chí</label>
+        <div class="row ml-0"><p-button label="Thêm mới" icon="pi pi-plus" [style]="{'width':'133px'}"   (click)="openNewCriteria()"></p-button></div>
+      </div>
+      <div class="p-field mt-3">
+        <label for="Import">Ảnh chiến dịch</label>
+        <form [formGroup]="formTemplate" (submit)="onSubmit(formTemplate.value)">
+            <div class="text-center">
+              <img [src]="imgSrc" width="350px" height="250px" (click)="fileUploader.click()">
+            </div>
+            <div class="form-group">
+              <input type="file" accept="image/*" class="form-control" #fileUploader formControlName="imageUrl"
+                (change)="showPreview($event)">
+            </div>
+          </form>
+      </div>
     </ng-template>
-    
+
     <ng-template pTemplate="footer">
-        <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideCampaignDialog()"></button>
-        <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="saveCampaign()"></button>
+      <button
+        pButton
+        pRipple
+        label="Cancel"
+        icon="pi pi-times"
+        class="p-button-text"
+        (click)="hideCampaignDialog()"
+      ></button>
+      <button
+        pButton
+        pRipple
+        label="Save"
+        icon="pi pi-check"
+        class="p-button-text"
+        (click)="saveCampaign()"
+      ></button>
     </ng-template>
-</p-dialog>
+  </p-dialog>
 
-<!-- criteria modal -->
-<p-dialog [(visible)]="criteriaDialog" [style]="{width: '250px'}" header="Thông tin tiêu chí" [modal]="true" styleClass="p-fluid">
+  <!-- criteria modal -->
+  <p-dialog
+    [(visible)]="criteriaDialog"
+    [style]="{ width: '250px' }"
+    header="Thông tin tiêu chí"
+    [modal]="true"
+    styleClass="p-fluid"
+  >
     <ng-template pTemplate="content">
-        <div class="p-field">
-            <label for="name">Tên tiêu chí</label>
-            <input type="text" pInputText id="name" [(ngModel)]="campaign.name" required autofocus />
-            <small class="p-invalid" *ngIf="campaignSubmitted && !campaign.name">Name is required.</small>
-        </div>
+      <div class="p-field">
+        <label for="name">Tên tiêu chí</label>
+        <input
+          type="text"
+          pInputText
+          id="name"
+          [(ngModel)]="criteriaName"
+          required
+          autofocus
+        />
+        <small class="p-invalid" *ngIf="criteriaSubmitted && !criteria.name"
+          >Name is required.</small
+        >
+      </div>
     </ng-template>
-    
+
     <ng-template pTemplate="footer">
-        <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideCriteriaDialog()"></button>
-        <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="saveCriteria()"></button>
+      <button
+        pButton
+        pRipple
+        label="Cancel"
+        icon="pi pi-times"
+        class="p-button-text"
+        (click)="hideCriteriaDialog()"
+      ></button>
+      <button
+        pButton
+        pRipple
+        label="Save"
+        icon="pi pi-check"
+        class="p-button-text"
+        (click)="saveCriteria()"
+      ></button>
     </ng-template>
-</p-dialog>
-<p-confirmDialog></p-confirmDialog>
+  </p-dialog>
+  <p-confirmDialog></p-confirmDialog>
+  <p-toast position="top-right"></p-toast>
 </div>
-    

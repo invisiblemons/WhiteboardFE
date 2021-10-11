@@ -1,7 +1,7 @@
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { RouterModule } from "@angular/router";
-import { FormsModule } from "@angular/forms";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { HttpClientModule } from "@angular/common/http";
 import { CollapseModule } from "ngx-bootstrap/collapse";
 import { BsDropdownModule } from "ngx-bootstrap/dropdown";
@@ -43,6 +43,7 @@ import { InputTextareaModule } from "primeng/inputtextarea";
     RouterModule,
     HttpClientModule,
     FormsModule,
+    ReactiveFormsModule,
     JwBootstrapSwitchNg2Module,
     DxVectorMapModule,
     CollapseModule.forRoot(),

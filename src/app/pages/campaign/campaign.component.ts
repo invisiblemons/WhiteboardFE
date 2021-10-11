@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { Campaign, Criteria } from "./campaign.model";
+import { Campaign, Campus, Criteria, University } from "./campaign.model";
 import { CampaignService } from "./campaign.service";
 import {
   trigger,
@@ -9,6 +9,9 @@ import {
   animate,
 } from "@angular/animations";
 import { ConfirmationService, MessageService } from "primeng/api";
+import { AngularFireStorage  } from 'angularfire2/storage';
+import { FormControl, FormGroup } from "@angular/forms";
+import { finalize } from 'rxjs/operators';
 
 @Component({
   selector: "app-campaign",
@@ -45,27 +48,64 @@ export class CampaignComponent implements OnInit {
 
   criterions: Criteria[];
 
+  criteriaNameList: string[];
+
   criteria: Criteria;
+  
+  criteriaName: string;
 
   criteriaDialog: boolean;
 
   criteriaSubmitted: boolean;
 
+  uploadedFiles: any[];
+
+  universities: University[];
+
+  university: University;
+
+  campusList: Campus[];
+
+  campus: Campus;
+
+  hasUni: boolean = false;
+
+  //image
+  imgSrc: string;
+  selectedImage: any = null;
+  isSubmitted: boolean;
+
+  formTemplate = new FormGroup({
+    imageUrl: new FormControl('')
+  })
+
   constructor(
     private campaignService: CampaignService,
     private messageService: MessageService,
-    private confirmationService: ConfirmationService
+    private confirmationService: ConfirmationService,
+    private storage: AngularFireStorage,
   ) {}
 
   ngOnInit() {
+    this.campaignService.getUni().subscribe((data) => {
+      this.universities = data;
+      console.log(data);
+    })
     this.campaignService
       .getCampaigns()
-      .subscribe((data) => (this.campaigns = data));
+      .subscribe((data) => {
+        this.campaigns = data;
+        this.campaigns.forEach(campaign => {
+          campaign.startDay = new Date(campaign.startDay);
+          campaign.endDay = new Date(campaign.endDay);
+        });
+      });
   }
 
   // open modal create
   openNewCampaign() {
     this.campaign = new Campaign();
+    this.imgSrc = '/assets/img/weebly_image_sample.png';
     this.campaignSubmitted = false;
     this.campaignDialog = true;
   }
@@ -78,6 +118,7 @@ export class CampaignComponent implements OnInit {
 
   // open modal edit & delete 
   editCampaign(campaign: Campaign) {
+    this.imgSrc = campaign.image;
     this.campaign = { ...campaign };
     this.campaignDialog = true;
   }
@@ -143,6 +184,21 @@ export class CampaignComponent implements OnInit {
   saveCampaign() {
     this.campaignSubmitted = true;
     if (this.campaign.name.trim()) {
+      if(null !== this.selectedImage) {
+        this.isSubmitted = true;
+    if (this.formTemplate.valid) {
+      var filePath = `${this.selectedImage.name.split('.').slice(0, -1).join('.')}_${new Date().getTime()}`;
+      const fileRef = this.storage.ref(filePath);
+      this.storage.upload(filePath, this.selectedImage).snapshotChanges().pipe(
+        finalize(() => {
+          fileRef.getDownloadURL().subscribe((url) => {
+            this.campaign.image = url;
+            this.resetForm();
+          })
+        })
+      ).subscribe();
+    }
+      }
         if(this.campaign.id) {
             this.campaignService.updateCampaign(this.campaign).subscribe( res => {
                 if(res) {
@@ -187,11 +243,50 @@ export class CampaignComponent implements OnInit {
           detail: "Cập nhật tiêu chí thành công",
           life: 3000,
         });
-      
+        this.criteriaNameList.push(this.criteriaName)
 
-      //   this.campaigns = [...this.campaigns]; cập nhật campaign
       this.criteriaDialog = false;
       this.criteria = new Criteria();
     }
+  }
+
+  openCriteria(campaign: Campaign) {
+    this.campaignService
+      .getCriterions(campaign.id)
+      .subscribe((data) => (this.criterions = data));
+  }
+
+  //image
+  showPreview(event: any) {
+    if (event.target.files && event.target.files[0]) {
+      const reader = new FileReader();
+      reader.onload = (e: any) => this.imgSrc = e.target.result;
+      reader.readAsDataURL(event.target.files[0]);
+      this.selectedImage = event.target.files[0];
+    }
+    else {
+      this.imgSrc = '/assets/img/weebly_image_sample.png';
+      this.selectedImage = null;
+    }
+  }
+
+  get formControls() {
+    return this.formTemplate['controls'];
+  }
+
+  resetForm() {
+    this.formTemplate.reset();
+    this.formTemplate.setValue({
+      imageUrl: ''
+    });
+    
+    this.imgSrc = '/assets/img/weebly_image_sample.png';
+    this.selectedImage = null;
+    this.isSubmitted = false;
+  }
+
+  //search
+  onChangeUni(event) {
+    this.hasUni = true;
   }
 }

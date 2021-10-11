@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { Campaign } from './campaign.model';
+import { Campaign, Campus, Criteria, University } from './campaign.model';
 
 @Injectable({
   providedIn: 'root'
@@ -10,6 +10,8 @@ import { Campaign } from './campaign.model';
 export class CampaignService {
 
   baseURL: string = environment.apiUrl + '/api/v1.0/campaigns';
+  uniURL: string = environment.apiUrl + '/api/v1.0/universities';
+
   constructor(private httpClient: HttpClient) { }
 
   getCampaigns(): Observable<Campaign[]> {
@@ -17,7 +19,7 @@ export class CampaignService {
   }
 
   getCriterions(id:string) {
-    return this.httpClient.post<Campaign[]>(`${this.baseURL}`,id);
+    return this.httpClient.post<Criteria[]>(`${this.baseURL}`,id);
   }
 
   insertCampaign(campaign: Campaign) {
@@ -31,4 +33,9 @@ export class CampaignService {
   updateCampaign(campaign: Campaign) {
     return this.httpClient.put<Campaign>(`${this.baseURL}`, campaign);
   }
+
+  getUni(): Observable<University[]> {
+    return this.httpClient.get<University[]>(`${this.uniURL}`);
+  }
+
 }

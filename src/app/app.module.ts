@@ -1,8 +1,8 @@
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { NgModule } from "@angular/core";
-import { FormsModule } from "@angular/forms";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { RouterModule } from "@angular/router";
-import { CommonModule } from "@angular/common";
+import { CommonModule, DatePipe } from "@angular/common";
 import { ToastrModule } from "ngx-toastr";
 
 import { AppComponent } from "./app.component";
@@ -18,6 +18,8 @@ import { environment } from "src/environments/environment";
 import { AngularFireAuthModule } from "@angular/fire/auth";
 import { JwtIntercepter } from "./pages/login/jwt.interceptor";
 import { ConfirmationService, MessageService } from "primeng/api";
+import { AngularFireStorageModule } from "@angular/fire/storage";
+
 
 
 @NgModule({
@@ -25,6 +27,7 @@ import { ConfirmationService, MessageService } from "primeng/api";
   imports: [
     CommonModule,
     FormsModule,
+    ReactiveFormsModule,
     BrowserAnimationsModule,
     RouterModule,
     AppRoutingModule,
@@ -32,12 +35,13 @@ import { ConfirmationService, MessageService } from "primeng/api";
     ComponentsModule,
     HttpClientModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
-    AngularFireAuthModule
+    AngularFireAuthModule,
+    AngularFireStorageModule
   ],
   providers: [
     AuthService,
     { provide: HTTP_INTERCEPTORS, useClass: JwtIntercepter, multi: true },
-    MessageService, ConfirmationService
+    MessageService, ConfirmationService, DatePipe
   ],
   bootstrap: [AppComponent]
 })

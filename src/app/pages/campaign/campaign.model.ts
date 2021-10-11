@@ -18,9 +18,25 @@ export class Campaign {
 export class Criteria {
     id: string;
     name: string;
+    rating: number;
+
+    constructor() {
+        this.id = "";
+        this.name = "";
+        this.rating = 0;
+    }
+}
+
+export class University {
+    id: string;
+    name: string;
 
     constructor() {
         this.id = "";
         this.name = "";
     }
+}
+
+export class Campus {
+
 }
