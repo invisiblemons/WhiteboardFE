@@ -1,24 +1,5 @@
 <div class="content">
-  <p-toolbar styleClass="p-mb-4">
-    <span class="mx-auto">
-      <p-dropdown
-        [options]="universities"
-        [(ngModel)]="university"
-        placeholder="Chọn truờng đại học"
-        editable="true"
-        optionLabel="name"
-        (onChange)="onChangeUni($event)"
-      ></p-dropdown>
-      <p-dropdown
-        [options]="campusList"
-        [(ngModel)]="campus"
-        editable="true"
-        placeholder="Chọn campus"
-        [disabled]="!hasUni"
-        optionLabel="name"
-      ></p-dropdown>
-    </span>
-  </p-toolbar>
+  
   <p-table [value]="campaigns" dataKey="name" responsiveLayout="scroll">
     <ng-template pTemplate="caption">
       <div class="d-flex bd-highlight">
@@ -36,7 +17,28 @@
           ></button>
         </div>
       </div>
+      <div class="row">
+      <span class="mx-auto">
+        <p-dropdown
+          [options]="universities"
+          [(ngModel)]="university"
+          placeholder="Chọn truờng đại học"
+          editable="true"
+          optionLabel="name"
+          (onChange)="onChangeUni($event)"
+        ></p-dropdown>
+        <p-dropdown
+          [options]="campusList"
+          [(ngModel)]="campus"
+          editable="true"
+          placeholder="Chọn campus"
+          [disabled]="!hasUni"
+          optionLabel="name"
+        ></p-dropdown>
+      </span>
+    </div>
     </ng-template>
+        
     <ng-template pTemplate="header">
       <tr>
         <th style="width: 3rem" class="text-center"></th>
