@@ -5,8 +5,9 @@ import { CampaignRoutingModule } from './campaign-routing.module';
 import { ComponentsModule } from 'src/app/components/components.module';
 import { CampaignComponent } from './campaign.component';
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { CampaignDetailComponent } from './campaign-detail/campaign-detail.component';
 @NgModule({
-  declarations: [CampaignComponent],
+  declarations: [CampaignComponent, CampaignDetailComponent],
   imports: [
     CommonModule,
     CampaignRoutingModule,

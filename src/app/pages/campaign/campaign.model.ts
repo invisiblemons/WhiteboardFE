@@ -1,10 +1,13 @@
 export class Campaign {
     id: string;
     name: string;
+    campusId: string;
     description: string;
     startDay: Date;
     endDay: Date;
     image: string;
+    universityId: string;
+    criterions: Criteria[]
 
     constructor() {
         this.name = "";
@@ -18,18 +21,6 @@ export class Campaign {
 export class Criteria {
     id: string;
     name: string;
-    rating: number;
-
-    constructor() {
-        this.id = "";
-        this.name = "";
-        this.rating = 0;
-    }
-}
-
-export class University {
-    id: string;
-    name: string;
 
     constructor() {
         this.id = "";
@@ -37,6 +28,5 @@ export class University {
     }
 }
 
-export class Campus {
 
-}
+

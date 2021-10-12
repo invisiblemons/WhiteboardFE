@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { Campaign, Campus, Criteria, University } from "./campaign.model";
+import { Campaign, Criteria } from "./campaign.model";
 import { CampaignService } from "./campaign.service";
 import {
   trigger,
@@ -12,6 +12,8 @@ import { ConfirmationService, MessageService } from "primeng/api";
 import { AngularFireStorage  } from 'angularfire2/storage';
 import { FormControl, FormGroup } from "@angular/forms";
 import { finalize } from 'rxjs/operators';
+import { Router } from "@angular/router";
+import { Campus, University } from "../university/university.model";
 
 @Component({
   selector: "app-campaign",
@@ -84,22 +86,23 @@ export class CampaignComponent implements OnInit {
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
     private storage: AngularFireStorage,
+    private router: Router
   ) {}
 
   ngOnInit() {
-    this.campaignService.getUni().subscribe((data) => {
-      this.universities = data;
-      console.log(data);
-    })
     this.campaignService
       .getCampaigns()
       .subscribe((data) => {
-        this.campaigns = data;
+        this.campaigns = data['campaigns'];
         this.campaigns.forEach(campaign => {
           campaign.startDay = new Date(campaign.startDay);
           campaign.endDay = new Date(campaign.endDay);
         });
       });
+    this.campaignService.getUni().subscribe((data) => {
+      this.universities = data['universitys'];
+    })
+    
   }
 
   // open modal create
@@ -251,9 +254,7 @@ export class CampaignComponent implements OnInit {
   }
 
   openCriteria(campaign: Campaign) {
-    this.campaignService
-      .getCriterions(campaign.id)
-      .subscribe((data) => (this.criterions = data));
+      this.router.navigate(['./campaign/campaign-detail',{ id: campaign.id }]);
   }
 
   //image
@@ -285,8 +286,26 @@ export class CampaignComponent implements OnInit {
     this.isSubmitted = false;
   }
 
-  //search
+  //search Uni & Campus
   onChangeUni(event) {
     this.hasUni = true;
+    this.campusList = event.value['campus'];
+    this.campaignService.searchCampaignFromUni(event.value['id']).subscribe(res => {
+      if(null !== res) {
+        this.campaigns = res['campaigns'];
+      } else {
+        this.campaigns = [];
+      }
+    })
+  }
+
+  onChangeCampus(event) {
+    this.campaignService.searchCampaignFromCampus(event.value['id']).subscribe(res => {
+      if(null !== res) {
+        this.campaigns = res['campaigns'];
+      } else {
+        this.campaigns = [];
+      }
+    })
   }
 }
