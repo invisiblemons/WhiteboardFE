@@ -12,8 +12,12 @@ export class ReviewerService {
   baseUrl = environment.apiUrl+ '/api/v1.0/reviewers'
   constructor(private httpClient: HttpClient) {  }
 
-  get(): Observable<Reviewer[]> {
+  getReviewer(): Observable<Reviewer[]> {
     return this.httpClient.get<Reviewer[]>(`${this.baseUrl}`);
+  }
+
+  deleteReviewer(reviewer: Reviewer) {
+    return this.httpClient.delete<boolean>(`${this.baseUrl}/${reviewer.id}`);
   }
 
 }
