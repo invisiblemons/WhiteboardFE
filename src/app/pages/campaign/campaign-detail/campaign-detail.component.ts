@@ -1,6 +1,8 @@
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { ConfirmationService, MessageService } from "primeng/api";
+import { Review } from "../../dashboard/dashboard.model";
+import { Reviewer } from "../../reviewer/reviewer.model";
 import { Campus } from "../../university/university.model";
 import { Campaign, Criteria } from "../campaign.model";
 import { CampaignService } from "../campaign.service";
@@ -21,7 +23,17 @@ export class CampaignDetailComponent implements OnInit {
 
   campus: Campus;
 
-  displayBasic;
+  reviews: Review[];
+
+  review: Review;
+
+  reviewers: Reviewer[];
+
+  reviewer: Reviewer;
+
+  displayBasic: boolean;
+
+  imageUrl: string;
 
   data: any;
 
@@ -29,7 +41,7 @@ export class CampaignDetailComponent implements OnInit {
 
     statusColumn = ['Chưa bắt đầu', 'Đang diễn ra', 'Đã kết thúc'];
 
-    currentDay;
+    currentDay: Date;
 
   constructor(
     private campaignService: CampaignService,
@@ -56,31 +68,40 @@ export class CampaignDetailComponent implements OnInit {
         } else {
           this.campaign.status = this.statusColumn[2];
         }
+        this.imageUrl = this.campaign.image;
       });
     //get criteria
     this.campaignService
       .getCriterions(this.campaignId)
       .subscribe((data) => (this.criterions = data["criterions"]));
 
+      
       //get chart
       this.data = {
-        labels: ['A','B','C'],
+        labels: ['Tham gia chiến dịch','Không tham gia chiến dịch'],
         datasets: [
             {
-                data: [300, 50, 100],
+                data: [4,1],
                 backgroundColor: [
                     "#FF6384",
-                    "#36A2EB",
                     "#FFCE56"
                 ],
                 hoverBackgroundColor: [
                     "#FF6384",
-                    "#36A2EB",
                     "#FFCE56"
                 ]
             }
         ]
     };
+    //get review
+    this.campaignService.getReview(this.campaignId).subscribe(res => {
+      this.reviews = res['reviews'];
+    })
+
+    //get reviewer from campus 
+    this.campaignService.getReviewer(this.campaign.campusId).subscribe(res => {
+      this.reviewers = res['reviewers'];
+    })
   }
 
   onDiscard(): void {
@@ -109,5 +130,9 @@ export class CampaignDetailComponent implements OnInit {
         });
       },
     });
+  }
+
+  openCriteriaOfReview(review) {
+
   }
 }
