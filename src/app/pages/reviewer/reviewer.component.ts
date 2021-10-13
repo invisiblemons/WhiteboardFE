@@ -39,8 +39,7 @@ export class ReviewerComponent implements OnInit {
 
   ngOnInit(): void {
     this.service.getReviewer().subscribe((data) => {
-      this.reviewers = data;
-      console.log(data);
+      this.reviewers = data['reviewers'];
     })
     this.listStatus.push(
       { label: "Verified", value: "verified" },

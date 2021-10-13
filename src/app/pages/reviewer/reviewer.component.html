@@ -28,7 +28,7 @@
                 <th pSortableColumn="name" style="width: 15rem">
                     Name<p-sortIcon field="name" class="text-center"></p-sortIcon>
                 </th>
-                <th class="text-center" style="width: 20rem">Hình ảnh</th>
+                <th class="text-center" style="width: 20rem">Avatar</th>
                 <th pSortableColumn="email" style="text-align: center; width: 20rem">
                     Email<p-sortIcon field="email"></p-sortIcon>
                 </th>
@@ -54,7 +54,7 @@
                   </td>
                 <td>{{ reviewer.name }}</td>
                 <td>
-                    <img [src]="reviewer.image" [alt]="reviewer.name" width="150"
+                    <img [src]="reviewer.avatar" [alt]="reviewer.name" width="150"
                         class="p-shadow-4 rounded mx-auto d-block" />
                 </td>
                 <td style="text-align: center;">

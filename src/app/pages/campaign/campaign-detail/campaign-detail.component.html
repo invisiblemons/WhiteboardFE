@@ -169,7 +169,6 @@
                 </td>
                 <td>{{ review.title }}</td>
                 <td>{{review.onDateTime | date: "dd/MM/yyyy"}}</td>
-                <td>{{ review.category }}</td>
                 <td>
                   <span
                     [class]="
@@ -182,7 +181,7 @@
             </ng-template>
             <ng-template pTemplate="rowexpansion" let-review>
               <tr>
-                <td colspan="7">
+                <td colspan="4">
                   <div class="p-p-3">
                     <p-table [value]="criterionsOfReview" dataKey="id">
                       <ng-template pTemplate="header">
@@ -201,7 +200,7 @@
                       </ng-template>
                       <ng-template pTemplate="emptymessage">
                         <tr>
-                          <td colspan="6">
+                          <td colspan="4">
                             There are no criteria in this review.
                           </td>
                         </tr>

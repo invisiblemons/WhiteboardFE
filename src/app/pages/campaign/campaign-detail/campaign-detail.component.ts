@@ -37,11 +37,11 @@ export class CampaignDetailComponent implements OnInit {
 
   data: any;
 
-    chartOptions: any;
+  chartOptions: any;
 
-    statusColumn = ['Chưa bắt đầu', 'Đang diễn ra', 'Đã kết thúc'];
+  statusColumn = ["Chưa bắt đầu", "Đang diễn ra", "Đã kết thúc"];
 
-    currentDay: Date;
+  currentDay: Date;
 
   constructor(
     private campaignService: CampaignService,
@@ -61,47 +61,51 @@ export class CampaignDetailComponent implements OnInit {
       .subscribe((res) => {
         this.campaign = res;
         //get status
-        if(this.currentDay < this.campaign.startDay) {
+        this.campaign.startDay = new Date(this.campaign.startDay);
+        this.campaign.endDay = new Date(this.campaign.endDay);
+        if (this.currentDay < this.campaign.startDay) {
           this.campaign.status = this.statusColumn[0];
-        } else if(this.currentDay > this.campaign.startDay && this.currentDay < this.campaign.endDay){
+        } else if (
+          this.currentDay > this.campaign.startDay &&
+          this.currentDay < this.campaign.endDay
+        ) {
           this.campaign.status = this.statusColumn[1];
-        } else {
+        } else if (this.currentDay > this.campaign.endDay){
           this.campaign.status = this.statusColumn[2];
         }
         this.imageUrl = this.campaign.image;
       });
+
     //get criteria
     this.campaignService
       .getCriterions(this.campaignId)
       .subscribe((data) => (this.criterions = data["criterions"]));
 
-      
-      //get chart
-      this.data = {
-        labels: ['Tham gia chiến dịch','Không tham gia chiến dịch'],
-        datasets: [
-            {
-                data: [4,1],
-                backgroundColor: [
-                    "#FF6384",
-                    "#FFCE56"
-                ],
-                hoverBackgroundColor: [
-                    "#FF6384",
-                    "#FFCE56"
-                ]
-            }
-        ]
-    };
-    //get review
-    this.campaignService.getReview(this.campaignId).subscribe(res => {
-      this.reviews = res['reviews'];
-    })
+    
 
-    //get reviewer from campus 
-    this.campaignService.getReviewer(this.campaign.campusId).subscribe(res => {
-      this.reviewers = res['reviewers'];
-    })
+    //get chart
+    this.data = {
+      labels: ["Tham gia chiến dịch", "Không tham gia chiến dịch"],
+      datasets: [
+        {
+          data: [4, 1],
+          backgroundColor: ["#FF6384", "#FFCE56"],
+          hoverBackgroundColor: ["#FF6384", "#FFCE56"],
+        },
+      ],
+    };
+
+    //get review
+    this.campaignService.getReview(this.campaignId).subscribe((res) => {
+      this.reviews = res["reviews"];
+    });
+
+    //get reviewer from campus
+    this.campaignService
+      .getReviewer(this.campaign.campusId)
+      .subscribe((res) => {
+        this.reviewers = res["reviewers"];
+      });
   }
 
   onDiscard(): void {
@@ -132,7 +136,5 @@ export class CampaignDetailComponent implements OnInit {
     });
   }
 
-  openCriteriaOfReview(review) {
-
-  }
+  openCriteriaOfReview(review) {}
 }
