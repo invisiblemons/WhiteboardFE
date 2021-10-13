@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { Campaign, Campus, Criteria, University } from "./campaign.model";
+import { Campaign, Criteria } from "./campaign.model";
 import { CampaignService } from "./campaign.service";
 import {
   trigger,
@@ -12,6 +12,8 @@ import { ConfirmationService, MessageService } from "primeng/api";
 import { AngularFireStorage  } from 'angularfire2/storage';
 import { FormControl, FormGroup } from "@angular/forms";
 import { finalize } from 'rxjs/operators';
+import { Router } from "@angular/router";
+import { Campus, University } from "../university/university.model";
 
 @Component({
   selector: "app-campaign",
@@ -70,6 +72,10 @@ export class CampaignComponent implements OnInit {
 
   hasUni: boolean = false;
 
+  currentDay: Date;
+
+  statusColumn = ['Chưa bắt đầu', 'Đang diễn ra', 'Đã kết thúc'];
+
   //image
   imgSrc: string;
   selectedImage: any = null;
@@ -84,22 +90,32 @@ export class CampaignComponent implements OnInit {
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
     private storage: AngularFireStorage,
+    private router: Router
   ) {}
 
   ngOnInit() {
-    this.campaignService.getUni().subscribe((data) => {
-      this.universities = data;
-      console.log(data);
-    })
     this.campaignService
       .getCampaigns()
       .subscribe((data) => {
-        this.campaigns = data;
+        this.campaigns = data['campaigns'];
         this.campaigns.forEach(campaign => {
           campaign.startDay = new Date(campaign.startDay);
           campaign.endDay = new Date(campaign.endDay);
+          //get status
+          if(this.currentDay < campaign.startDay) {
+            campaign.status = this.statusColumn[0];
+          } else if(this.currentDay > campaign.startDay && this.currentDay < campaign.endDay){
+            campaign.status = this.statusColumn[1];
+          } else {
+            campaign.status = this.statusColumn[2];
+          }
+          
         });
       });
+    this.campaignService.getUni().subscribe((data) => {
+      this.universities = data['universitys'];
+    })
+    this.currentDay = new Date();
   }
 
   // open modal create
@@ -146,29 +162,7 @@ export class CampaignComponent implements OnInit {
     });
   }
 
-  editCriteria(criteria: Criteria) {
-      console.log(criteria);
-    this.criteria = { ...criteria };
-    this.criteriaDialog = true;
-  }
-
-  deleteCriteria(criteria: Criteria) {
-    this.confirmationService.confirm({
-      message: "Bạn có chắc muốn xoá tiêu chí " + criteria.name + "?",
-      header: "Xác nhận",
-      icon: "pi pi-exclamation-triangle",
-      accept: () => {
-        this.criterions = this.criterions.filter((val) => val.id !== criteria.id);
-        this.criteria = new Criteria();
-        this.messageService.add({
-          severity: "success",
-          summary: "Thành công!",
-          detail: "Xoá chiến dịch thành công",
-          life: 3000,
-        });
-      },
-    });
-  }
+  
 
   // function in modal
   hideCampaignDialog() {
@@ -203,7 +197,7 @@ export class CampaignComponent implements OnInit {
             this.campaignService.updateCampaign(this.campaign).subscribe( res => {
                 if(res) {
                     this.campaignService.getCampaigns().subscribe(res => {
-                        this.campaigns = res
+                        this.campaigns = res['campaigns']
                     })
                     this.messageService.add({
                         severity: "success",
@@ -223,7 +217,7 @@ export class CampaignComponent implements OnInit {
                     life: 3000,
                   });
                 this.campaignService.getCampaigns().subscribe((res: Campaign[]) => {
-                    this.campaigns = res;
+                    this.campaigns = res['campaigns'];
                 })
             }
         })
@@ -251,9 +245,7 @@ export class CampaignComponent implements OnInit {
   }
 
   openCriteria(campaign: Campaign) {
-    this.campaignService
-      .getCriterions(campaign.id)
-      .subscribe((data) => (this.criterions = data));
+      this.router.navigate(['./campaign/campaign-detail',{ id: campaign.id }]);
   }
 
   //image
@@ -285,8 +277,26 @@ export class CampaignComponent implements OnInit {
     this.isSubmitted = false;
   }
 
-  //search
+  //search Uni & Campus
   onChangeUni(event) {
     this.hasUni = true;
+    this.campusList = event.value['campus'];
+    this.campaignService.searchCampaignFromUni(event.value['id']).subscribe(res => {
+      if(null !== res) {
+        this.campaigns = res['campaigns'];
+      } else {
+        this.campaigns = [];
+      }
+    })
+  }
+
+  onChangeCampus(event) {
+    this.campaignService.searchCampaignFromCampus(event.value['id']).subscribe(res => {
+      if(null !== res) {
+        this.campaigns = res['campaigns'];
+      } else {
+        this.campaigns = [];
+      }
+    })
   }
 }

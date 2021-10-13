@@ -36,6 +36,9 @@ import { RadioButtonModule } from "primeng/radiobutton";
 import { InputNumberModule } from "primeng/inputnumber";
 import { ConfirmDialogModule } from "primeng/confirmdialog";
 import { InputTextareaModule } from "primeng/inputtextarea";
+import { ProgressSpinnerModule } from "primeng/progressspinner";
+import { ChartModule } from "primeng/chart";
+import { BadgeModule } from "primeng/badge";
 
 @NgModule({
   imports: [
@@ -68,6 +71,9 @@ import { InputTextareaModule } from "primeng/inputtextarea";
     InputNumberModule,
     ConfirmDialogModule,
     InputTextareaModule,
+    ProgressSpinnerModule,
+    ChartModule,
+    BadgeModule,
   ],
   declarations: [
     FooterComponent,
@@ -106,6 +112,9 @@ import { InputTextareaModule } from "primeng/inputtextarea";
     InputNumberModule,
     ConfirmDialogModule,
     InputTextareaModule,
-  ]
+    ProgressSpinnerModule,
+    ChartModule,
+    BadgeModule,
+  ],
 })
 export class ComponentsModule {}

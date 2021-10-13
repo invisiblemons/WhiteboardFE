@@ -2,7 +2,9 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { Campaign, Campus, Criteria, University } from './campaign.model';
+import { Review } from '../dashboard/dashboard.model';
+import { Campus, University } from '../university/university.model';
+import { Campaign } from './campaign.model';
 
 @Injectable({
   providedIn: 'root'
@@ -11,6 +13,9 @@ export class CampaignService {
 
   baseURL: string = environment.apiUrl + '/api/v1.0/campaigns';
   uniURL: string = environment.apiUrl + '/api/v1.0/universities';
+  campusURL: string = environment.apiUrl + '/api/v1.0/campuses';
+  reviewURL: string = environment.apiUrl + '/api/v1.0/reviews';
+  reviewerURL: string = environment.apiUrl + '/api/v1.0/reviewers';
 
   constructor(private httpClient: HttpClient) { }
 
@@ -19,7 +24,23 @@ export class CampaignService {
   }
 
   getCriterions(id:string) {
-    return this.httpClient.post<Criteria[]>(`${this.baseURL}`,id);
+    return this.httpClient.get<Campaign[]>(`${this.baseURL}/${id}`);
+  }
+
+  getUni(): Observable<University[]> {
+    return this.httpClient.get<University[]>(`${this.uniURL}`);
+  }
+
+  getCampus(id): Observable<Campus> {
+    return this.httpClient.get<Campus>(`${this.campusURL}/${id}`);
+  }
+
+  getReview(campaignId): Observable<Review[]> {
+    return this.httpClient.get<Review[]>(`${this.reviewURL}?campaignid=${campaignId}`);
+  }
+
+  getReviewer(campusId): Observable<Review[]> {
+    return this.httpClient.get<Review[]>(`${this.reviewerURL}?campusId=${campusId}`);
   }
 
   insertCampaign(campaign: Campaign) {
@@ -34,8 +55,17 @@ export class CampaignService {
     return this.httpClient.put<Campaign>(`${this.baseURL}`, campaign);
   }
 
-  getUni(): Observable<University[]> {
-    return this.httpClient.get<University[]>(`${this.uniURL}`);
+  searchCampaignFromCampus(campusId: string): Observable<Campaign[]> {
+    return this.httpClient.get<Campaign[]>(`${this.baseURL}?campusid=${campusId}`);
   }
+
+  searchCampaignFromUni(uniId: string): Observable<Campaign[]> {
+    return this.httpClient.get<Campaign[]>(`${this.baseURL}?universityid=${uniId}`);
+  }
+
+  searchCampaignWithId(Id: string): Observable<Campaign> {
+    return this.httpClient.get<Campaign>(`${this.baseURL}/${Id}`);
+  }
+
 
 }
