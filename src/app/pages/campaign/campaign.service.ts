@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { University } from '../university/university.model';
+import { Campus, University } from '../university/university.model';
 import { Campaign } from './campaign.model';
 
 @Injectable({
@@ -12,11 +12,12 @@ export class CampaignService {
 
   baseURL: string = environment.apiUrl + '/api/v1.0/campaigns';
   uniURL: string = environment.apiUrl + '/api/v1.0/universities';
+  campusURL: string = environment.apiUrl + '/api/v1.0/campuses';
 
   constructor(private httpClient: HttpClient) { }
 
   getCampaigns(): Observable<Campaign[]> {
-    return this.httpClient.get<Campaign[]>(`${this.baseURL}?pagesize=9`);
+    return this.httpClient.get<Campaign[]>(`${this.baseURL}`);
   }
 
   getCriterions(id:string) {
@@ -39,11 +40,19 @@ export class CampaignService {
     return this.httpClient.get<University[]>(`${this.uniURL}`);
   }
 
+  getCampus(id): Observable<Campus> {
+    return this.httpClient.get<Campus>(`${this.campusURL}/${id}`);
+  }
+
   searchCampaignFromCampus(campusId: string): Observable<Campaign[]> {
     return this.httpClient.get<Campaign[]>(`${this.baseURL}?campusid=${campusId}`);
   }
 
   searchCampaignFromUni(uniId: string): Observable<Campaign[]> {
     return this.httpClient.get<Campaign[]>(`${this.baseURL}?universityid=${uniId}`);
+  }
+
+  searchCampaignWithId(Id: string): Observable<Campaign> {
+    return this.httpClient.get<Campaign>(`${this.baseURL}/${Id}`);
   }
 }

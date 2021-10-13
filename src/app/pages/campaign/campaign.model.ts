@@ -7,7 +7,10 @@ export class Campaign {
     endDay: Date;
     image: string;
     universityId: string;
-    criterions: Criteria[]
+    criterions: Criteria[];
+    status: string;
+    universityName: string;
+    campusName: string;
 
     constructor() {
         this.name = "";

@@ -1,48 +1,139 @@
 <p-dialog
-    header="Chi tiết chiến dịch"
-    [draggable]="false"
-    [modal]="true"
-    [style]="{ width: '70vw' }" 
-    [closable]="true"
-    [(visible)]="displayBasic"
-    (onHide)="onDiscard()"
+  header="Chi tiết chiến dịch"
+  [draggable]="false"
+  [modal]="true"
+  [style]="{ width: '70vw' }"
+  [closable]="true"
+  [(visible)]="displayBasic"
+  (onHide)="onDiscard()"
 >
+  <!-- detail campaign -->
+  <div class="row">
+    <div class="col-sm-12">
+      <app-card [headerContent]="'Duyệt bài review của Reviewer'">
+        <div class="row">
+          <div class="col-sm-12 col-xl-6">
+            <h4 class="sub-title" style="font-weight: 600">Ảnh chiến dịch</h4>
+            <div class="card">
+              <div class="profile-wrap animated">
+                <img
+                  style="width: 600px; height: 300px"
+                  src="{{ campaign.image }}"
+                  alt="{{ campaign.name }}"
+                />
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-12 col-xl-6">
+            <h4 class="sub-title" style="font-weight: 600">
+              Nội dung chiến dịch
+            </h4>
+            <dl class="dl-horizontal row">
+              <dt class="col-sm-3">Trạng thái chiến dịch</dt>
+              <dd class="col-sm-9">
+                <span>{{campaign.status}}</span>
+              </dd>
+              <dt class="col-sm-3">Tiêu đề</dt>
+              <dd class="col-sm-9">
+                {{ campaign.name }}
+              </dd>
+              <dt class="col-sm-3">Nội dung</dt>
 
-          <p-table [value]="criterions" dataKey="id">
-            <ng-template pTemplate="header">
-              <tr>
-                <th pSortableColumn="name">
-                  Tên tiêu chí<p-sortIcon field="name"></p-sortIcon>
-                </th>
-                <th style="width: 10rem"></th>
-              </tr>
-            </ng-template>
-            <ng-template pTemplate="body" let-criteria>
-              <tr>
-                <td>{{ criteria.name }}</td>
-                <td>
-                  <button
-                    pButton
-                    pRipple
-                    icon="pi pi-pencil"
-                    class="p-button-rounded p-button-success p-mr-2"
-                    (click)="editCriteria(criteria)"
-                  ></button>
-                  <button
-                    pButton
-                    pRipple
-                    icon="pi pi-trash"
-                    class="p-button-rounded p-button-warning"
-                    (click)="deleteCriteria(criteria)"
-                  ></button>
-                </td>
-              </tr>
-            </ng-template>
-            <ng-template pTemplate="emptymessage">
-              <tr>
-                <td colspan="7">Chiến dịch này không có tiêu chí.</td>
-              </tr>
-            </ng-template>
-          </p-table>
-        
+              <dd class="col-sm-9 col-sm-offset-3">
+                {{ campaign.description }}
+              </dd>
+              <dt class="col-sm-3">Ngày bắt đầu</dt>
+              <dd class="col-sm-9">
+                {{ campaign.startDay | date: "dd/MM/yyyy" }}
+              </dd>
+              <dt class="col-sm-3">Ngày kết thúc</dt>
+              <dd class="col-sm-9">
+                {{ campaign.endDay | date: "dd/MM/yyyy" }}
+              </dd>
+              <dt class="col-sm-3">Trường</dt>
+              <dd class="col-sm-9">
+                {{ campaign.universityName }}
+              </dd>
+              <dt class="col-sm-3">Campus</dt>
+              <dd class="col-sm-9">
+                {{ campaign.campusName }}
+              </dd>
+            </dl>
+          </div>
+        </div>
+      </app-card>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12">
+      <app-card [headerContent]="'Duyệt bài review của Reviewer'">
+        <div class="row">
+          <div class="col-sm-12 col-xl-6">
+            <h4 class="sub-title mt-10" style="font-weight: 600">Reviewer tham gia chiến dịch</h4>
+            <div class="row">
+              <div class="col-md-7 mx-auto">
+                <p-chart type="doughnut" [data]="data" [options]="chartOptions" width="100" height="100"></p-chart>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-12 col-xl-6">
+            <h4 class="sub-title" style="font-weight: 600">Quản lý tiêu chí chiến dịch</h4>
+            <dl class="dl-horizontal row">
+              <dd class="col-sm-12 col-sm-offset-3">
+                <p-table [value]="criterions" dataKey="id">
+                  <ng-template pTemplate="header">
+                    <tr>
+                      <th pSortableColumn="name">
+                        Tên tiêu chí<p-sortIcon field="name"></p-sortIcon>
+                      </th>
+                      <th style="width: 10rem"></th>
+                    </tr>
+                  </ng-template>
+                  <ng-template pTemplate="body" let-criteria>
+                    <tr>
+                      <td>{{ criteria.name }}</td>
+                      <td>
+                        <button
+                          pButton
+                          pRipple
+                          icon="pi pi-pencil"
+                          class="p-button-rounded p-button-success p-mr-2"
+                          style="margin-right: 15px"
+                          (click)="editCriteria(criteria)"
+                        ></button>
+                        <button
+                          pButton
+                          pRipple
+                          icon="pi pi-trash"
+                          class="p-button-rounded p-button-warning"
+                          (click)="deleteCriteria(criteria)"
+                        ></button>
+                      </td>
+                    </tr>
+                  </ng-template>
+                  <ng-template pTemplate="emptymessage">
+                    <tr>
+                      <td colspan="7">Chiến dịch này không có tiêu chí.</td>
+                    </tr>
+                  </ng-template>
+                </p-table>
+              </dd>
+            </dl>
+          </div>
+        </div>
+      </app-card>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12">
+      <app-card [headerContent]="'Các bài review của chiến dịch'">
+        <div class="row">
+
+
+        </div>
+      </app-card>
+    </div>
+  </div>
+  <p-confirmDialog></p-confirmDialog>
+  <p-toast position="top-right"></p-toast>
 </p-dialog>

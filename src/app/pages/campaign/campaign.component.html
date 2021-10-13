@@ -63,6 +63,12 @@
         <th pSortableColumn="endDay" style="text-align: right">
           Ngày kết thúc<p-sortIcon field="endDay"></p-sortIcon>
         </th>
+        <th pSortableColumn="status" class="text-center">
+          Trạng thái<p-sortIcon
+            field="status"
+            class="text-center"
+          ></p-sortIcon>
+        </th>
         <th></th>
       </tr>
     </ng-template>
@@ -94,6 +100,7 @@
         <td style="text-align: right">
           {{ campaign.endDay | date: "dd/MM/yyyy" }}
         </td>
+        <td class="text-center">{{campaign.status}}</td>
         <td style="text-align: right">
           <button
             pButton
@@ -115,7 +122,8 @@
     </ng-template>
     <ng-template pTemplate="emptymessage">
       <tr>
-        <td colspan="7">Không có chiến dịch.</td>
+        <td colspan="4"></td>
+        <td colspan="4"><p-progressSpinner [style]="{width: '50px', height: '50px'}" styleClass="custom-spinner" strokeWidth="8" fill="#EEEEEE" animationDuration=".5s"></p-progressSpinner></td>
       </tr>
     </ng-template>
     

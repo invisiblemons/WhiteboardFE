@@ -72,6 +72,10 @@ export class CampaignComponent implements OnInit {
 
   hasUni: boolean = false;
 
+  currentDay: Date;
+
+  statusColumn = ['Chưa bắt đầu', 'Đang diễn ra', 'Đã kết thúc'];
+
   //image
   imgSrc: string;
   selectedImage: any = null;
@@ -97,12 +101,21 @@ export class CampaignComponent implements OnInit {
         this.campaigns.forEach(campaign => {
           campaign.startDay = new Date(campaign.startDay);
           campaign.endDay = new Date(campaign.endDay);
+          //get status
+          if(this.currentDay < campaign.startDay) {
+            campaign.status = this.statusColumn[0];
+          } else if(this.currentDay > campaign.startDay && this.currentDay < campaign.endDay){
+            campaign.status = this.statusColumn[1];
+          } else {
+            campaign.status = this.statusColumn[2];
+          }
+          
         });
       });
     this.campaignService.getUni().subscribe((data) => {
       this.universities = data['universitys'];
     })
-    
+    this.currentDay = new Date();
   }
 
   // open modal create
@@ -149,29 +162,7 @@ export class CampaignComponent implements OnInit {
     });
   }
 
-  editCriteria(criteria: Criteria) {
-      console.log(criteria);
-    this.criteria = { ...criteria };
-    this.criteriaDialog = true;
-  }
-
-  deleteCriteria(criteria: Criteria) {
-    this.confirmationService.confirm({
-      message: "Bạn có chắc muốn xoá tiêu chí " + criteria.name + "?",
-      header: "Xác nhận",
-      icon: "pi pi-exclamation-triangle",
-      accept: () => {
-        this.criterions = this.criterions.filter((val) => val.id !== criteria.id);
-        this.criteria = new Criteria();
-        this.messageService.add({
-          severity: "success",
-          summary: "Thành công!",
-          detail: "Xoá chiến dịch thành công",
-          life: 3000,
-        });
-      },
-    });
-  }
+  
 
   // function in modal
   hideCampaignDialog() {
@@ -206,7 +197,7 @@ export class CampaignComponent implements OnInit {
             this.campaignService.updateCampaign(this.campaign).subscribe( res => {
                 if(res) {
                     this.campaignService.getCampaigns().subscribe(res => {
-                        this.campaigns = res
+                        this.campaigns = res['campaigns']
                     })
                     this.messageService.add({
                         severity: "success",
@@ -226,7 +217,7 @@ export class CampaignComponent implements OnInit {
                     life: 3000,
                   });
                 this.campaignService.getCampaigns().subscribe((res: Campaign[]) => {
-                    this.campaigns = res;
+                    this.campaigns = res['campaigns'];
                 })
             }
         })
