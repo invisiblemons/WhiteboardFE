@@ -5,7 +5,21 @@
                 <div class="p-2 w-100 bd-highlight">
                     <h2 class="p-m-0" style="font-weight: 500">Quản lý Reviewer</h2>
                 </div>
-            </div>         
+            </div>
+                  
+            <div class="row" style="width: 9rem">   
+                <span class="ml-4">     
+                  <p-dropdown id="status"
+                  [options]="listStatus"
+                    [(ngModel)]="selectedStatus"
+                    placeholder="Status"
+                    editable="true"
+                    optionLabel="label"
+                    (onChange)="filterStatus()"
+                  >         
+                </p-dropdown>
+                </span> 
+              </div>
         </ng-template>
 
         <ng-template pTemplate="header">
@@ -23,6 +37,7 @@
                 </th>
                 <th></th>
             </tr>
+            
         </ng-template>
         <ng-template pTemplate="body" let-reviewer let-expanded="expanded">
             <tr>

@@ -20,4 +20,7 @@ export class ReviewerService {
     return this.httpClient.delete<boolean>(`${this.baseUrl}/${reviewer.id}`);
   }
 
+  getReviewerById(reviewer: Reviewer) {
+    return this.httpClient.get<Reviewer[]>(`${this.baseUrl}/${reviewer.id}`);
+  }
 }
