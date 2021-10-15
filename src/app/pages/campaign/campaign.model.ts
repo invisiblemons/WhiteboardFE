@@ -12,22 +12,32 @@ export class Campaign {
     universityName: string;
     campusName: string;
 
-    constructor() {
-        this.name = "";
-        this.description = "";
-        this.startDay = new Date();
-        this.endDay = new Date();
-        this.image = "";
+    constructor(res) {
+        if(null !== res) {
+            this.id = res.id;
+        this.name = res.name;
+        this.campusId = res.campusId;
+        this.description = res.description;
+        this.startDay = res.startDay;
+        this.endDay = res.endDay;
+        this.image = res.image;
+        this.universityId = res.universityId;
+        this.criterions = res.criterions;
+        this.status = res.status;
+        this.universityName = res.universityName;
+        this.campusName = res.campusName;
+        }
     }
 }
 
 export class Criteria {
     id: string;
     name: string;
+    campaignId: string;
 
     constructor() {
-        this.id = "";
         this.name = "";
+        this.campaignId = "";
     }
 }
 

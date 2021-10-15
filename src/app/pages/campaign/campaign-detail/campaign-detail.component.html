@@ -7,6 +7,8 @@
   [(visible)]="displayBasic"
   (onHide)="onDiscard()"
 >
+<div *ngIf="!this.campaign" style="margin-left: 50%;"><p-progressSpinner [style]="{width: '50px', height: '50px'}" styleClass="custom-spinner" strokeWidth="8" fill="#EEEEEE" animationDuration=".5s"></p-progressSpinner></div>
+<div *ngIf="this.campaign">
   <!-- detail campaign -->
   <div class="row">
     <div class="col-sm-12">
@@ -64,12 +66,13 @@
     <div class="col-sm-12">
       <app-card [headerContent]="'Duyệt bài review của Reviewer'">
         <div class="row">
+          <!-- Reviewer -->
           <div class="col-sm-12 col-xl-6">
-            <h4 class="sub-title mt-10" style="font-weight: 600">
-              Thống kê Reviewer
+            <h4 class="sub-title" style="font-weight: 600">
+              Thống kê Reviewer trong chiến dịch
             </h4>
             <div class="row">
-              <div class="col-md-7 mx-auto">
+              <div class="col-md-8 mx-auto">
                 <p-chart
                   type="doughnut"
                   [data]="data"
@@ -80,11 +83,26 @@
               </div>
             </div>
           </div>
+          <!-- Criteria -->
           <div class="col-sm-12 col-xl-6">
-            <h4 class="sub-title" style="font-weight: 600">
-              Quản lý tiêu chí chiến dịch
-            </h4>
-            <dl class="dl-horizontal row">
+            <div class="d-flex bd-highlight">
+              <div class="p-2 w-100 bd-highlight">
+                <h4 class="p-m-0" style="font-weight: 600">Quản lý tiêu chí chiến dịch</h4>
+              </div>
+              <div class="p-2 flex-shrink-0 bd-highlight">
+                <button
+                  pButton
+                  pRipple
+                  label="Thêm mới"
+                  icon="pi pi-plus"
+                  class="p-button-success p-mr-2"
+                  (click)="openNewCriteria()"
+                ></button>
+              </div>
+            </div>
+            <div class="row">
+      </div>
+            <dl class="dl-horizontal row mt-2">
               <dd class="col-sm-12 col-sm-offset-3">
                 <p-table [value]="criterions" dataKey="id">
                   <ng-template pTemplate="header">
@@ -130,6 +148,48 @@
       </app-card>
     </div>
   </div>
+<!-- criteria modal -->
+<p-dialog
+[(visible)]="criteriaDialog"
+[style]="{ width: '350px' }"
+header="Thông tin tiêu chí"
+[modal]="true"
+styleClass="p-fluid"
+>
+<ng-template pTemplate="content">
+  <div class="p-field">
+    <label for="name">Tên tiêu chí</label>
+    <input
+      type="text"
+      pInputText
+      id="name"
+      [(ngModel)]="criteriaName"
+      required
+      autofocus
+    />
+  </div>
+</ng-template>
+
+<ng-template pTemplate="footer">
+  <button
+    pButton
+    pRipple
+    label="Cancel"
+    icon="pi pi-times"
+    class="p-button-text"
+    (click)="hideCriteriaDialog()"
+  ></button>
+  <button
+    pButton
+    pRipple
+    label="Save"
+    icon="pi pi-check"
+    class="p-button-text"
+    (click)="saveCriteria()"
+  ></button>
+</ng-template>
+</p-dialog>
+  <!-- Review -->
   <div class="row">
     <app-card [headerContent]="'Các bài review của chiến dịch'">
       <div class="col-sm-12">
@@ -169,13 +229,7 @@
                 </td>
                 <td>{{ review.title }}</td>
                 <td>{{review.onDateTime | date: "dd/MM/yyyy"}}</td>
-                <td>
-                  <span
-                    [class]="
-                      'product-badge status-' + review.status.toLowerCase()
-                    "
-                    >{{ review.status }}</span
-                  >
+                <td>{{ review.status }}
                 </td>
               </tr>
             </ng-template>
@@ -215,6 +269,5 @@
       </div>
     </app-card>
   </div>
-  <p-confirmDialog></p-confirmDialog>
-  <p-toast position="top-right"></p-toast>
+</div>
 </p-dialog>

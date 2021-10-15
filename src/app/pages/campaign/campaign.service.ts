@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Review } from '../dashboard/dashboard.model';
 import { Campus, University } from '../university/university.model';
-import { Campaign } from './campaign.model';
+import { Campaign, Criteria } from './campaign.model';
 
 @Injectable({
   providedIn: 'root'
@@ -16,6 +16,7 @@ export class CampaignService {
   campusURL: string = environment.apiUrl + '/api/v1.0/campuses';
   reviewURL: string = environment.apiUrl + '/api/v1.0/reviews';
   reviewerURL: string = environment.apiUrl + '/api/v1.0/reviewers';
+  criteriaURL: string = environment.apiUrl + '/api/v1.0/criterions';
 
   constructor(private httpClient: HttpClient) { }
 
@@ -47,12 +48,24 @@ export class CampaignService {
     return this.httpClient.post<Campaign>(`${this.baseURL}`, campaign);
   }
 
+  insertCriteria(criteria: Criteria) {
+    return this.httpClient.post<Criteria>(`${this.criteriaURL}`, criteria);
+  }
+
   deleteCampaign(campaign: Campaign) {
     return this.httpClient.delete<boolean>(`${this.baseURL}/${campaign.id}`);
   }
 
+  deleteCriteria(id: string) {
+    return this.httpClient.delete<boolean>(`${this.criteriaURL}/${id}`);
+  }
+
   updateCampaign(campaign: Campaign) {
     return this.httpClient.put<Campaign>(`${this.baseURL}`, campaign);
+  }
+
+  updateCriteria(criteria: Criteria) {
+    return this.httpClient.put<Campaign>(`${this.criteriaURL}`, criteria);
   }
 
   searchCampaignFromCampus(campusId: string): Observable<Campaign[]> {
