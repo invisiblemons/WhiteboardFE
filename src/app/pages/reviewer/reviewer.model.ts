@@ -7,6 +7,8 @@ export class Reviewer {
     phoneNumber: number;
     avatar: string;
     certification: string;
+    unpublishedReviews: number;
     publishedReview: number;
+    waitingReviews: string;
     status: string;
 }

@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Reviewer } from './reviewer.model';
+import { University } from '../university/university.model';
 
 @Injectable({
   providedIn: 'root'
@@ -10,6 +11,8 @@ import { Reviewer } from './reviewer.model';
 export class ReviewerService {
 
   baseUrl = environment.apiUrl+ '/api/v1.0/reviewers'
+  uniURL: string = environment.apiUrl + '/api/v1.0/universities';
+
   constructor(private httpClient: HttpClient) {  }
 
   getReviewer(): Observable<Reviewer[]> {
@@ -20,7 +23,15 @@ export class ReviewerService {
     return this.httpClient.delete<boolean>(`${this.baseUrl}/${reviewer.id}`);
   }
 
-  getReviewerById(reviewer: Reviewer) {
-    return this.httpClient.get<Reviewer[]>(`${this.baseUrl}/${reviewer.id}`);
+  getUni(): Observable<University[]> {
+    return this.httpClient.get<University[]>(`${this.uniURL}`);
+  }
+
+  searchReviewerFromUni(uniId: string): Observable<Reviewer[]> {
+    return this.httpClient.get<Reviewer[]>(`${this.baseUrl}?universityId=${uniId}`);
+  }
+
+  getReviewerById(Id: string): Observable<Reviewer> {
+    return this.httpClient.get<Reviewer>(`${this.baseUrl}/${Id}`);
   }
 }

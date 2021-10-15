@@ -1,75 +1,73 @@
 <div class=" content">
-    <p-table [value]="reviewers" dataKey="name" responsiveLayout="scroll">
-        <ng-template pTemplate="caption">
-            <div class="d-flex bd-highlight">
-                <div class="p-2 w-100 bd-highlight">
-                    <h2 class="p-m-0" style="font-weight: 500">Quản lý Reviewer</h2>
-                </div>
-            </div>
-                  
-            <div class="row" style="width: 9rem">   
-                <span class="ml-4">     
-                  <p-dropdown id="status"
-                  [options]="listStatus"
-                    [(ngModel)]="selectedStatus"
-                    placeholder="Status"
-                    editable="true"
-                    optionLabel="label"
-                    (onChange)="filterStatus()"
-                  >         
-                </p-dropdown>
-                </span> 
-              </div>
-        </ng-template>
+  <p-table [value]="reviewers" dataKey="name" responsiveLayout="scroll">
+    <ng-template pTemplate="caption">
+      <div class="d-flex bd-highlight">
+        <div class="p-2 w-100 bd-highlight">
+          <h2 class="p-m-0" style="font-weight: 500">Quản lý Reviewer</h2>
+        </div>
+      </div>
 
-        <ng-template pTemplate="header">
-            <tr>
-                <th style="width: 3rem" class="text-center"></th>
-                <th pSortableColumn="name" style="width: 15rem">
-                    Name<p-sortIcon field="name" class="text-center"></p-sortIcon>
-                </th>
-                <th class="text-center" style="width: 20rem">Avatar</th>
-                <th pSortableColumn="email" style="text-align: center; width: 20rem">
-                    Email<p-sortIcon field="email"></p-sortIcon>
-                </th>
-                <th pSortableColumn="status" style="text-align: center">
-                    Status<p-sortIcon field="status"></p-sortIcon>
-                </th>
-                <th></th>
-            </tr>
-            
-        </ng-template>
-        <ng-template pTemplate="body" let-reviewer let-expanded="expanded">
-            <tr>
-                <td>
-                    <button
-                      type="button"
-                      (click)="openCriteria(campaign)"
-                      pButton
-                      pRipple
-                      [pRowToggler]="campaign"
-                      class="p-button-text p-button-rounded p-button-plain"
-                      [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"
-                    ></button>
-                  </td>
-                <td>{{ reviewer.name }}</td>
-                <td>
-                    <img [src]="reviewer.avatar" [alt]="reviewer.name" width="150"
-                        class="p-shadow-4 rounded mx-auto d-block" />
-                </td>
-                <td style="text-align: center;">
-                    {{ reviewer.email }}
-                  </td>
-                  <td style="text-align: center;">
-                    {{ reviewer.status }}
-                  </td>
-                <td style="text-align: right;">
-                    <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success"
-                        style="margin-right: 15px" (click)="viewReviewer(reviewer)"></button>
-                    <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning"
-                        (click)="deleteReviewer(reviewer)"></button>
-                </td>
-            </tr>
-        </ng-template>
-    </p-table>
+      <div class="row">
+        <span class="mx-4">
+          <p-dropdown [options]="listStatus" [(ngModel)]="selectedStatus" placeholder="Status" editable="true"
+            optionLabel="label" (onChange)="filterStatus(reviewers)">
+          </p-dropdown>
+          <p-dropdown [options]="universities" [(ngModel)]="university" placeholder="Chọn truờng đại học"
+            editable="true" optionLabel="name" (onChange)="onChangeUni($event)"></p-dropdown>
+        </span>
+      </div>
+    </ng-template>
+
+    <ng-template pTemplate="header">
+      <tr>
+        <th style="width: 3rem" class="text-center"></th>
+        <th pSortableColumn="name" style="width: 15rem">
+          Name<p-sortIcon field="name" class="text-center"></p-sortIcon>
+        </th>
+        <th class="text-center" style="width: 20rem">Avatar</th>
+        <th pSortableColumn="email" style="text-align: center; width: 20rem">
+          Email<p-sortIcon field="email"></p-sortIcon>
+        </th>
+        <th pSortableColumn="status" style="text-align: center">
+          Status<p-sortIcon field="status"></p-sortIcon>
+        </th>
+        <th></th>
+      </tr>
+
+    </ng-template>
+    <ng-template pTemplate="body" let-reviewer let-expanded="expanded">
+      <tr>
+        <td>
+          <button type="button" (click)="openReviewer(reviewer)" pButton pRipple [pRowToggler]="reviewer"
+            class="p-button-text p-button-rounded p-button-plain"
+            [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>
+        </td>
+        <td>{{ reviewer.name }}</td>
+        <td>
+          <img [src]="reviewer.avatar" [alt]="reviewer.name" width="150" class="p-shadow-4 rounded mx-auto d-block" />
+        </td>
+        <td style="text-align: center">
+          {{ reviewer.email }}
+        </td>
+        <td style="text-align: center">
+          {{ reviewer.status }}
+        </td>
+        <td style="text-align: right">
+          <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning"
+            (click)="deleteReviewer(reviewer)"></button>
+        </td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td colspan="4"></td>
+        <td colspan="4">
+          <p-progressSpinner [style]="{width: '50px', height: '50px'}" styleClass="custom-spinner" strokeWidth="8"
+            fill="#EEEEEE" animationDuration=".5s"></p-progressSpinner>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+  <p-confirmDialog></p-confirmDialog>
+  <p-toast position="top-right"></p-toast>
 </div>

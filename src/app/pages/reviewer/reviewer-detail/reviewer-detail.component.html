@@ -1,0 +1,225 @@
+<p-dialog
+  header="Chi tiết Reviewer"
+  [draggable]="false"
+  [modal]="true"
+  [style]="{ width: '70vw' }"
+  [closable]="true"
+  [(visible)]="displayBasic"
+  (onHide)="onDiscard()"
+>
+  <!-- detail reviewer -->
+  <div class="row">
+    <div class="col-sm-12">
+      <app-card [headerContent]="'Thông tin Reviewer'">
+        <div class="row">
+          <div class="col-sm-12 col-xl-6">
+            <h4 class="sub-title" style="font-weight: 600">
+              Thông tin Reviewer
+            </h4>
+            <dl class="dl-horizontal row">
+              <dt class="col-sm-3">Name</dt>
+              <dd class="col-sm-9">
+                <span>{{ reviewer.name }}</span>
+              </dd>
+              <dt class="col-sm-3">Email</dt>
+              <dd class="col-sm-9">
+                {{ reviewer.email }}
+              </dd>
+              <dt class="col-sm-3">Birthday</dt>
+
+              <dd class="col-sm-9 col-sm-offset-3">
+                {{ reviewer.birthday }}
+              </dd>
+              <dt class="col-sm-3">Phone Number</dt>
+              <dd class="col-sm-9">
+                {{ reviewer.phoneNumber }}
+              </dd>
+              <div class="card">
+                <div class="profile-wrap animated">
+                  {{ reviewer.avatar }}
+                </div>
+                <div class="card">
+                  <div class="profile-wrap animated">
+                    <!-- <img style="width: 600px; height: 300px" src="{{ imageUrl }}" /> -->
+                    {{ reviewer.certificate }}
+                  </div>
+              <dt class="col-sm-3">Số bài review không được công khai</dt>
+              <dd class="col-sm-9">
+                {{ reviewer.unpublishedReviews }}
+              </dd>
+              <dt class="col-sm-3">Số bài review được công khai</dt>
+              <dd class="col-sm-9">
+                {{ reviewer.publishedReview }}
+              </dd>
+              <dt class="col-sm-3">Số bài Review đang chờ duyệt</dt>
+              <dd class="col-sm-9">
+                {{ reviewer.waitingReviews }}
+              </dd>
+              <dt class="col-sm-3">Trạng thái</dt>
+              <dd class="col-sm-9">
+                {{ reviewer.status }}
+              </dd>
+            </dl>
+          </div>
+        </div>
+      </app-card>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12">
+      <app-card [headerContent]="'Duyệt Reviewer'">
+        <div class="row">
+          <div class="col-sm-12 col-xl-6">
+            <h4 class="sub-title mt-10" style="font-weight: 600">
+              Thống kê Reviewer
+            </h4>
+            <div class="row">
+              <div class="col-md-7 mx-auto">
+                <p-chart
+                  type="doughnut"
+                  [data]="data"
+                  [options]="chartOptions"
+                  width="100"
+                  height="100"
+                ></p-chart>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-12 col-xl-6">
+            <h4 class="sub-title" style="font-weight: 600">
+              Quản lý tiêu chí chiến dịch
+            </h4>
+            <dl class="dl-horizontal row">
+              <dd class="col-sm-12 col-sm-offset-3">
+                <p-table [value]="criterions" dataKey="id">
+                  <ng-template pTemplate="header">
+                    <tr>
+                      <th pSortableColumn="name">
+                        Tên tiêu chí<p-sortIcon field="name"></p-sortIcon>
+                      </th>
+                      <th style="width: 10rem"></th>
+                    </tr>
+                  </ng-template>
+                  <ng-template pTemplate="body" let-criteria>
+                    <tr>
+                      <td>{{ criteria.name }}</td>
+                      <td>
+                        <button
+                          pButton
+                          pRipple
+                          icon="pi pi-pencil"
+                          class="p-button-rounded p-button-success p-mr-2"
+                          style="margin-right: 15px"
+                          (click)="editCriteria(criteria)"
+                        ></button>
+                        <button
+                          pButton
+                          pRipple
+                          icon="pi pi-trash"
+                          class="p-button-rounded p-button-warning"
+                          (click)="deleteCriteria(criteria)"
+                        ></button>
+                      </td>
+                    </tr>
+                  </ng-template>
+                  <ng-template pTemplate="emptymessage">
+                    <tr>
+                      <td colspan="7">Chiến dịch này không có tiêu chí.</td>
+                    </tr>
+                  </ng-template>
+                </p-table>
+              </dd>
+            </dl>
+          </div>
+        </div>
+      </app-card>
+    </div>
+  </div>
+  <div class="row">
+    <app-card [headerContent]="'Thông tin các bài review'">
+      <div class="col-sm-12">
+        <div class="row">
+          <h4 class="sub-title" style="font-weight: 600">
+            Thông tin các bài review 
+          </h4>
+          <p-table [value]="reviews" dataKey="title" responsiveLayout="scroll">
+            <ng-template pTemplate="header">
+              <tr>
+                <th style="width: 3rem"></th>
+                <th pSortableColumn="title">
+                  Title <p-sortIcon field="title"></p-sortIcon>
+                </th>
+                <th pSortableColumn="onDateTime">
+                  Date <p-sortIcon field="onDateTime"></p-sortIcon>
+                </th>
+                <th pSortableColumn="status">
+                  Status <p-sortIcon field="status"></p-sortIcon>
+                </th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-review let-expanded="expanded">
+              <tr>
+                <td>
+                  <button
+                    type="button"
+                    pButton
+                    pRipple
+                    (click)="openCriteriaOfReview(review)"
+                    [pRowToggler]="review"
+                    class="p-button-text p-button-rounded p-button-plain"
+                    [icon]="
+                      expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'
+                    "
+                  ></button>
+                </td>
+                <td>{{ review.title }}</td>
+                <td>{{review.onDateTime | date: "dd/MM/yyyy"}}</td>
+                <td>
+                  <span
+                    [class]="
+                      'product-badge status-' + review.status.toLowerCase()
+                    "
+                    >{{ review.status }}</span
+                  >
+                </td>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="rowexpansion" let-review>
+              <tr>
+                <td colspan="4">
+                  <div class="p-p-3">
+                    <p-table [value]="criterionsOfReview" dataKey="id">
+                      <ng-template pTemplate="header">
+                        <tr>
+                          <th pSortableColumn="name">
+                            Name <p-sortIcon field="name"></p-sortIcon>
+                          </th>
+                          <th>Rating</th>
+                        </tr>
+                      </ng-template>
+                      <ng-template pTemplate="body" let-criteriaOfReview>
+                        <tr>
+                          <td>{{ criteriaOfReview.name }}</td>
+                          <td>{{ criteriaOfReview.rating }}</td>
+                        </tr>
+                      </ng-template>
+                      <ng-template pTemplate="emptymessage">
+                        <tr>
+                          <td colspan="4">
+                            There are no criteria in this review.
+                          </td>
+                        </tr>
+                      </ng-template>
+                    </p-table>
+                  </div>
+                </td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+      </div>
+    </app-card>
+  </div>
+  <p-confirmDialog></p-confirmDialog>
+  <p-toast position="top-right"></p-toast>
+</p-dialog>
