@@ -8,3 +8,19 @@ th {
 dt {
     color: #D4D4D8;
 }
+:host ::ng-deep {
+    .speeddial-linear-demo {
+
+        .p-speeddial-direction-down {
+            left: calc(50% - 2rem);
+            top: 0;
+        }
+    }
+}
+.card-stats .info-icon i {
+    padding: 9px;
+}
+
+.border {
+    border: none!important;
+}

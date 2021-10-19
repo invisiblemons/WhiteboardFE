@@ -114,7 +114,7 @@ import { BadgeModule } from "primeng/badge";
     InputTextareaModule,
     ProgressSpinnerModule,
     ChartModule,
-    BadgeModule,
+    BadgeModule
   ],
 })
 export class ComponentsModule {}
