@@ -1,141 +1,195 @@
-<div class=" content">
-    <div class=" row">
-      <div class=" col-lg-4 col-md-6">
-        <div class=" card card-stats">
-          <div class=" card-body">
-            <div class=" row">
-              <div class=" col-3">
-                <div class=" info-icon text-center icon-primary">
-                  <i class=" tim-icons icon-chat-33"> </i>
+<div class="content">
+  <ng-template *ngIf="null===publishReviews&&null===waitingReviews&&null===unpublishedReviews;else loadData">
+    <div class="card">
+      <div class="p-grid p-formgrid">
+          <div class="p-field p-col-12 p-md-6">
+              <h5>Rectangle</h5>
+              <p-skeleton styleClass="p-mb-2"></p-skeleton>
+              <p-skeleton width="10rem" styleClass="p-mb-2"></p-skeleton>
+              <p-skeleton width="5rem" styleClass="p-mb-2"></p-skeleton>
+              <p-skeleton height="2rem" styleClass="p-mb-2"></p-skeleton>
+              <p-skeleton width="10rem" height="4rem"></p-skeleton>
+          </div>
+          <div class="p-field p-col-12 p-md-6">
+              <h5>Rounded</h5>
+              <p-skeleton styleClass="p-mb-2" borderRadius="16px"></p-skeleton>
+              <p-skeleton width="10rem" styleClass="p-mb-2" borderRadius="16px"></p-skeleton>
+              <p-skeleton width="5rem" styleClass="p-mb-2" borderRadius="16px"></p-skeleton>
+              <p-skeleton height="2rem" styleClass="p-mb-2" borderRadius="16px"></p-skeleton>
+              <p-skeleton width="10rem" height="4rem" borderRadius="16px"></p-skeleton>
+          </div>
+          <div class="p-field p-col-12 p-md-6">
+              <h5 class="p-mt-3">Square</h5>
+              <div class="p-d-flex p-ai-end">
+                  <p-skeleton size="2rem" styleClass="p-mr-2"></p-skeleton>
+                  <p-skeleton size="3rem" styleClass="p-mr-2"></p-skeleton>
+                  <p-skeleton size="4rem" styleClass="p-mr-2"></p-skeleton>
+                  <p-skeleton size="5rem"></p-skeleton>
+              </div>
+          </div>
+          <div class="p-field p-col-12 p-md-6">
+              <h5 class="p-mt-3">Circle</h5>
+              <div class="p-d-flex p-ai-end">
+                  <p-skeleton shape="circle" size="2rem" styleClass="p-mr-2"></p-skeleton>
+                  <p-skeleton shape="circle" size="3rem" styleClass="p-mr-2"></p-skeleton>
+                  <p-skeleton shape="circle" size="4rem" styleClass="p-mr-2"></p-skeleton>
+                  <p-skeleton shape="circle" size="5rem"></p-skeleton>
+              </div>
+          </div>
+      </div>
+  </div>
+  </ng-template>
+  <ng-template #loadData>
+    <div class="row">
+      <div class="col-lg-4 col-md-6">
+        <div class="card card-stats">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-3">
+                <div class="info-icon text-center icon-primary">
+                  <i class="tim-icons icon-chat-33"> </i>
                 </div>
               </div>
-              <div class=" col-9">
-                <div class=" numbers">
-                  <p class=" card-category">Bài review được chấp thuận!</p>
-                  <h3 class=" card-title">0 bài</h3>
+              <div class="col-9">
+                <div class="numbers">
+                  <p class="card-category">Bài review được chấp thuận!</p>
+                  <h3 class="card-title">{{ countPublishReviews }} bài</h3>
                 </div>
               </div>
             </div>
           </div>
-          <div class=" card-footer">
+          <div class="card-footer">
             <hr />
-  
-            <div class=" stats">
+
+            <div class="stats">
               <a
-            class="circle-right"
-            (click)="openSuccess(contentSuccess)"
-            href="javascript:void(0)"
-          >
-            <span
-              ><i
-                class="pi pi-chevron-circle-right"
-                style="font-size: 1.5rem"
-              ></i
-            ></span>
-          </a> Xem chi tiết
+                class="circle-right"
+                (click)="openSuccess(contentSuccess)"
+                href="javascript:void(0)"
+              >
+                <span
+                  ><i
+                    class="pi pi-chevron-circle-right"
+                    style="font-size: 1.5rem"
+                  ></i
+                ></span>
+              </a>
+              Xem chi tiết
             </div>
           </div>
         </div>
       </div>
-      <div class=" col-lg-4 col-md-6">
-        <div class=" card card-stats">
-          <div class=" card-body">
-            <div class=" row">
-              <div class=" col-3">
-                <div class=" info-icon text-center icon-warning">
-                  <i class=" tim-icons icon-chat-33"> </i>
+      <div class="col-lg-4 col-md-6">
+        <div class="card card-stats">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-3">
+                <div class="info-icon text-center icon-warning">
+                  <i class="tim-icons icon-chat-33"> </i>
                 </div>
               </div>
-              <div class=" col-9">
-                <div class=" numbers">
-                  <p class=" card-category">Bài review đang chờ xét duyệt!</p>
-                  <h3 class=" card-title">1 bài</h3>
+              <div class="col-9">
+                <div class="numbers">
+                  <p class="card-category">Bài review đang chờ xét duyệt!</p>
+                  <h3 class="card-title">{{ countWaitingReviews }} bài</h3>
                 </div>
               </div>
             </div>
           </div>
-          <div class=" card-footer">
+          <div class="card-footer">
             <hr />
-  
-            <div class=" stats">
+
+            <div class="stats">
               <a
-            class="circle-right"
-            (click)="openWarning(contentWarning)"
-            href="javascript:void(0)"
-          >
-            <span
-              ><i
-                class="pi pi-chevron-circle-right"
-                style=" font-size: 1.5rem"
-              ></i
-            ></span>
-          </a> Xem chi tiết
+                class="circle-right"
+                (click)="openWarning(contentWarning)"
+                href="javascript:void(0)"
+              >
+                <span
+                  ><i
+                    class="pi pi-chevron-circle-right"
+                    style="font-size: 1.5rem"
+                  ></i
+                ></span>
+              </a>
+              Xem chi tiết
             </div>
           </div>
         </div>
       </div>
-      
-      <div class=" col-lg-4 col-md-12">
-        <div class=" card card-stats">
-          <div class=" card-body">
-            <div class=" row">
-              <div class=" col-3">
-                <div class=" info-icon text-center icon-danger">
-                  <i class=" tim-icons icon-molecule-40"> </i>
+
+      <div class="col-lg-4 col-md-12">
+        <div class="card card-stats">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-3">
+                <div class="info-icon text-center icon-danger">
+                  <i class="tim-icons icon-molecule-40"> </i>
                 </div>
               </div>
-              <div class=" col-9">
-                <div class=" numbers">
-                  <p class=" card-category">Bài review bị từ chối!</p>
-                  <h3 class=" card-title">0 bài</h3>
+              <div class="col-9">
+                <div class="numbers">
+                  <p class="card-category">Bài review bị từ chối!</p>
+                  <h3 class="card-title">{{ countUnpublishedReviews }} bài</h3>
                 </div>
               </div>
             </div>
           </div>
-          <div class=" card-footer">
+          <div class="card-footer">
             <hr />
-  
-            <div class=" stats">
+
+            <div class="stats">
               <a
-            class="circle-right"
-            (click)="openDanger(contentDanger)"
-            href="javascript:void(0)"
-          >
-            <span
-              ><i
-                class="pi pi-chevron-circle-right"
-                style=" font-size: 1.5rem"
-              ></i
-            ></span>
-          </a> Xem chi tiết
+                class="circle-right"
+                (click)="openDanger(contentDanger)"
+                href="javascript:void(0)"
+              >
+                <span
+                  ><i
+                    class="pi pi-chevron-circle-right"
+                    style="font-size: 1.5rem"
+                  ></i
+                ></span>
+              </a>
+              Xem chi tiết
             </div>
           </div>
         </div>
       </div>
     </div>
-  
+
     <div class="row">
       <div class="col-sm-12">
         <app-card [headerContent]="'Duyệt bài review của Reviewer'">
           <div class="row">
-            <div class="col-sm-12 col-xl-6">
+            <div class="col-sm-12 col-xl-12">
               <h4 class="sub-title">Thông tin Reviewer</h4>
               <div class="card">
                 <div class="profile-wrap animated fadeIn">
                   <div class="info-wrap">
                     <div class="avatar-wrap">
-                      <img src="{{ avatarImgSrc }}" alt="avatar" />
+                      <img
+                        src="{{ waitingReviews[0].reviewerAvatar }}"
+                        alt="avatar"
+                      />
                     </div>
-                    <span class="user-name">{{ userName }}</span>
-                    <span class="user-post">{{ userPost }}</span>
+                    <span class="user-name">{{
+                      waitingReviews[0].reviewerName
+                    }}</span>
+                    <span class="user-post">{{
+                      waitingReviews[0].reviewerEmail
+                    }}</span>
                     <span class="map-location">
-                      <i class="fa fa-map-marker"></i>
-                      <span>longdaica</span>
+                      <i class="pi pi-briefcase mr-2 mt-2"></i>
+                      <span
+                        >{{ waitingReviews[0].universityName }} -
+                        {{ waitingReviews[0].campusName }}</span
+                      >
                     </span>
                   </div>
                   <div class="profile-head">
                     <img
-                      src="{{ avatarImgSrc }}"
+                      src="{{ waitingReviews[0].reviewerAvatar }}"
                       alt="profile-head-bg"
                       class="profile-head-bg"
                     />
@@ -143,112 +197,78 @@
                 </div>
               </div>
             </div>
-            <div class="col-sm-12 col-xl-6">
+            <div class="col-sm-12 col-xl-6 p-l-4">
               <h4 class="sub-title">Nội dung bài review!</h4>
               <dl class="dl-horizontal row">
                 <dt class="col-sm-3">Tiêu đề</dt>
                 <dd class="col-sm-9">
-                  A description list is perfect for defining terms.
+                  {{ waitingReviews[0].title }}
                 </dd>
                 <dt class="col-sm-3">Nội dung</dt>
-    
+
                 <dd class="col-sm-12 col-sm-offset-3">
-                  Vestibulum id ligula porta felis euismod semper eget lacinia odio
-                  sem nec elit. Donec id elit non mi porta gravida at eget metus.
+                  {{ waitingReviews[0].content }}
                 </dd>
                 <dt class="col-sm-3 text-truncate">Tiêu chí review</dt>
                 <dd class="col-sm-9">
-                  Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum
-                  nibh, ut fermentum massa justo sit amet risus.
-                </dd>
-                <dt class="col-sm-3">Campaign</dt>
-                <dd class="col-sm-9">
-                  Etiam porta sem malesuada magna mollis euismod.
+                  <div class="p-d-flex p-ai-center">
+                    <ng-template
+                      *ngFor="let criteria of waitingReviews[0].criterions"
+                    >
+                      <p-chip
+                        label="{{ criteria.name }}"
+                        styleClass="p-mr-2"
+                      ></p-chip>
+                    </ng-template>
+                  </div>
                 </dd>
                 <div class="col-md-6 text-center">
-                  <button class="btn btn-primary btn-round">Published</button>
+                  <button
+                    class="btn btn-primary btn-round"
+                    (click)="publishReview()"
+                  >
+                    Published
+                  </button>
                 </div>
                 <div class="col-md-6 text-center">
-                  <button class="btn btn-danger btn-round">Unpublished</button>
+                  <button
+                    class="btn btn-danger btn-round"
+                    (click)="unpublishReview()"
+                  >
+                    Unpublished
+                  </button>
                 </div>
               </dl>
             </div>
-            <div class="col-sm-12 col-xl-12">
+            <div class="col-sm-12 col-xl-6">
               <h4 class="sub-title">PICTURES</h4>
-              <div
-                id="carouselExampleIndicators"
-                class="carousel slide"
-                data-ride="carousel"
+              <p-carousel
+                [value]="waitingReviews[0].pictures"
+                [numVisible]="1"
+                [numScroll]="1"
+                [autoplayInterval]="3000"
+                [circular]="false"
               >
-                <ol class="carousel-indicators">
-                  <li
-                    data-target="#carouselExampleIndicators"
-                    data-slide-to="0"
-                    class="active"
-                  ></li>
-                  <li
-                    data-target="#carouselExampleIndicators"
-                    data-slide-to="1"
-                  ></li>
-                  <li
-                    data-target="#carouselExampleIndicators"
-                    data-slide-to="2"
-                  ></li>
-                </ol>
-                <div class="carousel-inner">
-                  <div class="carousel-item active">
-                    <img
-                      class="d-block w-100"
-                      src="https://images.unsplash.com/photo-1601807576163-587225545555?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=773&q=80"
-                      alt="First slide"
-                    />
+                <ng-template let-pictureForReview pTemplate="item">
+                  <div class="review-item">
+                    <div class="review-item-content">
+                      <div class="p-mb-3">
+                        <img
+                          src="{{ pictureForReview.picture }}"
+                          class="review-image"
+                        />
+                      </div>
+                    </div>
                   </div>
-                  <div class="carousel-item">
-                    <img
-                      class="d-block w-100"
-                      src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1770&q=80"
-                      alt="Second slide"
-                    />
-                  </div>
-                  <div class="carousel-item">
-                    <img
-                      class="d-block w-100"
-                      src="https://images.unsplash.com/photo-1535982330050-f1c2fb79ff78?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=774&q=80"
-                      alt="Third slide"
-                    />
-                  </div>
-                </div>
-                <a
-                  class="carousel-control-prev"
-                  href="#carouselExampleIndicators"
-                  role="button"
-                  data-slide="prev"
-                >
-                  <span
-                    class="carousel-control-prev-icon"
-                    aria-hidden="true"
-                  ></span>
-                  <span class="sr-only">Previous</span>
-                </a>
-                <a
-                  class="carousel-control-next"
-                  href="#carouselExampleIndicators"
-                  role="button"
-                  data-slide="next"
-                >
-                  <span
-                    class="carousel-control-next-icon"
-                    aria-hidden="true"
-                  ></span>
-                  <span class="sr-only">Next</span>
-                </a>
-              </div>
+                </ng-template>
+              </p-carousel>
             </div>
           </div>
         </app-card>
       </div>
     </div>
-  </div>
+  </ng-template>
+  
   
   <!-- modal -->
   <ng-template #contentSuccess let-modal>
@@ -273,20 +293,47 @@
               placeholder="Tìm kiếm tiêu đề bài viết!"
               aria-label="Search"
               aria-describedby="search-addon"
+              width="80%"
             />
-            <button type="button" class="btn btn-outline-primary modelsearch">search</button>
+            <button type="button" class="btn btn-outline-primary modelsearch">
+              search
+            </button>
           </div>
         </div>
       </div>
+      <ng-template *ngFor=" let review of publishReviews">
+      
       <div class="row border m-15 p-10">
-        <div class="col-sm-12 col-xl-12"></div>
+        <div class="col-sm-12 col-xl-12">
+          <h4 class="sub-title">Reviewr: {{review.reviewerName}}</h4>
+          <dl class="dl-horizontal row">
+            <dt class="col-sm-3">Tiêu đề</dt>
+            <dd class="col-sm-9">
+              {{review.title}}
+            </dd>
+            <dt class="col-sm-3">Nội dung</dt>
+
+            <dd class="col-sm-12 col-sm-offset-3">
+              {{review.content}}
+            </dd>
+            <dt class="col-sm-3 text-truncate">Tiêu chí review</dt>
+            <dd class="col-sm-9">
+              <ng-template
+                      *ngFor="let criteria of review.criterions"
+                    >
+                      <p-chip
+                        label="{{ criteria.criteriaName }} "
+                        styleClass="p-mr-2"
+                      >{{criteria.rating}}<i class="pi pi-star"></i></p-chip>
+                    </ng-template>
+            </dd>
+          </dl>
+        </div>
       </div>
-    </div>
-    <div class="modal-footer">
-      <!-- <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button> -->
+    </ng-template>
     </div>
   </ng-template>
-  
+
   <ng-template #contentWarning let-modal>
     <div class="modal-header">
       <h4 class="modal-title">Bài review đang chờ xét duyệt!</h4>
@@ -310,48 +357,48 @@
               aria-label="Search"
               aria-describedby="search-addon"
             />
-            <button type="button" class="btn btn-outline-primary modelsearch">search</button>
+            <button type="button" class="btn btn-outline-primary modelsearch">
+              search
+            </button>
           </div>
         </div>
       </div>
-      <div class="row border m-15 p-10">
-        <div class="col-sm-12 col-xl-12">
-          <h4 class="sub-title">Reviewr: longdaica</h4>
-          <dl class="dl-horizontal row">
-            <dt class="col-sm-3">Tiêu đề</dt>
-            <dd class="col-sm-9">
-              A description list is perfect for defining terms.
-            </dd>
-            <dt class="col-sm-3">Nội dung</dt>
+      <ng-template *ngFor=" let review of waitingReviews">
+      
+        <div class="row border m-15 p-10">
+          <div class="col-sm-12 col-xl-12">
+            <h4 class="sub-title">Reviewr: {{review.reviewerName}}</h4>
+            <dl class="dl-horizontal row">
+              <dt class="col-sm-3">Tiêu đề</dt>
+              <dd class="col-sm-9">
+                {{review.title}}
+              </dd>
+              <dt class="col-sm-3">Nội dung</dt>
   
-            <dd class="col-sm-12 col-sm-offset-3">
-              Vestibulum id ligula porta felis euismod semper eget lacinia odio
-              sem nec elit. Donec id elit non mi porta gravida at eget metus.
-            </dd>
-            <dt class="col-sm-3 text-truncate">Tiêu chí review</dt>
-            <dd class="col-sm-9">
-              Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum
-              nibh, ut fermentum massa justo sit amet risus.
-            </dd>
-            <dt class="col-sm-3">Campaign</dt>
-            <dd class="col-sm-9">
-              Etiam porta sem malesuada magna mollis euismod.
-            </dd>
-            <div class="col-md-6 text-center">
-              <button class="btn btn-primary btn-round">Published</button>
-            </div>
-            <div class="col-md-6 text-center">
-              <button class="btn btn-danger btn-round">Unpublished</button>
-            </div>
-          </dl>
+              <dd class="col-sm-12 col-sm-offset-3">
+                {{review.content}}
+              </dd>
+              <dt class="col-sm-3 text-truncate">Tiêu chí review</dt>
+              <dd class="col-sm-9">
+                <ng-template
+                        *ngFor="let criteria of review.criterions"
+                      >
+                        <p-chip
+                          label="{{ criteria.criteriaName }} "
+                          styleClass="p-mr-2"
+                        >{{criteria.rating}}<i class="pi pi-star"></i></p-chip>
+                      </ng-template>
+              </dd>
+            </dl>
+          </div>
         </div>
-      </div>
+      </ng-template>
     </div>
     <div class="modal-footer">
       <!-- <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button> -->
     </div>
   </ng-template>
-  
+
   <ng-template #contentDanger let-modal>
     <div class="modal-header">
       <h4 class="modal-title">Bài review bị từ chối!</h4>
@@ -375,17 +422,51 @@
               aria-label="Search"
               aria-describedby="search-addon"
             />
-            <button type="button" class="btn btn-outline-primary modelsearch">search</button>
+            <button type="button" class="btn btn-outline-primary modelsearch">
+              search
+            </button>
           </div>
         </div>
       </div>
       <div class="row border m-15 p-10">
-        <div class="col-sm-12 col-xl-12"></div>
+        <div class="col-sm-12 col-xl-12">
+          <ng-template *ngFor=" let review of unpublishedReviews">
+      
+            <div class="row border m-15 p-10">
+              <div class="col-sm-12 col-xl-12">
+                <h4 class="sub-title">Reviewr: {{review.reviewerName}}</h4>
+                <dl class="dl-horizontal row">
+                  <dt class="col-sm-3">Tiêu đề</dt>
+                  <dd class="col-sm-9">
+                    {{review.title}}
+                  </dd>
+                  <dt class="col-sm-3">Nội dung</dt>
+      
+                  <dd class="col-sm-12 col-sm-offset-3">
+                    {{review.content}}
+                  </dd>
+                  <dt class="col-sm-3 text-truncate">Tiêu chí review</dt>
+                  <dd class="col-sm-9">
+                    <ng-template
+                            *ngFor="let criteria of review.criterions"
+                          >
+                            <p-chip
+                              label="{{ criteria.criteriaName }} "
+                              styleClass="p-mr-2"
+                            >{{criteria.rating}}<i class="pi pi-star"></i></p-chip>
+                          </ng-template>
+                  </dd>
+                </dl>
+              </div>
+            </div>
+          </ng-template>
+        </div>
       </div>
     </div>
     <div class="modal-footer">
       <!-- <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button> -->
     </div>
   </ng-template>
-  
-  
+  <p-confirmDialog></p-confirmDialog>
+  <p-toast position="top-right"></p-toast>
+</div>

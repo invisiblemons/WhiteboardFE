@@ -34,12 +34,13 @@ export class Criteria {
     id: string;
     name: string;
     campaignId: string;
-    rating: number;
+    overallRating: number;
+    ratings: number[];
 
     constructor() {
         this.name = "";
         this.campaignId = "";
-        this.rating =  0;
+        this.ratings =  [];
     }
 }
 

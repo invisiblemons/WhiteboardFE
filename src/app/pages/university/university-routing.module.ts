@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { UniversityDetailComponent } from './university-detail/university-detail.component';
 import { UniversityComponent } from './university.component';
 
 const routes: Routes = [
@@ -8,7 +9,13 @@ const routes: Routes = [
     component: UniversityComponent,
     data: {
       breadcrumb: 'university'
-    }
+    },
+    children: [
+      {
+        path: 'university-detail',
+        component: UniversityDetailComponent
+      }
+    ]
   }
 ];
 

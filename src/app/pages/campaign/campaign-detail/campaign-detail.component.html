@@ -97,7 +97,7 @@
                             <p class="card-category">
                               Số bài review published
                             </p>
-                            <h3 class="card-title">1 bài</h3>
+                            <h3 class="card-title">{{countSuccessReviews}} bài</h3>
                           </div>
                         </div>
                       </div>
@@ -143,7 +143,7 @@
                             <p class="card-category">
                               Số bài review đang chờ xét duyệt
                             </p>
-                            <h3 class="card-title">0 bài</h3>
+                            <h3 class="card-title">{{countWaitingReviews}} bài</h3>
                           </div>
                         </div>
                       </div>
@@ -186,7 +186,7 @@
                             <p class="card-category">
                               Số bài review bị từ chối
                             </p>
-                            <h3 class="card-title">0 bài</h3>
+                            <h3 class="card-title">{{countUnpublishReviews}} bài</h3>
                           </div>
                         </div>
                       </div>
@@ -254,7 +254,7 @@
                         <td>{{ criteria.name }}</td>
                         <td>
                           <p-rating
-                            [ngModel]="criteria.rating"
+                            [ngModel]="criteria.overallRating"
                             readonly="true"
                             stars="5"
                             [cancel]="false"
@@ -365,17 +365,18 @@
   <!-- modal  review  list-->
   <p-dialog
     header="Bài review được chấp thuận"
-    [(visible)]="displayAllReview"
+    [(visible)]="displaySuccessReview"
     [breakpoints]="{ '950px': '75vw' }"
     [style]="{ width: '55vw' }"
     [draggable]="false"
     [resizable]="false"
     [closable]="true"
+    (onHide)="closeSuccessReviewModal()"
   >
     <app-card [headerContent]="'Danh sách bài review của chiến dịch'">
       <div class="row border m-15 p-10">
         <div class="col-sm-12">
-          <p-table [value]="reviews" dataKey="title" responsiveLayout="scroll">
+          <p-table [value]="successReviews" dataKey="title" responsiveLayout="scroll">
             <ng-template pTemplate="header">
               <tr>
                 <th style="width: 3rem"></th>
@@ -429,7 +430,7 @@
                     </ng-template>
                     <ng-template pTemplate="body" let-criteriaOfReview>
                       <tr>
-                        <td>{{ criteriaOfReview.name }}</td>
+                        <td>{{ criteriaOfReview.criteriaName }}</td>
                         <td>
                           <p-rating
                             [ngModel]="criteriaOfReview.rating"
@@ -438,21 +439,199 @@
                             [cancel]="false"
                           ></p-rating>
                         </td>
+                      </tr>
+                    </ng-template>
+                    <ng-template pTemplate="emptymessage">
+                      <tr>
+                        <td colspan="2">Chiến dịch này không có tiêu chí.</td>
+                      </tr>
+                    </ng-template>
+                  </p-table>
+                </div>
+              </td>
+            </tr>
+            </ng-template>
+          </p-table>
+        </div>
+      </div>
+    </app-card>
+  </p-dialog>
+
+  <p-dialog
+    header="Bài review đang chờ xét duyệt"
+    [(visible)]="displayWaitingReview"
+    [breakpoints]="{ '950px': '75vw' }"
+    [style]="{ width: '55vw' }"
+    [draggable]="false"
+    [resizable]="false"
+    [closable]="true"
+    (onHide)="closeWaitingReviewModal()"
+  >
+    <app-card [headerContent]="'Danh sách bài review của chiến dịch'">
+      <div class="row border m-15 p-10">
+        <div class="col-sm-12">
+          <p-table [value]="waitingReviews" dataKey="title" responsiveLayout="scroll">
+            <ng-template pTemplate="header">
+              <tr>
+                <th style="width: 3rem"></th>
+                <th pSortableColumn="title">
+                  Tiêu đề <p-sortIcon field="title"></p-sortIcon>
+                </th>
+                <th pSortableColumn="onDateTime">
+                  Ngày tạo <p-sortIcon field="onDateTime"></p-sortIcon>
+                </th>
+                <th pSortableColumn="status">
+                  Trạng thái <p-sortIcon field="status"></p-sortIcon>
+                </th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-review let-expanded="expanded">
+              <tr>
+                <td>
+                  <button
+                    type="button"
+                    pButton
+                    pRipple
+                    (click)="openCriteriaOfReview(review)"
+                    [pRowToggler]="review"
+                    class="p-button-text p-button-rounded p-button-plain"
+                    [icon]="
+                      expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'
+                    "
+                  ></button>
+                </td>
+                <td>{{ review.title }}</td>
+                <td>{{ review.onDateTime | date: "dd/MM/yyyy" }}</td>
+                <td>{{ review.status }}</td>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="rowexpansion">
+              <tr>
+                <td colspan="4">
+                  <div class="p-p-3">
+                  <p-table [value]="criterionsOfReview" dataKey="id">
+                    <ng-template pTemplate="header">
+                      <tr>
+                        <th pSortableColumn="name">
+                          Tên tiêu chí<p-sortIcon field="name"></p-sortIcon>
+                        </th>
+                        <th pSortableColumn="rating">
+                          Đánh giá
+                          <p-sortIcon field="rating"></p-sortIcon>
+                        </th>
+                        <th style="width: 5rem"></th>
+                      </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-criteriaOfReview>
+                      <tr>
+                        <td>{{ criteriaOfReview.criteriaName }}</td>
                         <td>
-                          <button
-                            pButton
-                            pRipple
-                            icon="pi pi-pencil"
-                            class="p-button-rounded p-button-success p-mr-2"
-                            style="margin-right: 5px"
-                            (click)="openReviewDetail(criteriaOfReview)"
-                          ></button>
+                          <p-rating
+                            [ngModel]="criteriaOfReview.rating"
+                            readonly="true"
+                            stars="5"
+                            [cancel]="false"
+                          ></p-rating>
                         </td>
                       </tr>
                     </ng-template>
                     <ng-template pTemplate="emptymessage">
                       <tr>
-                        <td colspan="3">Chiến dịch này không có tiêu chí.</td>
+                        <td colspan="2">Chiến dịch này không có tiêu chí.</td>
+                      </tr>
+                    </ng-template>
+                  </p-table>
+                </div>
+              </td>
+            </tr>
+            </ng-template>
+          </p-table>
+        </div>
+      </div>
+    </app-card>
+  </p-dialog>
+
+  <p-dialog
+    header="Bài review bị từ chối public"
+    [(visible)]="displayUnpublishReview"
+    [breakpoints]="{ '950px': '75vw' }"
+    [style]="{ width: '55vw' }"
+    [draggable]="false"
+    [resizable]="false"
+    [closable]="true"
+    (onHide)="closeUnpublishReviewModal()"
+  >
+    <app-card [headerContent]="'Danh sách bài review của chiến dịch'">
+      <div class="row border m-15 p-10">
+        <div class="col-sm-12">
+          <p-table [value]="unpublishReviews" dataKey="title" responsiveLayout="scroll">
+            <ng-template pTemplate="header">
+              <tr>
+                <th style="width: 3rem"></th>
+                <th pSortableColumn="title">
+                  Tiêu đề <p-sortIcon field="title"></p-sortIcon>
+                </th>
+                <th pSortableColumn="onDateTime">
+                  Ngày tạo <p-sortIcon field="onDateTime"></p-sortIcon>
+                </th>
+                <th pSortableColumn="status">
+                  Trạng thái <p-sortIcon field="status"></p-sortIcon>
+                </th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-review let-expanded="expanded">
+              <tr>
+                <td>
+                  <button
+                    type="button"
+                    pButton
+                    pRipple
+                    (click)="openCriteriaOfReview(review)"
+                    [pRowToggler]="review"
+                    class="p-button-text p-button-rounded p-button-plain"
+                    [icon]="
+                      expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'
+                    "
+                  ></button>
+                </td>
+                <td>{{ review.title }}</td>
+                <td>{{ review.onDateTime | date: "dd/MM/yyyy" }}</td>
+                <td>{{ review.status }}</td>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="rowexpansion">
+              <tr>
+                <td colspan="4">
+                  <div class="p-p-3">
+                  <p-table [value]="criterionsOfReview" dataKey="id">
+                    <ng-template pTemplate="header">
+                      <tr>
+                        <th pSortableColumn="name">
+                          Tên tiêu chí<p-sortIcon field="name"></p-sortIcon>
+                        </th>
+                        <th pSortableColumn="rating">
+                          Đánh giá
+                          <p-sortIcon field="rating"></p-sortIcon>
+                        </th>
+                        <th style="width: 5rem"></th>
+                      </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-criteriaOfReview>
+                      <tr>
+                        <td>{{ criteriaOfReview.criteriaName }}</td>
+                        <td>
+                          <p-rating
+                            [ngModel]="criteriaOfReview.rating"
+                            readonly="true"
+                            stars="5"
+                            [cancel]="false"
+                          ></p-rating>
+                        </td>
+                      </tr>
+                    </ng-template>
+                    <ng-template pTemplate="emptymessage">
+                      <tr>
+                        <td colspan="2">Chiến dịch này không có tiêu chí.</td>
                       </tr>
                     </ng-template>
                   </p-table>

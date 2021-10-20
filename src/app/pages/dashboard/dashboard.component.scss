@@ -122,5 +122,13 @@
       font-size: 1rem;
   }
   .modelsearch {
-      margin: -3px, 0, 0, 10px;
+    margin-top: -1px!important;
+    margin-left: 5px!important;
   }
+  .review-item {
+
+    .review-image {
+        width: 100%;
+        box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23)
+    }
+}

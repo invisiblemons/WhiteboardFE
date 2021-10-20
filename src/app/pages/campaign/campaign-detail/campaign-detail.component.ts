@@ -2,7 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { ConfirmationService, MenuItem, MessageService } from "primeng/api";
-import { Review } from "../../dashboard/dashboard.model";
+import { CriterionsOfReview, Review } from "../../dashboard/dashboard.model";
 import { Reviewer } from "../../reviewer/reviewer.model";
 import { Campus } from "../../university/university.model";
 import { Campaign, Criteria } from "../campaign.model";
@@ -24,6 +24,8 @@ export class CampaignDetailComponent implements OnInit {
 
   criterions: Criteria[];
 
+  criterionsOfReview: CriterionsOfReview[];
+
   criteria: Criteria;
 
   criteriaName: string;
@@ -34,9 +36,23 @@ export class CampaignDetailComponent implements OnInit {
 
   campus: Campus;
 
-  reviews: Review[];
+  reviews: Review[] = [];
+
+  rootReviews: Review[];
 
   review: Review;
+
+  successReviews: Review[] = [];
+
+  waitingReviews: Review[] = [];
+
+  unpublishReviews: Review[] = [];
+
+  countSuccessReviews: number = 0;
+
+  countWaitingReviews: number = 0;
+
+  countUnpublishReviews: number = 0;
 
   reviewers: Reviewer[];
 
@@ -56,9 +72,21 @@ export class CampaignDetailComponent implements OnInit {
 
   allReviewOptions: any;
 
+  displaySuccessReview: boolean;
+
+  displayWaitingReview: boolean;
+
+  displayUnpublishReview: boolean;
+
   aReviewData: any;
 
   aReviewOptions: any;
+
+  oneStar: number[] = [];
+  twoStars: number[] = [];
+  threeStars: number[] = [];
+  fourStars: number[] = [];
+  fiveStars: number[] = [];
 
   constructor(
     private campaignService: CampaignService,
@@ -96,47 +124,6 @@ export class CampaignDetailComponent implements OnInit {
         this.imageUrl = this.campaign.image;
         this.campusId = this.campaign.campusId;
       });
-    //get criteria
-    this.campaignService.getCriterions(this.campaignId).subscribe((data) => {
-      this.criterions = data["criterions"];
-      this.criterions.forEach((criteria, index) => {
-        criteria.rating = index + 3;
-        this.criteriaNameList.push(criteria.name);
-      });
-      //load data chart all review
-      this.allReviewData = {
-        labels: this.criteriaNameList,
-        datasets: [
-          {
-            label: "1 sao",
-            backgroundColor: "#F70000",
-            data: [3,0,0],
-          },
-          {
-            label: "2 sao",
-            backgroundColor: "#FF8C01",
-            data: [0,0,0],
-          },
-          {
-            label: "3 sao",
-            backgroundColor: "#FDBD19",
-            data: [1, 0, 0],
-          },
-          {
-            label: "4 sao",
-            backgroundColor: "#77C854",
-            data: [0, 1, 5],
-          },
-          {
-            label: "5 sao",
-            backgroundColor: "#005D2E",
-            data: [0, 0, 10],
-          }
-
-        ],
-      };
-    });
-
     //get reviewer from campus
     if ("" !== this.campusId) {
       this.campaignService.getReviewer(this.campusId).subscribe((res) => {
@@ -147,52 +134,132 @@ export class CampaignDetailComponent implements OnInit {
     //get review
     this.campaignService.getReview(this.campaignId).subscribe((res) => {
       this.reviews = res["reviews"];
+      this.rootReviews = res["reviews"];
+      //get success review
+      this.reviews.forEach((review) => {
+        if (review.status === "Published") {
+          this.successReviews.push(review);
+        }
+      });
+      console.log(this.successReviews)
+      this.countSuccessReviews = this.successReviews.length;
+
+      //get waiting review
+      this.reviews.forEach((review) => {
+        if (review.status === "Waiting") {
+          this.waitingReviews.push(review);
+        }
+      });
+      this.countWaitingReviews = this.waitingReviews.length;
+
+      //get unpublish review
+      this.reviews.forEach((review) => {
+        if (review.status === "Unpublished") {
+          this.unpublishReviews.push(review);
+        }
+      });
+      this.countUnpublishReviews = this.unpublishReviews.length;
     });
 
-    //load bar chart
-    this.allReviewOptions = {
-      plugins: {
-        legend: {
-          labels: {
-            color: "#ebedef",
-          },
-        },
-      },
-      scales: {
-        x: {
-          ticks: {
-            color: "#ebedef",
-          },
-          grid: {
-            color: "rgba(255,255,255,0.2)",
-          },
-        },
-        yAxes: [
+    //get criteria
+    this.campaignService.getCriterions(this.campaignId).subscribe((data) => {
+      this.criterions = data["criterions"];
+      this.criterions.forEach((criteria) => {
+        criteria.overallRating =
+          (criteria.ratings[0] +
+            criteria.ratings[1] * 2 +
+            criteria.ratings[2] * 3 +
+            criteria.ratings[3] * 4 +
+            criteria.ratings[4] * 5) /
+          (criteria.ratings[0] +
+            criteria.ratings[1] +
+            criteria.ratings[2] +
+            criteria.ratings[3] +
+            criteria.ratings[4]);
+        this.criteriaNameList.push(criteria.name);
+      });
+      //load data chart all review
+      this.criterions.forEach((criteria) => {
+        this.oneStar.push(criteria.ratings[0]);
+        this.twoStars.push(criteria.ratings[1]);
+        this.threeStars.push(criteria.ratings[2]);
+        this.fourStars.push(criteria.ratings[3]);
+        this.fiveStars.push(criteria.ratings[4]);
+      });
+      this.allReviewData = {
+        labels: this.criteriaNameList,
+        datasets: [
           {
-            scaleLabel: {
-              display: true,
-              labelString: 'Số lượng bài đánh giá',
-              fontColor: '#757575',
-              fontSize: 12
-            },
-            ticks: {
-              stepSize: 1,
-              beginAtZero: true,
-            },
+            label: "1 sao",
+            backgroundColor: "#F70000",
+            data: this.oneStar,
+          },
+          {
+            label: "2 sao",
+            backgroundColor: "#FF8C01",
+            data: this.twoStars,
+          },
+          {
+            label: "3 sao",
+            backgroundColor: "#FDBD19",
+            data: this.threeStars,
+          },
+          {
+            label: "4 sao",
+            backgroundColor: "#77C854",
+            data: this.fourStars,
+          },
+          {
+            label: "5 sao",
+            backgroundColor: "#005D2E",
+            data: this.fiveStars,
           },
         ],
-        y: {
-          ticks: {
-            color: "#ebedef",
-          },
-          grid: {
-            color: "rgba(255,255,255,0.2)",
+      };
+      //load bar chart
+      this.allReviewOptions = {
+        plugins: {
+          legend: {
+            labels: {
+              color: "#ebedef",
+            },
           },
         },
-      },
-    };
+        scales: {
+          x: {
+            ticks: {
+              color: "#ebedef",
+            },
+            grid: {
+              color: "rgba(255,255,255,0.2)",
+            },
+          },
+          yAxes: [
+            {
+              scaleLabel: {
+                display: true,
+                labelString: "Số lượng bài đánh giá",
+                fontColor: "#757575",
+                fontSize: 12,
+              },
+              ticks: {
+                stepSize: 1,
+                beginAtZero: true,
+              },
+            },
+          ],
+          y: {
+            ticks: {
+              color: "#ebedef",
+            },
+            grid: {
+              color: "rgba(255,255,255,0.2)",
+            },
+          },
+        },
+      };
+    });
   }
-
 
   //hide detail campaign modal
   onDiscard(): void {
@@ -281,11 +348,33 @@ export class CampaignDetailComponent implements OnInit {
   }
 
   openSuccess(content) {
-    this.displayAllReview = true;
+    this.displaySuccessReview = true;
   }
 
+  openWarning(content) {
+    this.displayWaitingReview = true;
+  }
+
+  openDanger(content) {
+    this.displayUnpublishReview = true;
+  }
+
+  closeSuccessReviewModal() {
+    this.displaySuccessReview = false;
+    this.reviews = this.rootReviews;
+  }
+
+  closeWaitingReviewModal() {
+    this.displayWaitingReview = false;
+    this.reviews = this.rootReviews;
+  }
+
+  closeUnpublishReviewModal() {
+    this.displayUnpublishReview = false;
+    this.reviews = this.rootReviews;
+  }
   //modal  review  list
-  openCriteriaOfReview() {
-    
+  openCriteriaOfReview(review: Review) {
+    this.criterionsOfReview = review.criterions;
   }
 }

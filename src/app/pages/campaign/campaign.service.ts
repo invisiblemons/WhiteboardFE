@@ -28,6 +28,10 @@ export class CampaignService {
     return this.httpClient.get<Campaign[]>(`${this.baseURL}/${id}`);
   }
 
+  getCriterionsOfReview(reviewId:string) {
+    return this.httpClient.get<Criteria[]>(`${this.baseURL}?reviewId=${reviewId}`);
+  }
+
   getUni(): Observable<University[]> {
     return this.httpClient.get<University[]>(`${this.uniURL}`);
   }

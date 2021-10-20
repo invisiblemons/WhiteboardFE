@@ -1,5 +1,5 @@
 <div class=" content">
-  <p-table [value]="reviewers" dataKey="name" responsiveLayout="scroll">
+  <p-table #datatable [value]="reviewers" dataKey="name" responsiveLayout="scroll">
     <ng-template pTemplate="caption">
       <div class="d-flex bd-highlight">
         <div class="p-2 w-100 bd-highlight">
@@ -10,7 +10,10 @@
       <div class="row">
         <span class="mx-4">
           <p-dropdown [options]="listStatus" [(ngModel)]="selectedStatus" placeholder="Status" editable="true"
-            optionLabel="label" (onChange)="filterStatus(reviewers)">
+             (onChange)="datatable.filter($event.value, 'status', 'equals')">
+             <ng-template let-option pTemplate="reviewer">
+              <span [class]="'customer-badge status-' + option.value">{{option.label}}</span>
+             </ng-template>
           </p-dropdown>
           <p-dropdown [options]="universities" [(ngModel)]="university" placeholder="Chọn truờng đại học"
             editable="true" optionLabel="name" (onChange)="onChangeUni($event)"></p-dropdown>
@@ -38,7 +41,7 @@
     <ng-template pTemplate="body" let-reviewer let-expanded="expanded">
       <tr>
         <td>
-          <button type="button" (click)="openReviewer(reviewer)" pButton pRipple [pRowToggler]="reviewer"
+          <button type="button" (click)="openDetailReviewer(reviewer)" pButton pRipple [pRowToggler]="reviewer"
             class="p-button-text p-button-rounded p-button-plain"
             [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>
         </td>
@@ -61,13 +64,29 @@
     <ng-template pTemplate="emptymessage">
       <tr>
         <td colspan="4"></td>
-        <td colspan="4">
+        <td colspan="2">
           <p-progressSpinner [style]="{width: '50px', height: '50px'}" styleClass="custom-spinner" strokeWidth="8"
             fill="#EEEEEE" animationDuration=".5s"></p-progressSpinner>
         </td>
       </tr>
     </ng-template>
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td colspan="3"></td>
+        <td colspan="4" *ngIf="isShowSpin">
+          <p-progressSpinner
+            [style]="{ width: '50px', height: '50px' }"
+            styleClass="custom-spinner"
+            strokeWidth="8"
+            fill="#EEEEEE"
+            animationDuration=".5s"
+          ></p-progressSpinner>
+        </td>
+        <td colspan="3" *ngIf="!isShowSpin">Không có Reviewer.</td>
+      </tr>
+    </ng-template>
   </p-table>
   <p-confirmDialog></p-confirmDialog>
   <p-toast position="top-right"></p-toast>
+  <router-outlet></router-outlet>
 </div>

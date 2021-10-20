@@ -39,6 +39,8 @@ import { InputTextareaModule } from "primeng/inputtextarea";
 import { ProgressSpinnerModule } from "primeng/progressspinner";
 import { ChartModule } from "primeng/chart";
 import { BadgeModule } from "primeng/badge";
+import {CarouselModule} from 'primeng/carousel';
+
 
 @NgModule({
   imports: [
@@ -74,6 +76,7 @@ import { BadgeModule } from "primeng/badge";
     ProgressSpinnerModule,
     ChartModule,
     BadgeModule,
+    CarouselModule
   ],
   declarations: [
     FooterComponent,
@@ -114,7 +117,8 @@ import { BadgeModule } from "primeng/badge";
     InputTextareaModule,
     ProgressSpinnerModule,
     ChartModule,
-    BadgeModule
+    BadgeModule,
+    CarouselModule
   ],
 })
 export class ComponentsModule {}

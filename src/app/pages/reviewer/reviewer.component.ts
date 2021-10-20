@@ -56,7 +56,7 @@ export class ReviewerComponent implements OnInit {
   university: University;
 
   campus: Campus;
-
+  //isShowSpin: boolean;
   hasUni: boolean = false;
   campusList: Campus[];
 
@@ -90,14 +90,8 @@ export class ReviewerComponent implements OnInit {
       })
   }
 
-  openCriteria(reviewer: Reviewer) {
+  openDetailReviewer(reviewer: Reviewer) {
     this.router.navigate(['./reviewer/reviewer-detail', { id: reviewer.id }]);
-  }
-
-  editCampaign(reviewer: Reviewer) {
-    //this.imgSrc = campaign.image;
-    this.reviewer = { ...reviewer };
-    this.reviewerDialog = true;
   }
 
   deleteReviewer(reviewer: Reviewer) {
@@ -109,7 +103,7 @@ export class ReviewerComponent implements OnInit {
         this.service.deleteReviewer(reviewer).subscribe(res => {
           if (res) {
             this.reviewers = this.reviewers.filter((val) => val.id !== reviewer.id);
-            this.reviewer = new Reviewer();
+            this.reviewer = new Reviewer(null);
             this.messageService.add({
               severity: "success",
               summary: "Thành công!",
@@ -124,14 +118,6 @@ export class ReviewerComponent implements OnInit {
   }
 
 
-  filterStatus(reviewers) {
-    // console.log(this.selectedStatus);
-    // console.log(this.reviewers);
-    // console.log(reviewers);
-    this.reviewers = reviewers.filter((reviewer) => reviewer.status === this.selectedStatus);
-
-  }
-
   onChangeUni(event) {
     this.hasUni = true;
     // this.campusList = event.value['campus'];
@@ -142,7 +128,7 @@ export class ReviewerComponent implements OnInit {
       } else {
         this.reviewers = [];
       }
-      console.log(this.reviewers);
+      //console.log(this.reviewers);
     })
   }
 }

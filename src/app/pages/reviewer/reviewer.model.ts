@@ -11,4 +11,21 @@ export class Reviewer {
     publishedReview: number;
     waitingReviews: string;
     status: string;
+
+    constructor(res) {
+        if(null !== res) {
+            this.id = res.id;
+        this.name = res.name;
+        this.birthday = res.birthday;
+        this.email = res.email;
+        this.phoneNumber = res.phoneNumber;
+        this.avatar = res.avatar;
+        this.certification = res.certification;
+        this.status = res.status;
+        
+        }
+    }
 }
+
+
+
