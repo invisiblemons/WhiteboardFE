@@ -141,7 +141,6 @@ export class CampaignDetailComponent implements OnInit {
           this.successReviews.push(review);
         }
       });
-      console.log(this.successReviews)
       this.countSuccessReviews = this.successReviews.length;
 
       //get waiting review

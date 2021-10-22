@@ -13,7 +13,7 @@ export class DashboardService {
   constructor(private httpClient: HttpClient) { }
 
   getPublishedReviews(): Observable<Review[]> {
-    return this.httpClient.get<Review[]>(`${this.baseURL}?status=public`);
+    return this.httpClient.get<Review[]>(`${this.baseURL}?status=published`);
   }
 
   getWaitingReviews(): Observable<Review[]> {
@@ -21,7 +21,7 @@ export class DashboardService {
   }
 
   getUnpublishedReviews(): Observable<Review[]> {
-    return this.httpClient.get<Review[]>(`${this.baseURL}?status=unpublic`);
+    return this.httpClient.get<Review[]>(`${this.baseURL}?status=unpublished`);
   }
 
   publicReview(id): Observable<boolean> {

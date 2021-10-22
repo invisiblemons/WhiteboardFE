@@ -40,6 +40,10 @@ import { ProgressSpinnerModule } from "primeng/progressspinner";
 import { ChartModule } from "primeng/chart";
 import { BadgeModule } from "primeng/badge";
 import {CarouselModule} from 'primeng/carousel';
+import {SkeletonModule} from 'primeng/skeleton';
+import { ChipModule } from 'primeng/chip';
+import {ConfirmPopupModule} from 'primeng/confirmpopup';
+import {FieldsetModule} from 'primeng/fieldset';
 
 
 @NgModule({
@@ -76,7 +80,11 @@ import {CarouselModule} from 'primeng/carousel';
     ProgressSpinnerModule,
     ChartModule,
     BadgeModule,
-    CarouselModule
+    CarouselModule,
+    SkeletonModule,
+    ChipModule,
+    ConfirmPopupModule,
+    FieldsetModule
   ],
   declarations: [
     FooterComponent,
@@ -118,7 +126,11 @@ import {CarouselModule} from 'primeng/carousel';
     ProgressSpinnerModule,
     ChartModule,
     BadgeModule,
-    CarouselModule
+    CarouselModule,
+    SkeletonModule,
+    ChipModule,
+    ConfirmPopupModule,
+    FieldsetModule
   ],
 })
 export class ComponentsModule {}

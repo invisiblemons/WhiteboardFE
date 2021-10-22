@@ -1,166 +1,186 @@
 <div class="content">
-  <ng-template *ngIf="null===publishReviews&&null===waitingReviews&&null===unpublishedReviews;else loadData">
-    <div class="card">
-      <div class="p-grid p-formgrid">
-          <div class="p-field p-col-12 p-md-6">
-              <h5>Rectangle</h5>
-              <p-skeleton styleClass="p-mb-2"></p-skeleton>
-              <p-skeleton width="10rem" styleClass="p-mb-2"></p-skeleton>
-              <p-skeleton width="5rem" styleClass="p-mb-2"></p-skeleton>
-              <p-skeleton height="2rem" styleClass="p-mb-2"></p-skeleton>
-              <p-skeleton width="10rem" height="4rem"></p-skeleton>
-          </div>
-          <div class="p-field p-col-12 p-md-6">
-              <h5>Rounded</h5>
-              <p-skeleton styleClass="p-mb-2" borderRadius="16px"></p-skeleton>
-              <p-skeleton width="10rem" styleClass="p-mb-2" borderRadius="16px"></p-skeleton>
-              <p-skeleton width="5rem" styleClass="p-mb-2" borderRadius="16px"></p-skeleton>
-              <p-skeleton height="2rem" styleClass="p-mb-2" borderRadius="16px"></p-skeleton>
-              <p-skeleton width="10rem" height="4rem" borderRadius="16px"></p-skeleton>
-          </div>
-          <div class="p-field p-col-12 p-md-6">
-              <h5 class="p-mt-3">Square</h5>
-              <div class="p-d-flex p-ai-end">
-                  <p-skeleton size="2rem" styleClass="p-mr-2"></p-skeleton>
-                  <p-skeleton size="3rem" styleClass="p-mr-2"></p-skeleton>
-                  <p-skeleton size="4rem" styleClass="p-mr-2"></p-skeleton>
-                  <p-skeleton size="5rem"></p-skeleton>
-              </div>
-          </div>
-          <div class="p-field p-col-12 p-md-6">
-              <h5 class="p-mt-3">Circle</h5>
-              <div class="p-d-flex p-ai-end">
-                  <p-skeleton shape="circle" size="2rem" styleClass="p-mr-2"></p-skeleton>
-                  <p-skeleton shape="circle" size="3rem" styleClass="p-mr-2"></p-skeleton>
-                  <p-skeleton shape="circle" size="4rem" styleClass="p-mr-2"></p-skeleton>
-                  <p-skeleton shape="circle" size="5rem"></p-skeleton>
-              </div>
-          </div>
-      </div>
-  </div>
-  </ng-template>
-  <ng-template #loadData>
-    <div class="row">
-      <div class="col-lg-4 col-md-6">
-        <div class="card card-stats">
-          <div class="card-body">
-            <div class="row">
-              <div class="col-3">
-                <div class="info-icon text-center icon-primary">
-                  <i class="tim-icons icon-chat-33"> </i>
-                </div>
-              </div>
-              <div class="col-9">
-                <div class="numbers">
-                  <p class="card-category">Bài review được chấp thuận!</p>
-                  <h3 class="card-title">{{ countPublishReviews }} bài</h3>
-                </div>
+  <div class="row">
+    <div class="col-lg-4 col-md-6">
+      <div class="card card-stats">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-3">
+              <div class="info-icon text-center icon-primary">
+                <i class="tim-icons icon-chat-33"> </i>
               </div>
             </div>
-          </div>
-          <div class="card-footer">
-            <hr />
-
-            <div class="stats">
-              <a
-                class="circle-right"
-                (click)="openSuccess(contentSuccess)"
-                href="javascript:void(0)"
-              >
-                <span
-                  ><i
-                    class="pi pi-chevron-circle-right"
-                    style="font-size: 1.5rem"
-                  ></i
-                ></span>
-              </a>
-              Xem chi tiết
+            <div class="col-9">
+              <div class="numbers">
+                <p class="card-category">Bài review được chấp thuận!</p>
+                <h3 class="card-title">{{ countPublishReviews }} bài</h3>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      <div class="col-lg-4 col-md-6">
-        <div class="card card-stats">
-          <div class="card-body">
-            <div class="row">
-              <div class="col-3">
-                <div class="info-icon text-center icon-warning">
-                  <i class="tim-icons icon-chat-33"> </i>
-                </div>
-              </div>
-              <div class="col-9">
-                <div class="numbers">
-                  <p class="card-category">Bài review đang chờ xét duyệt!</p>
-                  <h3 class="card-title">{{ countWaitingReviews }} bài</h3>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="card-footer">
-            <hr />
+        <div class="card-footer">
+          <hr />
 
-            <div class="stats">
-              <a
-                class="circle-right"
-                (click)="openWarning(contentWarning)"
-                href="javascript:void(0)"
-              >
-                <span
-                  ><i
-                    class="pi pi-chevron-circle-right"
-                    style="font-size: 1.5rem"
-                  ></i
-                ></span>
-              </a>
-              Xem chi tiết
-            </div>
+          <div class="stats">
+            <a
+              class="circle-right"
+              (click)="openSuccess()"
+              href="javascript:void(0)"
+            >
+              <span
+                ><i
+                  class="pi pi-chevron-circle-right"
+                  style="font-size: 1.5rem"
+                ></i
+              ></span>
+            </a>
+            Xem chi tiết
           </div>
         </div>
       </div>
-
-      <div class="col-lg-4 col-md-12">
-        <div class="card card-stats">
-          <div class="card-body">
-            <div class="row">
-              <div class="col-3">
-                <div class="info-icon text-center icon-danger">
-                  <i class="tim-icons icon-molecule-40"> </i>
-                </div>
+    </div>
+    <div class="col-lg-4 col-md-6">
+      <div class="card card-stats">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-3">
+              <div class="info-icon text-center icon-warning">
+                <i class="tim-icons icon-chat-33"> </i>
               </div>
-              <div class="col-9">
-                <div class="numbers">
-                  <p class="card-category">Bài review bị từ chối!</p>
-                  <h3 class="card-title">{{ countUnpublishedReviews }} bài</h3>
-                </div>
+            </div>
+            <div class="col-9">
+              <div class="numbers">
+                <p class="card-category">Bài review đang chờ xét duyệt!</p>
+                <h3 class="card-title">{{ countWaitingReviews }} bài</h3>
               </div>
             </div>
           </div>
-          <div class="card-footer">
-            <hr />
+        </div>
+        <div class="card-footer">
+          <hr />
 
-            <div class="stats">
-              <a
-                class="circle-right"
-                (click)="openDanger(contentDanger)"
-                href="javascript:void(0)"
-              >
-                <span
-                  ><i
-                    class="pi pi-chevron-circle-right"
-                    style="font-size: 1.5rem"
-                  ></i
-                ></span>
-              </a>
-              Xem chi tiết
-            </div>
+          <div class="stats">
+            <a
+              class="circle-right"
+              (click)="openWarning()"
+              href="javascript:void(0)"
+            >
+              <span
+                ><i
+                  class="pi pi-chevron-circle-right"
+                  style="font-size: 1.5rem"
+                ></i
+              ></span>
+            </a>
+            Xem chi tiết
           </div>
         </div>
       </div>
     </div>
 
-    <div class="row">
-      <div class="col-sm-12">
-        <app-card [headerContent]="'Duyệt bài review của Reviewer'">
+    <div class="col-lg-4 col-md-12">
+      <div class="card card-stats">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-3">
+              <div class="info-icon text-center icon-danger">
+                <i class="tim-icons icon-molecule-40"> </i>
+              </div>
+            </div>
+            <div class="col-9">
+              <div class="numbers">
+                <p class="card-category">Bài review bị từ chối!</p>
+                <h3 class="card-title">{{ countUnpublishedReviews }} bài</h3>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card-footer">
+          <hr />
+
+          <div class="stats">
+            <a
+              class="circle-right"
+              (click)="openDanger()"
+              href="javascript:void(0)"
+            >
+              <span
+                ><i
+                  class="pi pi-chevron-circle-right"
+                  style="font-size: 1.5rem"
+                ></i
+              ></span>
+            </a>
+            Xem chi tiết
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-12">
+      <app-card [headerContent]="'Duyệt bài review của Reviewer'">
+        <ng-container *ngIf="isShow; else loadData">
+          <div class="p-field p-col-12 p-md-6">
+            <div class="custom-skeleton p-p-4">
+              <ul class="p-m-0 p-p-0">
+                <li class="p-mb-3">
+                  <div class="p-d-flex">
+                    <p-skeleton
+                      shape="circle"
+                      size="4rem"
+                      styleClass="p-mr-2"
+                    ></p-skeleton>
+                    <div style="flex: 1">
+                      <p-skeleton width="100%" styleClass="p-mb-2"></p-skeleton>
+                      <p-skeleton width="75%"></p-skeleton>
+                    </div>
+                  </div>
+                </li>
+                <li class="p-mb-3">
+                  <div class="p-d-flex">
+                    <p-skeleton
+                      shape="circle"
+                      size="4rem"
+                      styleClass="p-mr-2"
+                    ></p-skeleton>
+                    <div style="flex: 1">
+                      <p-skeleton width="100%" styleClass="p-mb-2"></p-skeleton>
+                      <p-skeleton width="75%"></p-skeleton>
+                    </div>
+                  </div>
+                </li>
+                <li class="p-mb-3">
+                  <div class="p-d-flex">
+                    <p-skeleton
+                      shape="circle"
+                      size="4rem"
+                      styleClass="p-mr-2"
+                    ></p-skeleton>
+                    <div style="flex: 1">
+                      <p-skeleton width="100%" styleClass="p-mb-2"></p-skeleton>
+                      <p-skeleton width="75%"></p-skeleton>
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <div class="p-d-flex">
+                    <p-skeleton
+                      shape="circle"
+                      size="4rem"
+                      styleClass="p-mr-2"
+                    ></p-skeleton>
+                    <div style="flex: 1">
+                      <p-skeleton width="100%" styleClass="p-mb-2"></p-skeleton>
+                      <p-skeleton width="75%"></p-skeleton>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </ng-container>
+        <ng-template #loadData>
           <div class="row">
             <div class="col-sm-12 col-xl-12">
               <h4 class="sub-title">Thông tin Reviewer</h4>
@@ -210,18 +230,31 @@
                   {{ waitingReviews[0].content }}
                 </dd>
                 <dt class="col-sm-3 text-truncate">Tiêu chí review</dt>
-                <dd class="col-sm-9">
+                <dd class="col-sm-12">
                   <div class="p-d-flex p-ai-center">
-                    <ng-template
+                    <ng-container
                       *ngFor="let criteria of waitingReviews[0].criterions"
-                    >
-                      <p-chip
-                        label="{{ criteria.name }}"
-                        styleClass="p-mr-2"
-                      ></p-chip>
-                    </ng-template>
+                      ><div class="row">
+                        <div class="col-sm-5 offset-2">
+                          {{ criteria.criteriaName }}
+                        </div>
+                        <div class="col-sm-5">
+                          <div >
+                            <p-chip styleClass="p-mr-2">
+                                <p-rating
+                                [ngModel]="criteria.rating"
+                                readonly="true"
+                                stars="5"
+                                [cancel]="false"
+                              ></p-rating
+                            ></p-chip></div>
+                        </div>
+                      </div>
+                    </ng-container>
                   </div>
                 </dd>
+              </dl>
+              <dl class="dl-horizontal row">
                 <div class="col-md-6 text-center">
                   <button
                     class="btn btn-primary btn-round"
@@ -233,7 +266,7 @@
                 <div class="col-md-6 text-center">
                   <button
                     class="btn btn-danger btn-round"
-                    (click)="unpublishReview()"
+                    (click)="openUnpublishedReview(unpublishedModal)"
                   >
                     Unpublished
                   </button>
@@ -264,16 +297,272 @@
               </p-carousel>
             </div>
           </div>
-        </app-card>
+        </ng-template>
+      </app-card>
+    </div>
+  </div>
+  <!-- modal success -->
+  <p-dialog
+    header="Bài review được chấp thuận!"
+    [(visible)]="contentSuccess"
+    [modal]="true"
+    [style]="{ width: '50vw' }"
+    [maximizable]="true"
+    [draggable]="false"
+    [resizable]="false"
+    [baseZIndex]="100000"
+  >
+    <div class="row">
+      <div class="col-sm-12 col-xl-12">
+        <div class="input-group">
+          <input
+            type="search"
+            class="form-control rounded"
+            placeholder="Tìm kiếm tiêu đề bài viết!"
+            aria-label="Search"
+            aria-describedby="search-addon"
+            width="80%"
+          />
+          <button type="button" class="btn btn-outline-primary modelsearch">
+            search
+          </button>
+        </div>
       </div>
     </div>
-  </ng-template>
-  
-  
-  <!-- modal -->
-  <ng-template #contentSuccess let-modal>
+    <ng-container *ngFor="let review of publishReviews">
+      <div class="review-card">
+        <p-fieldset legend="{{ review.title }}">
+          <div class="row border m-15 p-10">
+            <div class="col-sm-12 col-xl-12 p-l-4">
+              <dl class="dl-horizontal row">
+                <dt class="col-sm-3">Nội dung</dt>
+                <dd class="col-sm-12 col-sm-offset-3">
+                  {{ review.content }}
+                </dd>
+                <dt class="col-sm-3 text-truncate">Tiêu chí review</dt>
+                <dd class="col-sm-12">
+                  <div class="p-d-flex p-ai-center">
+                    <ng-container *ngFor="let criteria of review.criterions">
+                      <div class="row">
+                        <div class="col-sm-5 offset-2">
+                          {{ criteria.criteriaName }}
+                        </div>
+                        <div class="col-sm-5">
+                            <p-chip styleClass="p-mr-2">
+                                <p-rating
+                                [ngModel]="criteria.rating"
+                                readonly="true"
+                                stars="5"
+                                [cancel]="false"
+                              ></p-rating
+                            ></p-chip>
+                      </div>
+                    </div>
+                    </ng-container>
+                  </div>
+                </dd>
+              </dl>
+              <dl class="dl-horizontal row">
+                <div class="col-md-6 text-center">
+                  <button
+                    class="btn btn-primary btn-round"
+                    (click)="publishReview()"
+                  >
+                    Published
+                  </button>
+                </div>
+                <div class="col-md-6 text-center">
+                  <button
+                    class="btn btn-danger btn-round"
+                    (click)="unpublishedReview()"
+                  >
+                    Unpublished
+                  </button>
+                </div>
+              </dl>
+            </div>
+          </div>
+        </p-fieldset>
+      </div>
+    </ng-container>
+  </p-dialog>
+
+  <!-- modal waiting -->
+  <p-dialog
+    header="Bài review được chấp thuận!"
+    [(visible)]="contentWaiting"
+    [modal]="true"
+    [style]="{ width: '50vw' }"
+    [maximizable]="true"
+    [draggable]="false"
+    [resizable]="false"
+    [baseZIndex]="100000"
+  >
+    <div class="row">
+      <div class="col-sm-12 col-xl-12">
+        <div class="input-group">
+          <input
+            type="search"
+            class="form-control rounded"
+            placeholder="Tìm kiếm tiêu đề bài viết!"
+            aria-label="Search"
+            aria-describedby="search-addon"
+            width="80%"
+          />
+          <button type="button" class="btn btn-outline-primary modelsearch">
+            search
+          </button>
+        </div>
+      </div>
+    </div>
+    <ng-container *ngFor="let review of waitingReviews">
+      <div class="review-card">
+        <p-fieldset legend="{{ review.title }}">
+          <div class="row border m-15 p-10">
+            <div class="col-sm-12 col-xl-12 p-l-4">
+              <dl class="dl-horizontal row">
+                <dt class="col-sm-3">Nội dung</dt>
+                <dd class="col-sm-12 col-sm-offset-3">
+                  {{ review.content }}
+                </dd>
+                <dt class="col-sm-3 text-truncate">Tiêu chí review</dt>
+                <dd class="col-sm-12">
+                  <div class="p-d-flex p-ai-center">
+                    <ng-container *ngFor="let criteria of review.criterions">
+                      <div class="row">
+                        <div class="col-sm-5 offset-2">
+                          {{ criteria.criteriaName }}
+                        </div>
+                        <div class="col-sm-5">
+                            <p-chip styleClass="p-mr-2">
+                                <p-rating
+                                [ngModel]="criteria.rating"
+                                readonly="true"
+                                stars="5"
+                                [cancel]="false"
+                              ></p-rating
+                            ></p-chip>
+                      </div>
+                    </div>
+                    </ng-container>
+                  </div>
+                </dd>
+              </dl>
+              <dl class="dl-horizontal row">
+                <div class="col-md-6 text-center">
+                  <button
+                    class="btn btn-primary btn-round"
+                    (click)="publishReview()"
+                  >
+                    Published
+                  </button>
+                </div>
+                <div class="col-md-6 text-center">
+                  <button
+                    class="btn btn-danger btn-round"
+                    (click)="unpublishedReview()"
+                  >
+                    Unpublished
+                  </button>
+                </div>
+              </dl>
+            </div>
+          </div>
+        </p-fieldset>
+      </div>
+    </ng-container>
+  </p-dialog>
+
+  <!-- Modal Danger -->
+  <p-dialog
+    header="Bài review được chấp thuận!"
+    [(visible)]="contentDanger"
+    [modal]="true"
+    [style]="{ width: '50vw' }"
+    [maximizable]="true"
+    [draggable]="false"
+    [resizable]="false"
+    [baseZIndex]="100000"
+  >
+    <div class="row">
+      <div class="col-sm-12 col-xl-12">
+        <div class="input-group">
+          <input
+            type="search"
+            class="form-control rounded"
+            placeholder="Tìm kiếm tiêu đề bài viết!"
+            aria-label="Search"
+            aria-describedby="search-addon"
+            width="80%"
+          />
+          <button type="button" class="btn btn-outline-primary modelsearch">
+            search
+          </button>
+        </div>
+      </div>
+    </div>
+    <ng-container *ngFor="let review of unpublishedReviews">
+      <div class="review-card">
+        <p-fieldset legend="{{ review.title }}">
+          <div class="row border m-15 p-10">
+            <div class="col-sm-12 col-xl-12 p-l-4">
+              <dl class="dl-horizontal row">
+                <dt class="col-sm-3">Nội dung</dt>
+                <dd class="col-sm-12 col-sm-offset-3">
+                  {{ review.content }}
+                </dd>
+                <dt class="col-sm-3 text-truncate">Tiêu chí review</dt>
+                <dd class="col-sm-12">
+                  <div class="p-d-flex p-ai-center">
+                    <ng-container *ngFor="let criteria of review.criterions">
+                      <div class="row">
+                        <div class="col-sm-5 offset-2">
+                          {{ criteria.criteriaName }}
+                        </div>
+                        <div class="col-sm-5">
+                            <p-chip styleClass="p-mr-2">
+                                <p-rating
+                                [ngModel]="criteria.rating"
+                                readonly="true"
+                                stars="5"
+                                [cancel]="false"
+                              ></p-rating
+                            ></p-chip>
+                      </div>
+                    </div>
+                    </ng-container>
+                  </div>
+                </dd>
+              </dl>
+              <dl class="dl-horizontal row">
+                <div class="col-md-6 text-center">
+                  <button
+                    class="btn btn-primary btn-round"
+                    (click)="publishReview()"
+                  >
+                    Published
+                  </button>
+                </div>
+                <div class="col-md-6 text-center">
+                  <button
+                    class="btn btn-danger btn-round"
+                    (click)="unpublishedReview()"
+                  >
+                    Unpublished
+                  </button>
+                </div>
+              </dl>
+            </div>
+          </div>
+        </p-fieldset>
+      </div>
+    </ng-container>
+  </p-dialog>
+
+  <!-- unpublishedModal -->
+  <ng-template #unpublishedModal let-modal>
     <div class="modal-header">
-      <h4 class="modal-title">Bài review được chấp thuận!</h4>
+      <h4 class="modal-title">Lí do bài viết không được public</h4>
       <button
         type="button"
         class="close"
@@ -284,187 +573,58 @@
       </button>
     </div>
     <div class="modal-body">
-      <div class="row">
-        <div class="col-sm-12 col-xl-12">
-          <div class="input-group">
-            <input
-              type="search"
-              class="form-control rounded"
-              placeholder="Tìm kiếm tiêu đề bài viết!"
-              aria-label="Search"
-              aria-describedby="search-addon"
-              width="80%"
-            />
-            <button type="button" class="btn btn-outline-primary modelsearch">
-              search
-            </button>
-          </div>
-        </div>
-      </div>
-      <ng-template *ngFor=" let review of publishReviews">
-      
       <div class="row border m-15 p-10">
-        <div class="col-sm-12 col-xl-12">
-          <h4 class="sub-title">Reviewr: {{review.reviewerName}}</h4>
+        <div class="col-sm-12 col-xl-12 p-l-4">
+          <h4 class="sub-title">Nội dung bài review!</h4>
           <dl class="dl-horizontal row">
             <dt class="col-sm-3">Tiêu đề</dt>
             <dd class="col-sm-9">
-              {{review.title}}
+              {{ unpublishedReviewModalData.title }}
             </dd>
             <dt class="col-sm-3">Nội dung</dt>
 
             <dd class="col-sm-12 col-sm-offset-3">
-              {{review.content}}
+              {{ unpublishedReviewModalData.content }}
             </dd>
             <dt class="col-sm-3 text-truncate">Tiêu chí review</dt>
             <dd class="col-sm-9">
-              <ng-template
-                      *ngFor="let criteria of review.criterions"
-                    >
-                      <p-chip
-                        label="{{ criteria.criteriaName }} "
-                        styleClass="p-mr-2"
-                      >{{criteria.rating}}<i class="pi pi-star"></i></p-chip>
-                    </ng-template>
+              <div class="p-d-flex p-ai-center">
+                <ng-container
+                  *ngFor="let criteria of unpublishedReviewModalData.criterions"
+                  ><span
+                    >{{ criteria.criteriaName }}
+                    <p-chip styleClass="p-mr-2"
+                      ><p-rating
+                        [ngModel]="criteria.rating"
+                        readonly="true"
+                        stars="5"
+                        [cancel]="false"
+                      ></p-rating></p-chip
+                  ></span>
+                </ng-container>
+              </div>
             </dd>
+          </dl>
+            <dl class="dl-horizontal row">
+              <div class="col-md-6 text-center">
+                <button
+                  class="btn btn-danger btn-round"
+                  (click)="modal.dismiss('Cross click')"
+                >
+                  Cancel
+                </button>
+              </div>
+            <div class="col-md-6 text-center">
+              <button
+                class="btn btn-primary btn-round"
+                (click)="unpublishedReview()"
+              >
+                Confirm
+              </button>
+            </div>
           </dl>
         </div>
       </div>
-    </ng-template>
-    </div>
-  </ng-template>
-
-  <ng-template #contentWarning let-modal>
-    <div class="modal-header">
-      <h4 class="modal-title">Bài review đang chờ xét duyệt!</h4>
-      <button
-        type="button"
-        class="close"
-        aria-label="Close"
-        (click)="modal.dismiss('Cross click')"
-      >
-        <span aria-hidden="true">&times;</span>
-      </button>
-    </div>
-    <div class="modal-body">
-      <div class="row">
-        <div class="col-sm-12 col-xl-12">
-          <div class="input-group">
-            <input
-              type="search"
-              class="form-control rounded"
-              placeholder="Tìm kiếm tiêu đề bài viết!"
-              aria-label="Search"
-              aria-describedby="search-addon"
-            />
-            <button type="button" class="btn btn-outline-primary modelsearch">
-              search
-            </button>
-          </div>
-        </div>
-      </div>
-      <ng-template *ngFor=" let review of waitingReviews">
-      
-        <div class="row border m-15 p-10">
-          <div class="col-sm-12 col-xl-12">
-            <h4 class="sub-title">Reviewr: {{review.reviewerName}}</h4>
-            <dl class="dl-horizontal row">
-              <dt class="col-sm-3">Tiêu đề</dt>
-              <dd class="col-sm-9">
-                {{review.title}}
-              </dd>
-              <dt class="col-sm-3">Nội dung</dt>
-  
-              <dd class="col-sm-12 col-sm-offset-3">
-                {{review.content}}
-              </dd>
-              <dt class="col-sm-3 text-truncate">Tiêu chí review</dt>
-              <dd class="col-sm-9">
-                <ng-template
-                        *ngFor="let criteria of review.criterions"
-                      >
-                        <p-chip
-                          label="{{ criteria.criteriaName }} "
-                          styleClass="p-mr-2"
-                        >{{criteria.rating}}<i class="pi pi-star"></i></p-chip>
-                      </ng-template>
-              </dd>
-            </dl>
-          </div>
-        </div>
-      </ng-template>
-    </div>
-    <div class="modal-footer">
-      <!-- <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button> -->
-    </div>
-  </ng-template>
-
-  <ng-template #contentDanger let-modal>
-    <div class="modal-header">
-      <h4 class="modal-title">Bài review bị từ chối!</h4>
-      <button
-        type="button"
-        class="close"
-        aria-label="Close"
-        (click)="modal.dismiss('Cross click')"
-      >
-        <span aria-hidden="true">&times;</span>
-      </button>
-    </div>
-    <div class="modal-body">
-      <div class="row">
-        <div class="col-sm-12 col-xl-12">
-          <div class="input-group">
-            <input
-              type="search"
-              class="form-control rounded"
-              placeholder="Tìm kiếm tiêu đề bài viết!"
-              aria-label="Search"
-              aria-describedby="search-addon"
-            />
-            <button type="button" class="btn btn-outline-primary modelsearch">
-              search
-            </button>
-          </div>
-        </div>
-      </div>
-      <div class="row border m-15 p-10">
-        <div class="col-sm-12 col-xl-12">
-          <ng-template *ngFor=" let review of unpublishedReviews">
-      
-            <div class="row border m-15 p-10">
-              <div class="col-sm-12 col-xl-12">
-                <h4 class="sub-title">Reviewr: {{review.reviewerName}}</h4>
-                <dl class="dl-horizontal row">
-                  <dt class="col-sm-3">Tiêu đề</dt>
-                  <dd class="col-sm-9">
-                    {{review.title}}
-                  </dd>
-                  <dt class="col-sm-3">Nội dung</dt>
-      
-                  <dd class="col-sm-12 col-sm-offset-3">
-                    {{review.content}}
-                  </dd>
-                  <dt class="col-sm-3 text-truncate">Tiêu chí review</dt>
-                  <dd class="col-sm-9">
-                    <ng-template
-                            *ngFor="let criteria of review.criterions"
-                          >
-                            <p-chip
-                              label="{{ criteria.criteriaName }} "
-                              styleClass="p-mr-2"
-                            >{{criteria.rating}}<i class="pi pi-star"></i></p-chip>
-                          </ng-template>
-                  </dd>
-                </dl>
-              </div>
-            </div>
-          </ng-template>
-        </div>
-      </div>
-    </div>
-    <div class="modal-footer">
-      <!-- <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button> -->
     </div>
   </ng-template>
   <p-confirmDialog></p-confirmDialog>
