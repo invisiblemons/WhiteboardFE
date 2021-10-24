@@ -576,35 +576,7 @@
       <div class="row border m-15 p-10">
         <div class="col-sm-12 col-xl-12 p-l-4">
           <h4 class="sub-title">Nội dung bài review!</h4>
-          <dl class="dl-horizontal row">
-            <dt class="col-sm-3">Tiêu đề</dt>
-            <dd class="col-sm-9">
-              {{ unpublishedReviewModalData.title }}
-            </dd>
-            <dt class="col-sm-3">Nội dung</dt>
-
-            <dd class="col-sm-12 col-sm-offset-3">
-              {{ unpublishedReviewModalData.content }}
-            </dd>
-            <dt class="col-sm-3 text-truncate">Tiêu chí review</dt>
-            <dd class="col-sm-9">
-              <div class="p-d-flex p-ai-center">
-                <ng-container
-                  *ngFor="let criteria of unpublishedReviewModalData.criterions"
-                  ><span
-                    >{{ criteria.criteriaName }}
-                    <p-chip styleClass="p-mr-2"
-                      ><p-rating
-                        [ngModel]="criteria.rating"
-                        readonly="true"
-                        stars="5"
-                        [cancel]="false"
-                      ></p-rating></p-chip
-                  ></span>
-                </ng-container>
-              </div>
-            </dd>
-          </dl>
+          
             <dl class="dl-horizontal row">
               <div class="col-md-6 text-center">
                 <button
