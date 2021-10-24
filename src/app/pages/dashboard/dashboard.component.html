@@ -362,24 +362,6 @@
                   </div>
                 </dd>
               </dl>
-              <dl class="dl-horizontal row">
-                <div class="col-md-6 text-center">
-                  <button
-                    class="btn btn-primary btn-round"
-                    (click)="publishReview()"
-                  >
-                    Published
-                  </button>
-                </div>
-                <div class="col-md-6 text-center">
-                  <button
-                    class="btn btn-danger btn-round"
-                    (click)="unpublishedReview()"
-                  >
-                    Unpublished
-                  </button>
-                </div>
-              </dl>
             </div>
           </div>
         </p-fieldset>
@@ -534,24 +516,6 @@
                   </div>
                 </dd>
               </dl>
-              <dl class="dl-horizontal row">
-                <div class="col-md-6 text-center">
-                  <button
-                    class="btn btn-primary btn-round"
-                    (click)="publishReview()"
-                  >
-                    Published
-                  </button>
-                </div>
-                <div class="col-md-6 text-center">
-                  <button
-                    class="btn btn-danger btn-round"
-                    (click)="unpublishedReview()"
-                  >
-                    Unpublished
-                  </button>
-                </div>
-              </dl>
             </div>
           </div>
         </p-fieldset>
@@ -562,7 +526,7 @@
   <!-- unpublishedModal -->
   <ng-template #unpublishedModal let-modal>
     <div class="modal-header">
-      <h4 class="modal-title">Lí do bài viết không được public</h4>
+      <h4 class="modal-title">Từ chối published bài viết</h4>
       <button
         type="button"
         class="close"
@@ -575,17 +539,31 @@
     <div class="modal-body">
       <div class="row border m-15 p-10">
         <div class="col-sm-12 col-xl-12 p-l-4">
-          <h4 class="sub-title">Nội dung bài review!</h4>
-          
-            <dl class="dl-horizontal row">
-              <div class="col-md-6 text-center">
-                <button
-                  class="btn btn-danger btn-round"
-                  (click)="modal.dismiss('Cross click')"
-                >
-                  Cancel
-                </button>
-              </div>
+          <dl class="dl-horizontal row">
+              <dt class="col-sm-3">Lí do từ chối xét duyệt</dt>
+              <dd class="col-sm-9 col-sm-offset-3">
+                <div class="row">
+                  <div class="col-sm-5"></div>
+                  <div class="col-sm-7">
+                    <span class="p-float-label">
+                      <input type="text" class="p-inputtext-lg" id="float-input" [(ngModel)]="message" pInputText />
+                      <label for="float-input"
+                        >Mô tả chi tiết nội dung vi phạm</label
+                      >
+                    </span>
+                  </div>
+                </div>
+              </dd>
+          </dl>
+          <dl class="dl-horizontal row">
+            <div class="col-md-6 text-center">
+              <button
+                class="btn btn-danger btn-round"
+                (click)="modal.dismiss('Cross click')"
+              >
+                Cancel
+              </button>
+            </div>
             <div class="col-md-6 text-center">
               <button
                 class="btn btn-primary btn-round"

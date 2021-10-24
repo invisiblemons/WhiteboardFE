@@ -31,6 +31,8 @@ export class DashboardComponent implements OnInit {
 
   isShow: boolean = true;
 
+  message: any;
+
   constructor(
     private modalService: NgbModal,
     private services: DashboardService,
@@ -113,7 +115,7 @@ export class DashboardComponent implements OnInit {
   }
 
   unpublishedReview() {
-    this.services.unpublicReview(this.waitingReviews[0].id).subscribe((res) => {
+    this.services.unpublicReview(this.waitingReviews[0].id, {"message": this.message}).subscribe((res) => {
       if (res) {
         this.waitingReviews.shift();
         this.countUnpublishedReviews += 1;
@@ -124,6 +126,7 @@ export class DashboardComponent implements OnInit {
           detail: "Bài review bị từ chối public thành công",
           life: 3000,
         });
+        this.modalService.dismissAll('Cross click');
       }
     });
   }

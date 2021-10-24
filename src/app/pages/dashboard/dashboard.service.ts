@@ -25,11 +25,11 @@ export class DashboardService {
   }
 
   publicReview(id): Observable<boolean> {
-    return this.httpClient.get<boolean>(`${this.baseURL}/public/${id}`);
+    return this.httpClient.post<boolean>(`${this.baseURL}/public/${id}`,"");
   }
 
-  unpublicReview(id): Observable<boolean> {
-    return this.httpClient.get<boolean>(`${this.baseURL}/unpublic/${id}`);
+  unpublicReview(id, message): Observable<boolean> {
+    return this.httpClient.post<boolean>(`${this.baseURL}/unpublic/${id}`,message);
   }
 
 }
