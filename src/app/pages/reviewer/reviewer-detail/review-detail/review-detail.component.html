@@ -1,0 +1,67 @@
+<p-dialog header="Chi tiết bài đánh giá" [draggable]="false" [modal]="true" [style]="{ width: '70vw' }" [closable]="true"
+  [(visible)]="displayBasic" (onHide)="onDiscard()">
+  <div *ngIf="!this.review" style="margin-left: 50%;">
+    <p-progressSpinner [style]="{width: '50px', height: '50px'}" styleClass="custom-spinner" strokeWidth="8"
+      fill="#EEEEEE" animationDuration=".5s"></p-progressSpinner>
+  </div>
+  <div *ngIf="this.review">
+    <!-- detail review -->
+    <div class="row">
+      <div class="col-sm-12">
+        <app-card [headerContent]="'Chi tiết bài đánh giá'">
+          <div class="row">
+            <div class="col-sm-12 col-xl-6">
+              <h6 class="sub-title" style="font-weight: 600">Pictures</h6>
+              <div class="card">
+                <div class="profile-wrap animated">
+                  <img style="width: 470px; height: 500px" src="{{ review.pictures }}" />
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-12 col-xl-6">
+              <h4 class="sub-title" style="font-weight: 600; text-align: center;">
+                Chi tiết bài đánh giá
+              </h4>
+              <dl class="dl-horizontal row">
+                <dt class="col-sm-3">Title</dt>
+                <dd class="col-sm-9">
+                  <span>{{ review.title }}</span>
+                </dd>
+                <dt class="col-sm-3">Date</dt>
+                <dd class="col-sm-9">
+                  {{ review.onDateTime | date: "dd/MM/yyyy" }}
+                </dd>
+                <dt class="col-sm-3">Campus</dt>
+
+                <dd class="col-sm-9 col-sm-offset-3">
+                  {{ review.campusName }}
+                </dd>
+                <dt class="col-sm-3">University</dt>
+                <dd class="col-sm-9">
+                  {{ review.universityName }}
+                </dd>
+                <!-- <dt class="col-sm-3">criterion</dt>
+                <dd class="col-sm-9">
+                  {{ review.criterions }}
+                </dd> -->
+                <dt class="col-sm-3">Status</dt>
+                <dd class="col-sm-9">
+                  {{ review.status }}
+                </dd>
+
+              </dl>
+              <!-- <h6 class="sub-title" style="font-weight: 600">Avatar</h6>
+              <mat-card class="example-card">
+                <img mat-card-image style="width: 300px; height: 300px" src="{{ reviewer.avatar }}"
+                  alt="Photo of an avatar">
+              </mat-card> -->
+            </div>
+
+          </div>
+
+        </app-card>
+      </div>
+    </div>
+    
+  </div>
+</p-dialog>

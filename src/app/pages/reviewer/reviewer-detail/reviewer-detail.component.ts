@@ -14,8 +14,21 @@ export class ReviewerDetailComponent implements OnInit {
 
   reviewerId: string;
 
-  reviews: Review[];
+  reviews: Review[] = [];
 
+  rootReviews: Review[];
+
+  successReviews: Review[] = [];
+
+  waitingReviews: Review[] = [];
+
+  unpublishReviews: Review[] = [];
+
+  countSuccessReviews: number = 0;
+
+  countWaitingReviews: number = 0;
+
+  countUnpublishReviews: number = 0;
   review: Review;
 
   reviewers: Reviewer[];
@@ -49,27 +62,48 @@ export class ReviewerDetailComponent implements OnInit {
     //get review
     this.reviewerService.getReview(this.reviewerId).subscribe((res) => {
       this.reviews = res["reviews"];
+      this.rootReviews = res["reviews"];
+
+      //get success review
+      this.reviews.forEach((review) => {
+        if (review.status === "Published") {
+          this.successReviews.push(review);
+        }
+      });
+      console.log(this.successReviews)
+      this.countSuccessReviews = this.successReviews.length;
+
+      //get waiting review
+      this.reviews.forEach((review) => {
+        if (review.status === "Waiting") {
+          this.waitingReviews.push(review);
+        }
+      });
+      this.countWaitingReviews = this.waitingReviews.length;
+
+      //get unpublish review
+      this.reviews.forEach((review) => {
+        if (review.status === "Unpublished") {
+          this.unpublishReviews.push(review);
+        }
+      });
+      this.countUnpublishReviews = this.unpublishReviews.length;
     });
 
-    this.data = {
-      labels: ["Tham gia", "Không tham gia"],
-      datasets: [
-        {
-          data: [4, 1],
-          backgroundColor: ["#B5D784", "#FBD551"],
-          hoverBackgroundColor: ["#A3CE65", "#FACC18"],
-        },
-      ],
-    };
+    
   }
 
   onDiscard(): void {
     this.router.navigate(["./reviewer"]);
   }
 
+  openDetailReview(review: Review) {
+    this.router.navigate(['./reviewer/reviewer-detail/review-detail', { id: review.id }]);
+  }
+
   deleteReview(review: Review) {
     this.confirmationService.confirm({
-      message: "Bạn có chắc muốn xoá review " + review.id + "?",
+      message: "Bạn có chắc muốn xoá bài đánh giá " + review.title + "?",
       header: "Xác nhận",
       icon: "pi pi-exclamation-triangle",
       accept: () => {
@@ -82,7 +116,7 @@ export class ReviewerDetailComponent implements OnInit {
             this.messageService.add({
               severity: "success",
               summary: "Thành công!",
-              detail: "Xoá bài viết thành công",
+              detail: "Xoá bài đánh giá thành công",
               life: 3000,
             });
           }
@@ -91,8 +125,28 @@ export class ReviewerDetailComponent implements OnInit {
     });
   }
 
-  approveReviewer(reviewer: Reviewer) {
-    reviewer.status = 'unverified'; 
-  }
+
+  // approveReviewer(reviewer: Reviewer) {   
+  //   if(this.reviewer.id) {
+      
+  //     this.reviewerService.updateReviewer(this.reviewer).subscribe( res => {
+  //         if(res) {          
+  //             // this.reviewerService.getReviewer().subscribe(res => {
+  //               this.reviewer.status = 'Verified';
+  //                 this.reviewer = res['reviewer'];
+  //                 // this.reviewers.forEach(reviewer => {
+  //                 //    this.reviewer = this.reviewer;
+  //                 // });
+  //             // })
+  //             this.messageService.add({
+  //                 severity: "success",
+  //                 summary: "Thành công!",
+  //                 detail: "Phê duyệt reviewer thành công",
+  //                 life: 3000,
+  //               });
+  //         }
+  //     })
+  // }
+  // }
 
 }

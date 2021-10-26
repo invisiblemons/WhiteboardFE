@@ -5,6 +5,7 @@ import { ReviewerRoutingModule } from './reviewer-routing.module';
 import { ReviewerComponent } from './reviewer.component';
 import { ComponentsModule } from 'src/app/components/components.module';
 import { ReviewerDetailComponent } from './reviewer-detail/reviewer-detail.component';
+import { ReviewDetailComponent } from './reviewer-detail/review-detail/review-detail.component';
 
 @NgModule({
   imports: [
@@ -12,6 +13,6 @@ import { ReviewerDetailComponent } from './reviewer-detail/reviewer-detail.compo
     ReviewerRoutingModule,
     ComponentsModule
   ],
-  declarations: [ReviewerComponent, ReviewerDetailComponent]
+  declarations: [ReviewerComponent, ReviewerDetailComponent, ReviewDetailComponent]
 })
 export class ReviewerModule { }

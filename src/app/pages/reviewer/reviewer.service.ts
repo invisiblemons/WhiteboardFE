@@ -44,4 +44,12 @@ export class ReviewerService {
   deleteReview(id: string) {
     return this.httpClient.delete<boolean>(`${this.reviewUrL}/${id}`);
   }
+
+  updateReviewer(id: string, data) {
+    return this.httpClient.put<Reviewer>(`${this.baseUrl}/${id}`, data);
+  }
+
+  getReviewById(Id: string): Observable<Review> {
+    return this.httpClient.get<Review>(`${this.reviewUrL}/${Id}`);
+  }
 }
