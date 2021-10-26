@@ -9,9 +9,9 @@ import {
   animate,
 } from "@angular/animations";
 import { ConfirmationService, MessageService } from "primeng/api";
-import { AngularFireStorage  } from 'angularfire2/storage';
+import { AngularFireStorage } from "angularfire2/storage";
 import { FormControl, FormGroup } from "@angular/forms";
-import { finalize } from 'rxjs/operators';
+import { finalize } from "rxjs/operators";
 import { Router } from "@angular/router";
 import { Campus, University } from "../university/university.model";
 
@@ -92,8 +92,8 @@ export class CampaignComponent implements OnInit {
   isSubmitted: boolean;
 
   formTemplate = new FormGroup({
-    imageUrl: new FormControl('')
-  })
+    imageUrl: new FormControl(""),
+  });
 
   constructor(
     private campaignService: CampaignService,
@@ -106,34 +106,31 @@ export class CampaignComponent implements OnInit {
   ngOnInit() {
     this.isShowUniCampus = false;
     this.isShowSpin = true;
-    this.statusColumn = ['Chưa bắt đầu', 'Đang diễn ra', 'Đã kết thúc'];
-    this.campaignService
-      .getCampaigns()
-      .subscribe((data) => {
-        this.campaigns = data['campaigns'];
-        this.campaigns.forEach(campaign => {
-          this.isShowSpin = false;
-          this.formatDataCampaign(campaign);
-          
-        });
+    this.statusColumn = ["Chưa bắt đầu", "Đang diễn ra", "Đã kết thúc"];
+    this.campaignService.getCampaigns().subscribe((data) => {
+      this.campaigns = data["campaigns"];
+      this.campaigns.forEach((campaign) => {
+        this.isShowSpin = false;
+        this.formatDataCampaign(campaign);
       });
+    });
     this.campaignService.getUni().subscribe((data) => {
-      this.universities = data['universitys'];
-      this.universitiesModal = data['universitys'];
-    })
+      this.universities = data["universitys"];
+      this.universitiesModal = data["universitys"];
+    });
     this.currentDay = new Date();
   }
 
   // open modal create
   openNewCampaign() {
     this.campaign = new Campaign(null);
-    this.imgSrc = '/assets/img/weebly_image_sample.png';
+    this.imgSrc = "/assets/img/weebly_image_sample.png";
     this.campaignSubmitted = false;
     this.campaignDialog = true;
     this.isShowUniCampus = true;
   }
 
-  // open modal edit & delete 
+  // open modal edit & delete
   editCampaign(campaign: Campaign) {
     this.imgSrc = campaign.image;
     this.campaign = { ...campaign };
@@ -146,24 +143,23 @@ export class CampaignComponent implements OnInit {
       header: "Xác nhận",
       icon: "pi pi-exclamation-triangle",
       accept: () => {
-        this.campaignService.deleteCampaign(campaign).subscribe(res => {
-            if(res) {
-                this.campaigns = this.campaigns.filter((val) => val.id !== campaign.id);
-                this.campaign = new Campaign(null);
-                this.messageService.add({
-                  severity: "success",
-                  summary: "Thành công!",
-                  detail: "Xoá chiến dịch thành công",
-                  life: 3000,
-                });
-            }
-        })
-        
+        this.campaignService.deleteCampaign(campaign).subscribe((res) => {
+          if (res) {
+            this.campaigns = this.campaigns.filter(
+              (val) => val.id !== campaign.id
+            );
+            this.campaign = new Campaign(null);
+            this.messageService.add({
+              severity: "success",
+              summary: "Thành công!",
+              detail: "Xoá chiến dịch thành công",
+              life: 3000,
+            });
+          }
+        });
       },
     });
   }
-
-  
 
   // function in modal
   hideCampaignDialog() {
@@ -172,101 +168,113 @@ export class CampaignComponent implements OnInit {
     this.isShowUniCampus = false;
   }
 
-  
-
   saveCampaign() {
     this.campaignSubmitted = true;
     if (this.campaign.name.trim()) {
-      //check to upload image 
-      if(null !== this.selectedImage) {
+      //check to upload image
+      if (null !== this.selectedImage) {
         this.isSubmitted = true;
-    if (this.formTemplate.valid) {
-      var filePath = `${this.selectedImage.name.split('.').slice(0, -1).join('.')}_${new Date().getTime()}`;
-      const fileRef = this.storage.ref(filePath);
-      this.storage.upload(filePath, this.selectedImage).snapshotChanges().pipe(
-        finalize(() => {
-          fileRef.getDownloadURL().subscribe((url) => {
-            this.campaign.image = url;
-            this.resetForm();
-          })
-        })
-      ).subscribe();
-    }
-      }
-      //update campaign
-        if(this.campaign.id) {
-            this.campaignService.updateCampaign(this.campaign).subscribe( res => {
-                if(res) {
-                    this.campaignService.getCampaigns().subscribe(res => {
-                        this.campaigns = res['campaigns'];
-                        this.campaigns.forEach(campaign => {
-                          this.formatDataCampaign(campaign);
-                        });
-                    })
-                    this.messageService.add({
-                        severity: "success",
-                        summary: "Thành công!",
-                        detail: "Cập nhật chiến dịch thành công",
-                        life: 3000,
+        if (this.formTemplate.valid) {
+          var filePath = `${this.selectedImage.name
+            .split(".")
+            .slice(0, -1)
+            .join(".")}_${new Date().getTime()}`;
+          const fileRef = this.storage.ref(filePath);
+          this.storage
+            .upload(filePath, this.selectedImage)
+            .snapshotChanges()
+            .pipe(
+              finalize(() => {
+                fileRef.getDownloadURL().subscribe((url) => {
+                  this.campaign.image = url;
+                  this.resetForm();
+                  //update campaign
+                  if (this.campaign.id) {
+                    this.campaignService
+                      .updateCampaign(this.campaign)
+                      .subscribe((res) => {
+                        if (res) {
+                          this.campaignService
+                            .getCampaigns()
+                            .subscribe((res) => {
+                              this.campaigns = res["campaigns"];
+                              this.campaigns.forEach((campaign) => {
+                                this.formatDataCampaign(campaign);
+                              });
+                            });
+                          this.messageService.add({
+                            severity: "success",
+                            summary: "Thành công!",
+                            detail: "Cập nhật chiến dịch thành công",
+                            life: 3000,
+                          });
+                        }
                       });
-                }
-            })
-        } else{
-          //create new campaign
-        this.campaignService.insertCampaign(this.campaign).subscribe(res => {
-            if(res) {
-                this.messageService.add({
-                    severity: "success",
-                    summary: "Thành công!",
-                    detail: "Tạo mớI chiến dịch thành công",
-                    life: 3000,
-                  });
-                this.campaignService.getCampaigns().subscribe((res: Campaign[]) => {
-                    this.campaigns = res['campaigns'];
-                    this.campaigns.forEach(campaign => {
-                      this.formatDataCampaign(campaign);
-                    });
-                })
-            }
-        })
-        this.isShowUniCampus = false;
-    }
-      this.campaignDialog = false;
+                  } else {
+                    //create new campaign
+                    this.campaignService
+                      .insertCampaign(this.campaign)
+                      .subscribe((res) => {
+                        if (res) {
+                          this.messageService.add({
+                            severity: "success",
+                            summary: "Thành công!",
+                            detail: "Tạo mớI chiến dịch thành công",
+                            life: 3000,
+                          });
+                          this.campaignService
+                            .getCampaigns()
+                            .subscribe((res: Campaign[]) => {
+                              this.campaigns = res["campaigns"];
+                              this.campaigns.forEach((campaign) => {
+                                this.formatDataCampaign(campaign);
+                              });
+                            });
+                        }
+                      });
+                    this.isShowUniCampus = false;
+                  }
+                  this.campaignDialog = false;
       this.campaign = new Campaign(null);
+                });
+              })
+            )
+            .subscribe();
+        }
+      }
+
+      
     }
   }
 
-  
-
   openDetailCampaignModel(campaign: Campaign) {
-      this.router.navigate(['./campaign/campaign-detail',{ id: campaign.id }]);
+    this.router.navigate(["./campaign/campaign-detail", { id: campaign.id }]);
   }
 
   //image
   showPreview(event: any) {
     if (event.target.files && event.target.files[0]) {
       const reader = new FileReader();
-      reader.onload = (e: any) => this.imgSrc = e.target.result;
+      reader.onload = (e: any) => (this.imgSrc = e.target.result);
       reader.readAsDataURL(event.target.files[0]);
       this.selectedImage = event.target.files[0];
-    }
-    else {
-      this.imgSrc = '/assets/img/weebly_image_sample.png';
+    } else {
+      this.imgSrc = "/assets/img/weebly_image_sample.png";
       this.selectedImage = null;
     }
   }
 
   get formControls() {
-    return this.formTemplate['controls'];
+    return this.formTemplate["controls"];
   }
 
   resetForm() {
     this.formTemplate.reset();
     this.formTemplate.setValue({
-      imageUrl: ''
+      imageUrl: "",
     });
-    
-    this.imgSrc = '/assets/img/weebly_image_sample.png';
+
+    this.imgSrc = "/assets/img/weebly_image_sample.png";
     this.selectedImage = null;
     this.isSubmitted = false;
   }
@@ -274,36 +282,40 @@ export class CampaignComponent implements OnInit {
   //search Uni & Campus
   onChangeUni(event) {
     this.hasUni = true;
-    this.campusList = event.value['campus'];
-    this.campaignService.searchCampaignFromUni(event.value['id']).subscribe(res => {
-      if(null !== res) {
-        this.campaigns = res['campaigns'];
-        this.campaigns.forEach(campaign => {
-          this.formatDataCampaign(campaign);
-        });
-      } else {
-        this.campaigns = [];
-      }
-    })
+    this.campusList = event.value["campus"];
+    this.campaignService
+      .searchCampaignFromUni(event.value["id"])
+      .subscribe((res) => {
+        if (null !== res) {
+          this.campaigns = res["campaigns"];
+          this.campaigns.forEach((campaign) => {
+            this.formatDataCampaign(campaign);
+          });
+        } else {
+          this.campaigns = [];
+        }
+      });
   }
 
   onChangeCampus(event) {
-    this.campaignService.searchCampaignFromCampus(event.value['id']).subscribe(res => {
-      if(null !== res) {
-        this.campaigns = res['campaigns'];
-        this.campaigns.forEach(campaign => {
-          this.formatDataCampaign(campaign);
-        });
-      } else {
-        this.campaigns = [];
-      }
-    })
+    this.campaignService
+      .searchCampaignFromCampus(event.value["id"])
+      .subscribe((res) => {
+        if (null !== res) {
+          this.campaigns = res["campaigns"];
+          this.campaigns.forEach((campaign) => {
+            this.formatDataCampaign(campaign);
+          });
+        } else {
+          this.campaigns = [];
+        }
+      });
   }
 
   //search Uni & Campus in create campaign Modal
   onChangeUniModal(event) {
     this.hasUniModal = true;
-    this.campusListModal = event.value['campus'];
+    this.campusListModal = event.value["campus"];
   }
 
   onChangeCampusModal(event) {
@@ -313,15 +325,17 @@ export class CampaignComponent implements OnInit {
   //method
   formatDataCampaign(campaign) {
     campaign.startDay = new Date(campaign.startDay);
-          campaign.endDay = new Date(campaign.endDay);
-          //get status
-          if(this.currentDay < campaign.startDay) {
-            campaign.status = this.statusColumn[0];
-          } else if(this.currentDay > campaign.startDay && this.currentDay < campaign.endDay){
-            campaign.status = this.statusColumn[1];
-          } else {
-            campaign.status = this.statusColumn[2];
-          }
+    campaign.endDay = new Date(campaign.endDay);
+    //get status
+    if (this.currentDay < campaign.startDay) {
+      campaign.status = this.statusColumn[0];
+    } else if (
+      this.currentDay > campaign.startDay &&
+      this.currentDay < campaign.endDay
+    ) {
+      campaign.status = this.statusColumn[1];
+    } else {
+      campaign.status = this.statusColumn[2];
+    }
   }
-
 }
