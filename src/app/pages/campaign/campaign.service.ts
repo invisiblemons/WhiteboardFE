@@ -24,6 +24,10 @@ export class CampaignService {
     return this.httpClient.get<Campaign[]>(`${this.baseURL}`);
   }
 
+  getReloadCampaigns(): Observable<Campaign[]> {
+    return this.httpClient.get<Campaign[]>(`${this.baseURL}?reloadredis=true`);
+  }
+
   getCriterions(id:string) {
     return this.httpClient.get<Campaign[]>(`${this.baseURL}/${id}`);
   }

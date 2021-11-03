@@ -43,6 +43,7 @@ export class ReviewerComponent implements OnInit {
 
   reviewers: Reviewer[];
 
+
   reviewer: Reviewer;
   listStatus = [];
   reviewerDialog: boolean;
@@ -82,41 +83,94 @@ export class ReviewerComponent implements OnInit {
       this.reviewers = data['reviewers'];
     })
     this.listStatus.push(
-      { label: "Verified", value: "verified" },
-      { label: "Unverified", value: "unverified" });
+      { label: "Xác thực", value: "verified" },
+      { label: "Chưa xác thực", value: "unverified" },
+      { label: "Khóa", value: "locked" }
+    );
 
-      this.service.getUni().subscribe((data) => {
-        this.universities = data['universitys'];
-      })
+    this.service.getUni().subscribe((data) => {
+      this.universities = data['universitys'];
+    })
   }
 
   openDetailReviewer(reviewer: Reviewer) {
     this.router.navigate(['./reviewer/reviewer-detail', { id: reviewer.id }]);
   }
 
+  // deleteReviewer(reviewer: Reviewer) {
+  //   this.confirmationService.confirm({
+  //     message: "Bạn có chắc muốn xoá reviewer " + reviewer.name + "?",
+  //     header: "Xác nhận",
+  //     icon: "pi pi-exclamation-triangle",
+  //     accept: () => {
+  //       this.service.deleteReviewer(reviewer).subscribe(res => {
+  //         if (res) {
+  //           this.reviewers = this.reviewers.filter((val) => val.id !== reviewer.id);
+  //           this.reviewer = new Reviewer(null);
+  //           this.messageService.add({
+  //             severity: "success",
+  //             summary: "Thành công!",
+  //             detail: "Xoá reviewer thành công",
+  //             life: 3000,
+  //           });
+  //         }
+  //       })
+
+  //     },
+  //   });
+  // }
+
   deleteReviewer(reviewer: Reviewer) {
+
     this.confirmationService.confirm({
-      message: "Bạn có chắc muốn xoá reviewer " + reviewer.name + "?",
+      message: "Bạn có chắc muốn khoá reviewer " + reviewer.name + " không?",
       header: "Xác nhận",
+      acceptLabel: "Đồng ý",
+      rejectLabel: "Huỷ bỏ",
       icon: "pi pi-exclamation-triangle",
       accept: () => {
-        this.service.deleteReviewer(reviewer).subscribe(res => {
+        reviewer.status = 'Locked';
+        this.service.updateReviewer(reviewer).subscribe(res => {
           if (res) {
-            this.reviewers = this.reviewers.filter((val) => val.id !== reviewer.id);
-            this.reviewer = new Reviewer(null);
+             this.reviewer = { ...reviewer };
             this.messageService.add({
               severity: "success",
               summary: "Thành công!",
-              detail: "Xoá reviewer thành công",
+              detail: "Khoá reviewer thành công",
               life: 3000,
             });
           }
         })
-
       },
+
     });
+
   }
 
+
+  unDeleteReviewer(reviewer: Reviewer) {
+    this.confirmationService.confirm({
+      message: 'Bạn có chắc muốn gỡ khoá reviewer này không?',
+      header: 'Xác nhận',
+      acceptLabel: "Đồng ý",
+      rejectLabel: "Huỷ bỏ",
+      icon: 'pi pi-info-circle',
+      accept: () => {
+        reviewer.status = 'Verified';   
+        this.service.updateReviewer(reviewer).subscribe(res => {
+          if (res) {
+            this.reviewer = { ...reviewer };
+            this.messageService.add({
+              severity: "success",
+              summary: "Thành công!",
+              detail: "Gỡ khoá reviewer thành công",
+              life: 3000,
+            });
+          }
+        })
+      }
+    });
+  }
 
   onChangeUni(event) {
     this.hasUni = true;
@@ -124,7 +178,7 @@ export class ReviewerComponent implements OnInit {
     console.log(event.value);
     this.service.searchReviewerFromUni(event.value['id']).subscribe(res => {
       if (null !== res) {
-        this.reviewers = res['reviewers'];        
+        this.reviewers = res['reviewers'];
       } else {
         this.reviewers = [];
       }

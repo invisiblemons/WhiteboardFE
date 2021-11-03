@@ -79,5 +79,24 @@ export class DashboardComponent implements OnInit {
   deleteSelectedReviews() {
 
   }
+
+  reloadReview() {
+    this.isShow = true;
+    this.services.getReloadReviews().subscribe((res) => {
+      if (null !== res) {
+        this.reviews = res["reviews"];
+        this.isShow = false;
+      }
+      
+    });
+    this.services.getReloadPublishedReviews().subscribe( () => {
+      this.messageService.add({
+        severity: "success",
+        summary: "Thành công!",
+        detail: "Cập nhật bài viết trên redis thành công",
+        life: 3000,
+      });
+    });
+  }
  
 }

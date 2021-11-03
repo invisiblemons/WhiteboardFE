@@ -41,6 +41,8 @@ export class ReviewerDetailComponent implements OnInit {
 
   data: any;
 
+  revieweStatusList = [];
+
 
   currentDay: Date;
 
@@ -58,7 +60,8 @@ export class ReviewerDetailComponent implements OnInit {
     this.displayBasic = true;
     this.reviewerId = this.route.snapshot.paramMap.get("id");
     this.reviewerService.getReviewerById(this.reviewerId).subscribe((res) => {
-      this.reviewer = res});
+      this.reviewer = res
+    });
     //get review
     this.reviewerService.getReview(this.reviewerId).subscribe((res) => {
       this.reviews = res["reviews"];
@@ -90,7 +93,11 @@ export class ReviewerDetailComponent implements OnInit {
       this.countUnpublishReviews = this.unpublishReviews.length;
     });
 
-    
+    this.revieweStatusList.push(
+      { label: "Published", value: "published" },
+      { label: "Unpublished", value: "unpublished" },
+      { label: "Waiting", value: "waiting" }
+      );
   }
 
   onDiscard(): void {
@@ -108,7 +115,7 @@ export class ReviewerDetailComponent implements OnInit {
       icon: "pi pi-exclamation-triangle",
       accept: () => {
         this.reviewerService.deleteReview(review.id).subscribe(res => {
-          if(res) {
+          if (res) {
             this.reviews = this.reviews.filter(
               (val) => val.id !== review.id
             );
@@ -126,27 +133,53 @@ export class ReviewerDetailComponent implements OnInit {
   }
 
 
-  // approveReviewer(reviewer: Reviewer) {   
-  //   if(this.reviewer.id) {
+  // approveReviewer(reviewer: Reviewer) {
+  //   this.reviewer.status = 'Verified'; 
+  //   if (this.reviewer.id) {
       
-  //     this.reviewerService.updateReviewer(this.reviewer).subscribe( res => {
-  //         if(res) {          
-  //             // this.reviewerService.getReviewer().subscribe(res => {
-  //               this.reviewer.status = 'Verified';
-  //                 this.reviewer = res['reviewer'];
-  //                 // this.reviewers.forEach(reviewer => {
-  //                 //    this.reviewer = this.reviewer;
-  //                 // });
-  //             // })
-  //             this.messageService.add({
-  //                 severity: "success",
-  //                 summary: "Thành công!",
-  //                 detail: "Phê duyệt reviewer thành công",
-  //                 life: 3000,
-  //               });
-  //         }
+  //     this.reviewerService.updateReviewer(this.reviewer).subscribe(res => {
+  //       if (res) {
+  //         this.reviewerService.getReviewer().subscribe(res => {
+            
+  //           this.reviewers = res['reviewers'];
+  //           this.reviewers.forEach(reviewer => {
+              
+  //             this.reviewer = { ...reviewer };
+  //           });
+  //         })
+  //         this.messageService.add({
+  //           severity: "success",
+  //           summary: "Thành công!",
+  //           detail: "Phê duyệt reviewer thành công",
+  //           life: 3000,
+  //         });
+  //       }
   //     })
+  //   }
   // }
-  // }
+  
+  approveReviewer() {
+    
+    if(this.reviewer.id) {
+      this.reviewerService.updateReviewer(this.reviewer).subscribe( res => {
+          if(res) {
+            this.reviewer.status = 'Verified';
+              this.reviewerService.getReviewer().subscribe(res => {
+                  this.reviewers = res['reviewers'];
+                  this.reviewers.forEach(reviewer => {
+                    this.reviewer = { ...reviewer };
+                  });
+              })
+              this.messageService.add({
+                  severity: "success",
+                  summary: "Thành công!",
+                  detail: "Duyệt reviewer thành công",
+                  life: 3000,
+                });
+          }
+      })
+  }
+  }
+
 
 }

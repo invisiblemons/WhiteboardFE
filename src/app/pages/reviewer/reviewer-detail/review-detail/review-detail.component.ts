@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Review } from 'src/app/pages/dashboard/dashboard.model';
+import { CriterionsOfReview, PictureForReview, Review } from 'src/app/pages/dashboard/dashboard.model';
 import { ReviewerService } from '../../reviewer.service';
 
 @Component({
@@ -17,6 +17,10 @@ export class ReviewDetailComponent implements OnInit {
 
   rootReviews: Review[];
 
+  pictures: PictureForReview[];
+
+  criterions: CriterionsOfReview[];
+
   review: Review;
   constructor(
     private reviewerService: ReviewerService,
@@ -28,7 +32,21 @@ export class ReviewDetailComponent implements OnInit {
     this.displayBasic = true;
     this.reviewId = this.route.snapshot.paramMap.get("id");
     this.reviewerService.getReviewById(this.reviewId).subscribe((res) => {
-      this.review = res});
+      this.review = res; 
+      
+      
+      
+    });
+    
+    //get picture review
+    this.reviewerService.getPicturesReview().subscribe((res) => {
+      this.pictures = res;
+    });
+
+    //get criterion review
+    this.reviewerService.getCriterionsReview().subscribe((res) => {
+      this.criterions = res;
+    });
   }
 
   onDiscard(): void {

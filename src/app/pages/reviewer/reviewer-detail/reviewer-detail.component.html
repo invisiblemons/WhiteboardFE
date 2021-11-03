@@ -57,7 +57,7 @@
           <div *ngIf="this.reviewer.status === 'Unverified'">
             <div class="text-center">
               <button pButton pRipple label="Approve" class="p-button-text" style="text-align: center;"
-                (click)="approveReviewer(reviewer)"></button>
+                (click)="approveReviewer()"></button>
             </div>
           </div>
         </app-card>
@@ -84,7 +84,7 @@
                     <div class="col-9">
                       <div class="numbers">
                         <p class="card-category">
-                          Số bài review published
+                          Số bài đánh giá đã duyệt
                         </p>
                         <h3 class="card-title">{{countSuccessReviews}} bài</h3>
                       </div>
@@ -107,7 +107,7 @@
                     <div class="col-9">
                       <div class="numbers">
                         <p class="card-category">
-                          Số bài review đang chờ xét duyệt
+                          Số bài đánh giá đang chờ xét duyệt
                         </p>
                         <h3 class="card-title">{{countWaitingReviews}} bài</h3>
                       </div>
@@ -129,7 +129,7 @@
                     <div class="col-9">
                       <div class="numbers">
                         <p class="card-category">
-                          Số bài review bị từ chối
+                          Số bài đánh giá bị từ chối
                         </p>
                         <h3 class="card-title">{{countUnpublishReviews}} bài</h3>
                       </div>
@@ -147,83 +147,102 @@
     <div class="row">
       <div class="col-sm-12">
         <app-card [headerContent]="'Quản lí review'">
-          <div class="col-sm-12 col-xl-6">
-            <div class="d-flex bd-highlight">
-              <div class="p-2 w-100 bd-highlight">
-                <h4 class="p-m-0" style="font-weight: 600">
-                  Quản lý các bài đánh giá
-                </h4>
-              </div>
-            </div>
+          <!-- <div class="col-sm-12"> -->
 
-            <div class="row"></div>
-            <dl class="dl-horizontal ">
-              <dd class="col-sm-12 col-sm-offset-3">
-                <p-table [value]="reviews" dataKey="id">
-                  <ng-template pTemplate="header">
-                    <tr>
-                      <th style="width: 3rem" class="text-center"></th>
-                      <th pSortableColumn="title" style="width: 8rem">
-                        Title<p-sortIcon field="title" class="text-center"></p-sortIcon>
-                      </th>
-                      <th pSortableColumn="onDateTime" style="width: 10rem">
-                        Created Date
-                        <p-sortIcon field="onDateTime" class="text-center"></p-sortIcon>
-                      </th>
-                      <th pSortableColumn="campusName" style="width: 8rem">
-                        Campus<p-sortIcon field="campusName" class="text-center"></p-sortIcon>
-                      </th>
-                      <th pSortableColumn="universityName" style="width: 8rem">
-                        University<p-sortIcon field="universityName" class="text-center"></p-sortIcon>
-                      </th>
-                      <th pSortableColumn="status" style="width: 8rem">
-                        Status<p-sortIcon field="status" class="text-center"></p-sortIcon>
-                      </th>
-                      <!-- <th></th> -->
-                      <th style="width: 5rem"></th>
-                    </tr>
-                  </ng-template>
-                  <ng-template pTemplate="body" let-review let-expanded="expanded">
-                    <tr>
-                      <td>
-                        <button type="button" (click)="openDetailReview(review)" pButton pRipple [pRowToggler]="review"
-                          class="p-button-text p-button-rounded p-button-plain"
-                          [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>
-                      </td>
-                      <td>{{ review.title }}</td>
-                      <td style="text-align: left">
-                        {{ review.onDateTime }}
-                      </td>
-                      <td style="text-align: left">
-                        {{ review.campusName }}
-                      </td>
-                      <td style="text-align: left">
-                        {{ review.universityName }}
-                      </td>
-                      <td style="text-align: left">
-                        {{ review.status }}
-                      </td>
-                      <td style="text-align: left">
-                        <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning"
-                          (click)="deleteReview(review)"></button>
-                      </td>
-                    </tr>
-                  </ng-template>
-                  <ng-template pTemplate="emptymessage">
-                    <tr>
-                      <td colspan="8">Reviewer này chưa có bài đánh giá nào.</td>
-                    </tr>
-                  </ng-template>
-                </p-table>
 
-            </dl>
-          </div>
+          <!-- <div class="row"></div> -->
+          <dl class="dl-horizontal ">
+            <!-- <dd class="col-sm-12 "> -->
+            <p-table #datatable [value]="reviews" dataKey="id">
+              <ng-template pTemplate="caption">
+                <div class="d-flex bd-highlight">
+                  <div class="p-2 w-100 bd-highlight">
+                    <h4 class="p-m-0" style="font-weight: 600">
+                      Quản lý các bài đánh giá
+                    </h4>
+                  </div>
+                </div>
+              </ng-template>
+
+              <ng-template pTemplate="header">
+                <tr>
+                  <th style="width: 5rem" class="text-center">Stt</th>
+                  <th pSortableColumn="title" style="width: 8rem">
+                    Tiêu đề<p-sortIcon field="title" class="text-center"></p-sortIcon>
+                  </th>
+                  <th pSortableColumn="onDateTime" style="width: 10rem">
+                    Ngày tạo
+                    <p-sortIcon field="onDateTime" class="text-center"></p-sortIcon>
+                  </th>
+                  <th pSortableColumn="campusName" style="width: 8rem">
+                    Campus<p-sortIcon field="campusName" class="text-center"></p-sortIcon>
+                  </th>
+                  <th pSortableColumn="universityName" style="width: 8rem">
+                    Trường đại học<p-sortIcon field="universityName" class="text-center"></p-sortIcon>
+                  </th>
+                  <th pSortableColumn="status" style="width: 8rem">
+                    Trạng thái<p-sortIcon field="status" class="text-center"></p-sortIcon>
+                    <p-dropdown [options]="revieweStatusList" [(ngModel)]="selectedStatus" placeholder="Status"
+                      editable="true" style="height: auto;"
+                      (onChange)="datatable.filter($event.value, 'status', 'equals')">
+                      <ng-template let-option pTemplate="review">
+                        <span [class]="'customer-badge status-' + option.value">{{option.label}}</span>
+                      </ng-template>
+                    </p-dropdown>
+                  </th>
+                  <th style="width: 10rem;" class="text-center">Xem chi tiết</th>
+                  <th>Lock</th>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-review let-expanded="expanded" let-rowIndex="rowIndex">
+                <tr>
+                  <td style="text-align: center">{{rowIndex+1}}</td>
+                  <td>{{ review.title }}</td>
+                  <td style="text-align: left">
+                    {{ review.onDateTime }}
+                  </td>
+                  <td style="text-align: left">
+                    {{ review.campusName }}
+                  </td>
+                  <td style="text-align: left">
+                    {{ review.universityName }}
+                  </td>
+                  <td style="text-align: left">
+                    {{ review.status }}
+                  </td>
+                  <td style="text-align: center" *ngIf="review.status === 'Waiting'">
+                    <button type="button" (click)="openDetailReview(review)" pButton pRipple
+                      class="p-button-text p-button-rounded p-button-plain" disabled
+                      [icon]="expanded ? 'pi pi-eye-slash' : 'pi pi-eye'"></button>
+                  </td>
+                  <td style="text-align: center" *ngIf="reviewer.status !== 'Waiting'">
+                    <button type="button" (click)="openDetailReview(review)" pButton pRipple
+                      class="p-button-text p-button-rounded p-button-plain"
+                      [icon]="expanded ? 'pi pi-eye-slash' : 'pi pi-eye'"></button>
+                  </td>
+                  <td style="text-align: center" *ngIf="review.status ==='Published'">
+                    <button pButton pRipple icon="pi pi-lock" class="p-button-rounded p-button-danger"
+                      (click)="deleteReviewer(reviewer)"></button>
+                  </td>
+                  <td style="text-align: center" *ngIf="review.status === 'Locked'">
+                    <button pButton pRipple icon="pi pi-unlock" class="p-button-rounded p-button-success"
+                      (click)="unDeleteReviewer(reviewer)"></button>
+                  </td>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="emptymessage">
+                <tr>
+                  <td colspan="8">Reviewer này chưa có bài đánh giá nào.</td>
+                </tr>
+              </ng-template>
+              <p-confirmDialog></p-confirmDialog>
+              <p-toast position="top-right"></p-toast>
+            </p-table>
+          </dl>
+          <!-- </div> -->
         </app-card>
       </div>
     </div>
-    <p-confirmDialog></p-confirmDialog>
-    <p-toast position="top-right"></p-toast>
-    <router-outlet></router-outlet>
   </div>
- 
+  <router-outlet></router-outlet>
 </p-dialog>

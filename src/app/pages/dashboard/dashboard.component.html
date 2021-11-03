@@ -18,6 +18,9 @@
           <div class="p-2 w-100 bd-highlight">
             <h2 class="p-m-0" style="font-weight: 500">Quản lý bài đánh giá</h2>
           </div>
+          <div class="ml-auto">
+            <p-button icon="pi pi-refresh" [loading]="isShow" (onClick)="reloadReview()" pTooltip="Reload Redis"></p-button>
+          </div>
         </div>
         <div class="p-d-flex">
           <button
@@ -50,10 +53,10 @@
             <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
         </th>
           <th style="width: 4rem" class="text-center">Stt</th>
-          <th class="text-align: left" style="width: 25rem">Tiêu đề</th>
+          <th class="text-align: left" style="width: 20rem">Tiêu đề</th>
           <th  pSortableColumn="onDateTime" style="text-align: left; width: 10rem">Ngày đăng<p-sortIcon field="onDateTime"></p-sortIcon></th>
-          <th class="text-align: left" style="width: 20rem">Email người đăng</th>
-          <th style="text-align: left">
+          <th class="text-align: left" style="width: 15rem">Email người đăng</th>
+          <th style="text-align: left; width: 10rem">
             <div class="p-d-flex p-jc-between p-ai-center">
               Trạng thái
               <p-columnFilter
@@ -88,14 +91,13 @@
               </p-columnFilter>
             </div>
           </th>
-          <th style="width: 10rem" style="text-align: center">Xem chi tiết</th>
+          <th style="text-align: center; width: 10rem">Xem chi tiết</th>
         </tr>
       </ng-template>
 
       <ng-template
         pTemplate="body"
         let-review
-        let-expanded="expanded"
         let-rowIndex="rowIndex"
       >
         <tr>

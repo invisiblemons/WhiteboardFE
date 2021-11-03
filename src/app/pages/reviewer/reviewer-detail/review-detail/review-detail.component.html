@@ -13,8 +13,8 @@
             <div class="col-sm-12 col-xl-6">
               <h6 class="sub-title" style="font-weight: 600">Pictures</h6>
               <div class="card">
-                <div class="profile-wrap animated">
-                  <img style="width: 470px; height: 500px" src="{{ review.pictures }}" />
+                <div class="profile-wrap animated" *ngIf="this.pictures">
+                  <img style="width: 470px; height: 500px" src="{{ review.pictures.picture }}" />
                 </div>
               </div>
             </div>
@@ -23,24 +23,32 @@
                 Chi tiết bài đánh giá
               </h4>
               <dl class="dl-horizontal row">
-                <dt class="col-sm-3">Title</dt>
+                <dt class="col-sm-3">Tiêu chí đánh giá</dt>
+                <dd class="col-sm-9" *ngIf="this.criterions">
+                  <span>{{ criterions.criteriaName }}</span>
+                </dd>
+                <dt class="col-sm-3">Tiêu đề</dt>
                 <dd class="col-sm-9">
                   <span>{{ review.title }}</span>
                 </dd>
-                <dt class="col-sm-3">Date</dt>
+                <dt class="col-sm-3">Ngày</dt>
                 <dd class="col-sm-9">
                   {{ review.onDateTime | date: "dd/MM/yyyy" }}
+                </dd>
+                <dt class="col-sm-3">Nội dung</dt>
+                <dd class="col-sm-9">
+                  {{ review.content }}
                 </dd>
                 <dt class="col-sm-3">Campus</dt>
 
                 <dd class="col-sm-9 col-sm-offset-3">
                   {{ review.campusName }}
                 </dd>
-                <dt class="col-sm-3">University</dt>
+                <dt class="col-sm-3">Trường đại học</dt>
                 <dd class="col-sm-9">
                   {{ review.universityName }}
                 </dd>
-                <!-- <dt class="col-sm-3">criterion</dt>
+                <!-- <dt class="col-sm-3">Tiêu </dt>
                 <dd class="col-sm-9">
                   {{ review.criterions }}
                 </dd> -->
@@ -50,11 +58,6 @@
                 </dd>
 
               </dl>
-              <!-- <h6 class="sub-title" style="font-weight: 600">Avatar</h6>
-              <mat-card class="example-card">
-                <img mat-card-image style="width: 300px; height: 300px" src="{{ reviewer.avatar }}"
-                  alt="Photo of an avatar">
-              </mat-card> -->
             </div>
 
           </div>

@@ -16,6 +16,14 @@ export class DashboardService {
     return this.httpClient.get<Review[]>(`${this.baseURL}`);
   }
 
+  getReloadReviews(): Observable<Review[]> {
+    return this.httpClient.get<Review[]>(`${this.baseURL}?reloadredis=true`);
+  }
+
+  getReloadPublishedReviews(): Observable<Review[]> {
+    return this.httpClient.get<Review[]>(`${this.baseURL}?status=Published&reloadredis=true`);
+  }
+
   getReviewById(id): Observable<Review> {
     return this.httpClient.get<Review>(`${this.baseURL}/${id}`);
   }
