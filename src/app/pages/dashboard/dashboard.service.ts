@@ -12,16 +12,12 @@ export class DashboardService {
   baseURL: string = environment.apiUrl + '/api/v1.0/reviews';
   constructor(private httpClient: HttpClient) { }
 
-  getPublishedReviews(): Observable<Review[]> {
-    return this.httpClient.get<Review[]>(`${this.baseURL}?status=published`);
+  getReviews(): Observable<Review[]> {
+    return this.httpClient.get<Review[]>(`${this.baseURL}`);
   }
 
-  getWaitingReviews(): Observable<Review[]> {
-    return this.httpClient.get<Review[]>(`${this.baseURL}?status=waiting`);
-  }
-
-  getUnpublishedReviews(): Observable<Review[]> {
-    return this.httpClient.get<Review[]>(`${this.baseURL}?status=unpublished`);
+  getReviewById(id): Observable<Review> {
+    return this.httpClient.get<Review>(`${this.baseURL}/${id}`);
   }
 
   publicReview(id): Observable<boolean> {

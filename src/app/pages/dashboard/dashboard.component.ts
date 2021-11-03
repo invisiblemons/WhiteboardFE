@@ -2,8 +2,9 @@ import { Component, OnInit } from "@angular/core";
 import Chart from "chart.js";
 import { NgbActiveModal, NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { DashboardService } from "./dashboard.service";
-import { Review } from "./dashboard.model";
 import { ConfirmationService, MessageService } from "primeng/api";
+import { Review } from "./dashboard.model";
+import { Router } from "@angular/router";
 
 @Component({
   selector: "app-dashboard",
@@ -11,123 +12,72 @@ import { ConfirmationService, MessageService } from "primeng/api";
   styleUrls: ["dashboard.component.scss"],
 })
 export class DashboardComponent implements OnInit {
-  publishReviews: Review[] = null;
+  // publishReviews: Review[] = null;
 
-  waitingReviews: Review[] = null;
+  reviews: Review[];
 
-  unpublishedReviews: Review[] = null;
-
-  countPublishReviews: number;
-
-  countWaitingReviews: number;
-
-  countUnpublishedReviews: number;
-
-  contentSuccess: boolean;
-
-  contentWaiting: boolean;
-
-  contentDanger: boolean;
+  unReview: Review;
 
   isShow: boolean = true;
 
-  message: any;
+  unpublishedModal: boolean = false;
+
+  reasons: string[];
+
+  statuses: any[];
+
+  message: string;
+
+  selectedReviews: Review[];
 
   constructor(
     private modalService: NgbModal,
     private services: DashboardService,
     private messageService: MessageService,
-    private confirmationService: ConfirmationService
+    private confirmationService: ConfirmationService,
+    private router: Router
   ) {}
 
   ngOnInit() {
-    this.countPublishReviews = 0;
-    this.countWaitingReviews = 0;
-    this.countUnpublishedReviews = 0;
-    //get publish reviews
-    this.services.getPublishedReviews().subscribe((res) => {
-      if (null !== res) {
-        this.publishReviews = res["reviews"];
-        this.countPublishReviews = this.publishReviews.length;
-      }
-    });
 
-    //get waiting reviews
-    this.services.getWaitingReviews().subscribe((res) => {
+    this.reasons = [
+      "Lỗi ưu điểm sai sự thật",
+      "Lỗi nhược điểm sai sự thật",
+      "Lỗi hình ảnh không liên quan",
+      "Lỗi dùng từ ngữ thô tục",
+      "Lỗi nội dung chứa thông tin phân biệt chủng tộc, vùng miền",
+    ];
+    this.statuses = [
+      {label: 'Đã xét duyệt', value: 'Published'},
+        {label: 'Chưa xét duyệt', value: 'Unpublished'},
+        {label: 'Đang xét duyệt', value: 'Waiting'}
+    ]
+
+    //get reviews
+    this.services.getReviews().subscribe((res) => {
       if (null !== res) {
-        this.waitingReviews = res["reviews"];
-        this.countWaitingReviews = this.waitingReviews.length;
+        this.reviews = res["reviews"];
         this.isShow = false;
       }
     });
+  }
 
-    //get unpublished reviews
-    this.services.getUnpublishedReviews().subscribe((res) => {
-      if (null !== res) {
-        this.unpublishedReviews = res["reviews"];
-        this.countUnpublishedReviews = this.unpublishedReviews.length;
-      }
+  openUnpublishedReview(review) {
+    this.unReview = review;
+    this.unpublishedModal = true;
+  }
+  closeUnpublishedReview() {
+    this.unpublishedModal = false;
+  }
+
+  openDetailReview(review) {
+    this.router.navigate(["/dashboard/detail"], {
+      queryParams: { id: review.id },
     });
   }
 
-  openSuccess() {
-    this.contentSuccess = true;
-  }
+  deleteSelectedReviews() {
 
-  hideSuccess() {
-    this.contentSuccess = true;
   }
-
-  openWarning() {
-    this.contentWaiting = true;
-  }
-
-  hideWarning() {
-    this.contentWaiting = true;
-  }
-
-  openDanger() {
-    this.contentDanger = true;
-  }
-
-  hideDanger() {
-    this.contentDanger = true;
-  }
-
-  openUnpublishedReview(content) {
-    this.modalService.open(content, { size: "lg" });
-  }
-
-  publishReview() {
-    this.services.publicReview(this.waitingReviews[0].id).subscribe((res) => {
-      if (res) {
-        this.waitingReviews.shift();
-        this.countPublishReviews += 1;
-        this.countWaitingReviews -= 1;
-        this.messageService.add({
-          severity: "success",
-          summary: "Thành công!",
-          detail: "Bài review đã được public",
-          life: 3000,
-        });
-      }
-    });
-  }
-
-  unpublishedReview() {
-    this.services.unpublicReview(this.waitingReviews[0].id, {"message": this.message}).subscribe((res) => {
-      if (res) {
-        this.waitingReviews.shift();
-        this.countUnpublishedReviews += 1;
-        this.countWaitingReviews -= 1;
-        this.messageService.add({
-          severity: "success",
-          summary: "Thành công!",
-          detail: "Bài review bị từ chối public thành công",
-          life: 3000,
-        });
-        this.modalService.dismissAll('Cross click');
-      }
-    });
-  }
+ 
 }

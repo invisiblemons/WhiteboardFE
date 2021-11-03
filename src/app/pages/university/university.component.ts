@@ -13,6 +13,11 @@ import { UniversityService } from "./university.service";
   styleUrls: ["./university.component.scss"],
 })
 export class UniversityComponent implements OnInit {
+
+  first = 0;
+
+  rows = 5;
+  
   universities: University[];
 
   rootDataUniversities: University[];
@@ -53,6 +58,29 @@ export class UniversityComponent implements OnInit {
     });
     this.rootDataUniversities = this.universities;
   }
+
+  // paging
+  next() {
+    this.first = this.first + this.rows;
+}
+
+prev() {
+    this.first = this.first - this.rows;
+}
+
+reset() {
+    this.first = 0;
+}
+
+isLastPage(): boolean {
+    return this.universities ? this.first === (this.universities.length - this.rows): true;
+}
+
+isFirstPage(): boolean {
+    return this.universities ? this.first === 0 : true;
+}
+
+// end-paging
 
   openNewUniversity() {
     this.newUniverisityDialog = true;

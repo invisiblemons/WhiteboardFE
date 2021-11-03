@@ -40,6 +40,11 @@ import { Campus, University } from "../university/university.model";
   ],
 })
 export class CampaignComponent implements OnInit {
+
+  first = 0;
+
+  rows = 5;
+
   campaigns: Campaign[];
 
   campaign: Campaign;
@@ -120,6 +125,31 @@ export class CampaignComponent implements OnInit {
     });
     this.currentDay = new Date();
   }
+
+  // paging
+
+  next() {
+    this.first = this.first + this.rows;
+}
+
+prev() {
+    this.first = this.first - this.rows;
+}
+
+reset() {
+    this.first = 0;
+}
+
+isLastPage(): boolean {
+    return this.campaigns ? this.first === (this.campaigns.length - this.rows): true;
+}
+
+isFirstPage(): boolean {
+    return this.campaigns ? this.first === 0 : true;
+}
+
+// end-paging
+
 
   // open modal create
   openNewCampaign() {

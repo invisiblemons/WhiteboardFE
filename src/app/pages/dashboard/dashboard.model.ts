@@ -16,6 +16,7 @@ export class Review {
     pictures: PictureForReview[];
     criterions: CriterionsOfReview[];
     whyNotPublic: string;
+    lengthPics: number;
     constructor() {
         
     }
