@@ -191,7 +191,6 @@
                     </p-dropdown>
                   </th>
                   <th style="width: 10rem;" class="text-center">Xem chi tiết</th>
-                  <th>Lock</th>
                 </tr>
               </ng-template>
               <ng-template pTemplate="body" let-review let-expanded="expanded" let-rowIndex="rowIndex">
@@ -210,23 +209,10 @@
                   <td style="text-align: left">
                     {{ review.status }}
                   </td>
-                  <td style="text-align: center" *ngIf="review.status === 'Waiting'">
-                    <button type="button" (click)="openDetailReview(review)" pButton pRipple
-                      class="p-button-text p-button-rounded p-button-plain" disabled
-                      [icon]="expanded ? 'pi pi-eye-slash' : 'pi pi-eye'"></button>
-                  </td>
-                  <td style="text-align: center" *ngIf="reviewer.status !== 'Waiting'">
+                  <td style="text-align: center">
                     <button type="button" (click)="openDetailReview(review)" pButton pRipple
                       class="p-button-text p-button-rounded p-button-plain"
-                      [icon]="expanded ? 'pi pi-eye-slash' : 'pi pi-eye'"></button>
-                  </td>
-                  <td style="text-align: center" *ngIf="review.status ==='Published'">
-                    <button pButton pRipple icon="pi pi-lock" class="p-button-rounded p-button-danger"
-                      (click)="deleteReviewer(reviewer)"></button>
-                  </td>
-                  <td style="text-align: center" *ngIf="review.status === 'Locked'">
-                    <button pButton pRipple icon="pi pi-unlock" class="p-button-rounded p-button-success"
-                      (click)="unDeleteReviewer(reviewer)"></button>
+                      [icon]="'pi pi-eye'"></button>
                   </td>
                 </tr>
               </ng-template>

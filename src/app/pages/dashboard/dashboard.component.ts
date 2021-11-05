@@ -90,12 +90,14 @@ export class DashboardComponent implements OnInit {
     this.services.reloadL4().subscribe();
     this.services.reloadL5().subscribe((res) => {
       if (null !== res) {
+        console.log("test");
         this.messageService.add({
           severity: "success",
           summary: "Thành công!",
           detail: "Cập nhật ",
           life: 3000,
         });
-      }});
+      }
+    });
   }
 }

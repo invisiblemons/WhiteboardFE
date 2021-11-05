@@ -107,7 +107,9 @@ export class ReviewerDetailComponent implements OnInit {
   }
 
   openDetailReview(review: Review) {
-    this.router.navigate(['./reviewer/reviewer-detail/review-detail', { id: review.id }]);
+    this.router.navigate(["/dashboard/detail"], {
+      queryParams: { id: review.id },
+    });
   }
 
   deleteReview(review: Review) {
