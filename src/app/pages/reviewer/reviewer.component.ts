@@ -57,9 +57,12 @@ export class ReviewerComponent implements OnInit {
   university: University;
 
   campus: Campus;
-  //isShowSpin: boolean;
   hasUni: boolean = false;
   campusList: Campus[];
+
+  isShowSpin:boolean;
+
+  selectedReviewers: Reviewer[];
 
   // name: string;
   // birthday: Date;
@@ -79,22 +82,23 @@ export class ReviewerComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.isShowSpin = true;
     this.service.getReviewer().subscribe((data) => {
       this.reviewers = data['reviewers'];
+      this.isShowSpin = false;
     })
-    this.listStatus.push(
-      { label: "Xác thực", value: "verified" },
-      { label: "Chưa xác thực", value: "unverified" },
-      { label: "Khóa", value: "locked" }
-    );
 
-    this.service.getUni().subscribe((data) => {
-      this.universities = data['universitys'];
-    })
+    this.listStatus.push(
+      { label: "Đã Xác thực", value: "Verified" },
+      { label: "Chưa xác thực", value: "Unverified" },
+      { label: "Đã Khóa", value: "Locked" }
+    );
   }
 
   openDetailReviewer(reviewer: Reviewer) {
-    this.router.navigate(['./reviewer/reviewer-detail', { id: reviewer.id }]);
+    this.router.navigate(["/reviewer/reviewer-detail"], {
+      queryParams: { id: reviewer.id },
+    });
   }
 
   // deleteReviewer(reviewer: Reviewer) {
@@ -172,17 +176,9 @@ export class ReviewerComponent implements OnInit {
     });
   }
 
-  onChangeUni(event) {
-    this.hasUni = true;
-    // this.campusList = event.value['campus'];
-    console.log(event.value);
-    this.service.searchReviewerFromUni(event.value['id']).subscribe(res => {
-      if (null !== res) {
-        this.reviewers = res['reviewers'];
-      } else {
-        this.reviewers = [];
-      }
-      //console.log(this.reviewers);
-    })
+  deleteSelectedReviewers() {
+
   }
+
+  
 }

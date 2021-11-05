@@ -220,4 +220,20 @@ isFirstPage(): boolean {
     this.imgSrc = "/assets/img/weebly_image_sample.png";
     this.selectedImage = null;
   }
+
+  reloadUniversities() {
+    this.isShowSpin = true;
+    this.services.getReloadUniversities().subscribe((res) => {
+      if (null !== res) {
+        this.universities = res["universitys"];
+        this.isShowSpin = false;
+        this.messageService.add({
+          severity: "success",
+          summary: "Thành công!",
+          detail: "Reload trên redis thành công",
+          life: 3000,
+        });
+      }
+    });
+  }
 }

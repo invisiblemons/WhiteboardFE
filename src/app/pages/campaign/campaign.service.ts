@@ -21,11 +21,11 @@ export class CampaignService {
   constructor(private httpClient: HttpClient) { }
 
   getCampaigns(): Observable<Campaign[]> {
-    return this.httpClient.get<Campaign[]>(`${this.baseURL}`);
+    return this.httpClient.get<Campaign[]>(`${this.baseURL}?sortby=StartDay&order=Des`);
   }
 
   getReloadCampaigns(): Observable<Campaign[]> {
-    return this.httpClient.get<Campaign[]>(`${this.baseURL}?reloadredis=true`);
+    return this.httpClient.get<Campaign[]>(`${this.baseURL}?sortby=StartDay&order=Des&reloadredis=true`);
   }
 
   getCriterions(id:string) {

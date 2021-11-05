@@ -23,7 +23,9 @@ export class ReviewDetailComponent implements OnInit {
 
   message: string;
 
+  unReview: Review;
 
+  reasons: string[];
 
   constructor(private services: DashboardService,
     private messageService: MessageService,
@@ -35,6 +37,13 @@ export class ReviewDetailComponent implements OnInit {
     this.displayBasic = true;
     this.isShow = true;
     this.unpublishedModal = false;
+    this.reasons = [
+      "lỗi ưu điểm sai sự thật",
+      "lỗi nhược điểm sai sự thật",
+      "lỗi hình ảnh không liên quan",
+      "lỗi dùng từ ngữ thô tục",
+      "lỗi nội dung chứa thông tin phân biệt chủng tộc, vùng miền",
+    ];
     this.route.queryParams.subscribe((params) => {
       this.reviewId = params["id"];
     });
@@ -55,12 +64,15 @@ export class ReviewDetailComponent implements OnInit {
 
   onDiscard(): void {
     this.displayBasic = false;
-    this.router.navigate(["./dashboard"]);
+    this.router.navigate(["/dashboard"], {
+      queryParams: { id: this.review.id,status: this.review.status }
+    });
   }
 
   publishReview() {
     this.services.publicReview(this.reviewId).subscribe((res) => {
       if (res) {
+        this.review.status = "Published";
         this.messageService.add({
           severity: "success",
           summary: "Thành công!",
@@ -75,6 +87,7 @@ export class ReviewDetailComponent implements OnInit {
     this.services.unpublicReview(this.reviewId, {"message": this.message}).subscribe((res) => {
       if (res) {
         this.unpublishedModal = false;
+        this.review.status = "Unpublished";
         this.messageService.add({
           severity: "success",
           summary: "Thành công!",
@@ -83,5 +96,13 @@ export class ReviewDetailComponent implements OnInit {
         });
       }
     });
+  }
+
+  openUnpublishedReview(review) {
+    this.unReview = review;
+    this.unpublishedModal = true;
+  }
+  closeUnpublishedReview() {
+    this.unpublishedModal = false;
   }
 }

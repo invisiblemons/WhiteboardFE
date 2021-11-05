@@ -58,11 +58,12 @@ export class ReviewerDetailComponent implements OnInit {
 
   ngOnInit(): void {
     this.displayBasic = true;
-    this.reviewerId = this.route.snapshot.paramMap.get("id");
-    this.reviewerService.getReviewerById(this.reviewerId).subscribe((res) => {
-      this.reviewer = res
-    });
-    //get review
+    this.route.queryParams.subscribe((params) => {
+      this.reviewerId = params["id"];
+      this.reviewerService.getReviewerById(this.reviewerId).subscribe((res) => {
+        this.reviewer = res
+      });
+      //get review
     this.reviewerService.getReview(this.reviewerId).subscribe((res) => {
       this.reviews = res["reviews"];
       this.rootReviews = res["reviews"];
@@ -91,6 +92,7 @@ export class ReviewerDetailComponent implements OnInit {
         }
       });
       this.countUnpublishReviews = this.unpublishReviews.length;
+    });
     });
 
     this.revieweStatusList.push(

@@ -10,18 +10,36 @@ import { Review } from './dashboard.model';
 export class DashboardService {
 
   baseURL: string = environment.apiUrl + '/api/v1.0/reviews';
+  campaignURL: string = environment.apiUrl + '/api/v1.0/campaigns';
+
   constructor(private httpClient: HttpClient) { }
 
   getReviews(): Observable<Review[]> {
-    return this.httpClient.get<Review[]>(`${this.baseURL}`);
+    return this.httpClient.get<Review[]>(`${this.baseURL}?sortby=Date&order=Des`);
   }
 
   getReloadReviews(): Observable<Review[]> {
-    return this.httpClient.get<Review[]>(`${this.baseURL}?reloadredis=true`);
+    return this.httpClient.get<Review[]>(`${this.baseURL}?sortby=Date&order=Des&reloadredis=true`);
   }
 
   getReloadPublishedReviews(): Observable<Review[]> {
-    return this.httpClient.get<Review[]>(`${this.baseURL}?status=Published&reloadredis=true`);
+    return this.httpClient.get<Review[]>(`${this.baseURL}?sortby=Date&order=Des&status=Published&reloadredis=true`);
+  }
+
+  reloadL2(): Observable<Review[]> {
+    return this.httpClient.get<Review[]>(`${this.campaignURL}?campusId=21111111-1111-1111-1111-111111111111&reloadredis=true`);
+  }
+
+  reloadL3(): Observable<Review[]> {
+    return this.httpClient.get<Review[]>(`${this.baseURL}?reviewerid=11111111-1111-1111-1111-111111111111&status=Published&reloadredis=true`);
+  }
+
+  reloadL4(): Observable<Review[]> {
+    return this.httpClient.get<Review[]>(`${this.baseURL}?reviewerid=11111111-1111-1111-1111-111111111111&status=Waiting&reloadredis=true`);
+  }
+
+  reloadL5(): Observable<Review[]> {
+    return this.httpClient.get<Review[]>(`${this.baseURL}?reviewerid=11111111-1111-1111-1111-111111111111&status=Unpublished&reloadredis=true`);
   }
 
   getReviewById(id): Observable<Review> {

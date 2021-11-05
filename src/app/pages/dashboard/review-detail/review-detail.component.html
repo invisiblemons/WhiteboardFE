@@ -111,6 +111,10 @@
               <div class="col-sm-12 col-xl-6 p-l-4">
                 <h4 class="sub-title">Nội dung bài review!</h4>
                 <dl class="dl-horizontal row">
+                  <dt class="col-sm-5">Trạng thái</dt>
+                  <dd class="col-sm-9">
+                    {{ review.status }}
+                  </dd>
                   <dt class="col-sm-5">Tiêu đề</dt>
                   <dd class="col-sm-9">
                     {{ review.title }}
@@ -119,6 +123,11 @@
   
                   <dd class="col-sm-12 col-sm-offset-3">
                     {{ review.content }}
+                  </dd>
+                  <dt class="col-sm-5">Thời gian</dt>
+  
+                  <dd class="col-sm-12 col-sm-offset-3">
+                    {{ review.onDateTime | date: "dd/MM/yyyy" }}
                   </dd>
                   <dt class="col-sm-5 text-truncate">Tiêu chí review</dt>
                   <dd class="col-sm-12">
@@ -195,26 +204,30 @@
                   </ng-container>
                 
               </div>
-              <div class="col-sm-12 mx-auto mt-4">
-                <dl class="dl-horizontal row">
-                    <div class="col-md-6 text-center">
-                      <button
-                        class="btn btn-primary btn-round"
-                        (click)="publishReview()"
-                      >
-                        Published
-                      </button>
-                    </div>
-                    <div class="col-md-6 text-center">
-                      <button
-                        class="btn btn-danger btn-round"
-                        (click)="openUnpublishedReview()"
-                      >
-                        Unpublished
-                      </button>
-                    </div>
-                  </dl>
-              </div>
+              <ng-container *ngIf="review.status=='Waiting'">
+                <div class="col-sm-12 mx-auto mt-4">
+                  <dl class="dl-horizontal row">
+                      
+                      <div class="col-md-6 text-center">
+                        <button
+                          class="btn btn-danger btn-round"
+                          (click)="openUnpublishedReview()"
+                        >
+                          Unpublished
+                        </button>
+                      </div>
+                      <div class="col-md-6 text-center">
+                        <button
+                          class="btn btn-primary btn-round"
+                          (click)="publishReview()"
+                        >
+                          Published
+                        </button>
+                      </div>
+                    </dl>
+                </div>
+              </ng-container>
+              
             </div>
           </ng-template>
         </app-card>
@@ -226,12 +239,10 @@
    <div class="row p-10">
      <div class="col-sm-12 col-xl-12 p-l-4">
        <dl class="dl-horizontal row">
-         <ng-container *ngFor="let criteria of review.criterions">
-           <dt style="margin: 10px 0" class="col-sm-4">{{ criteria.name }}</dt>
+           <dt style="margin: 10px 0" class="col-sm-4">Lý do từ chối xét duyệt</dt>
            <dd  class="col-sm-12">
-             <p-dropdown [options]="reasons" appendTo="body"[baseZIndex]="1000000" editable="true" placeholder="Mô tả chi tiết nội dung vi phạm" ></p-dropdown>
+             <p-dropdown [options]="reasons" appendTo="body"[baseZIndex]="1000000" editable="true" [(ngModel)]="message" placeholder="Mô tả chi tiết nội dung vi phạm" ></p-dropdown>
            </dd>
-         </ng-container>
        </dl>
      </div>
    </div>

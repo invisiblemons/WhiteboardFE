@@ -4,7 +4,7 @@ export class Reviewer {
     name: string;
     birthday: Date;
     email: string;
-    phoneNumber: number;
+    phoneNumber: string;
     avatar: string;
     certification: string;
     unpublishedReviews: number;

@@ -23,7 +23,9 @@
         <app-card [headerContent]="'Thông tin chi tiết trường đại học'">
           <div class="row">
             <div class="col-sm-12 col-xl-6">
-              <h4 class="sub-title" style="font-weight: 600">Logo trường đại học</h4>
+              <h4 class="sub-title" style="font-weight: 600">
+                Logo trường đại học
+              </h4>
               <div class="card">
                 <div class="profile-wrap animated">
                   <img
@@ -34,22 +36,24 @@
               </div>
             </div>
             <div class="col-sm-12 col-xl-6">
-              <h4 class="sub-title" style="font-weight: 600">
-                Thông tin
-              </h4>
+              <h4 class="sub-title" style="font-weight: 600">Thông tin</h4>
               <dl class="dl-horizontal row">
-                <dt class="col-sm-3">Tên trường đại học</dt>
-                <dd class="col-sm-9">
+                <dt class="col-sm-5">Tên trường đại học</dt>
+                <dd class="col-sm-7">
                   {{ university.name }}
                 </dd>
-                <dt class="col-sm-3">Email</dt>
+                <dt class="col-sm-5">Email</dt>
 
-                <dd class="col-sm-9 col-sm-offset-3">
+                <dd class="col-sm-7 col-sm-offset-3">
                   {{ university.email }}
                 </dd>
-                <dt class="col-sm-3">Số điện thoại</dt>
-                <dd class="col-sm-9">
-                  {{ university.phoneNumber}}
+                <dt class="col-sm-5">Số điện thoại</dt>
+                <dd class="col-sm-7">
+                  {{ university.phoneNumber }}
+                </dd>
+                <dt class="col-sm-5">Website</dt>
+                <dd class="col-sm-7">
+                  {{ university.link }}
                 </dd>
               </dl>
             </div>
@@ -62,49 +66,57 @@
         <app-card [headerContent]="'Quản lý Campus thuộc trường đại học'">
           <div class="row">
             <div class="col-sm-12 col-xl-12">
-              <h4 class="sub-title" style="font-weight: 600">
-                Quản lý Campus thuộc trường đại học
-              </h4>
-              <p-table [value]="campuses" dataKey="id">
+              <div class="row">
+                <h4 class="sub-title" style="font-weight: 600">
+                  Quản lý Campus thuộc trường đại học
+                </h4>
+                <div class="ml-auto mb-2">
+                  <button
+                    pButton
+                    pRipple
+                    label="Thêm mới"
+                    icon="pi pi-plus"
+                    class="p-button-success p-mr-2"
+                    (click)="openNewCampus()"
+                    pTooltip="Thêm mới campus"
+                  ></button>
+                </div>
+              </div>
+              <p-table [value]="university.campus" dataKey="id">
                 <ng-template pTemplate="header">
                   <tr>
                     <th style="width: 3rem" class="text-center"></th>
-                    <th pSortableColumn="name">
+                    <th pSortableColumn="name" style="text-align: left">
                       Tên campus<p-sortIcon field="name"></p-sortIcon>
                     </th>
-                    <th class="text-center">Logo</th>
-                    <th class="text-center">
-                      Địa chỉ
-                    </th>
-                    <th class="text-center">
-                        Email
-                      </th>
-                      <th class="text-center">
-                        Số điện thoại
-                      </th>
-                    <th style="width: 5rem"></th>
+                    <th style="text-align: left">Địa chỉ</th>
+                    <th style="text-align: left" style="width: 10rem">Email</th>
+                    <th style="text-align: right">Số điện thoại</th>
+                    <th style="width: 10rem">Thao tác</th>
                   </tr>
                 </ng-template>
                 <ng-template pTemplate="body" let-campus>
                   <tr>
                     <td>
-                        <button
-                          type="button"
-                          pButton
-                          pRipple
-                          (click)="openCampusesOfUniversity(campus)"
-                          [pRowToggler]="campus"
-                          class="p-button-text p-button-rounded p-button-plain"
-                          [icon]="
-                            expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'
-                          "
-                        ></button>
-                      </td>
-                    <td class="text-center">{{ campus.name }}</td>
-                    <td class="text-center">{{ campus.image }}</td>
-                    <td class="text-center">{{ campus.address }}</td>
-                    <td class="text-center">{{ campus.email }}</td>
-                    <td class="text-center">{{ campus.phoneAddress }}</td>
+                      <button
+                        type="button"
+                        pButton
+                        pRipple
+                        (click)="openMajorsOfUniversity(campus)"
+                        [pRowToggler]="campus"
+                        class="p-button-text p-button-rounded p-button-plain"
+                        [icon]="
+                          expanded
+                            ? 'pi pi-chevron-down'
+                            : 'pi pi-chevron-right'
+                        "
+                        pTooltip="Xem các ngành của campus"
+                      ></button>
+                    </td>
+                    <td style="text-align: left">{{ campus.name }}</td>
+                    <td style="text-align: left">{{ campus.address }}</td>
+                    <td style="text-align: left">{{ campus.email }}</td>
+                    <td style="text-align: right">{{ campus.phoneNumber }}</td>
                     <td>
                       <button
                         pButton
@@ -113,13 +125,15 @@
                         class="p-button-rounded p-button-success p-mr-2"
                         style="margin-right: 5px"
                         (click)="editCampus(campus)"
+                        pTooltip="Chỉnh sửa campus"
                       ></button>
                       <button
                         pButton
                         pRipple
-                        icon="pi pi-trash"
-                        class="p-button-rounded p-button-warning"
+                        icon="pi pi-lock"
+                        class="p-button-rounded p-button-danger"
                         (click)="deleteCampus(campus)"
+                        pTooltip="Khoá campus"
                       ></button>
                     </td>
                   </tr>
@@ -131,54 +145,97 @@
                   </tr>
                 </ng-template>
                 <ng-template pTemplate="rowexpansion" let-campus>
-                    <tr>
-                      <td colspan="4">
-                        <div class="p-p-3">
-                          <p-table [value]="majorsOfCampus" dataKey="code">
-                            <ng-template pTemplate="header">
-                              <tr>
-                                <th pSortableColumn="code" class="text-center">
-                                    >Mã môn học <p-sortIcon field="code"></p-sortIcon>
-                                </th>
-                                <th class="text-center">Name</th>
-                                <th style="width: 5rem"></th>
-                              </tr>
-                            </ng-template>
-                            <ng-template pTemplate="body" let-majorOfCampus>
-                              <tr>
-                                <td class="text-center">{{ majorOfCampus.code }}</td>
-                                <td class="text-center">{{ majorOfCampus.name }}</td>
-                                <td>
-                                    <button
-                                      pButton
-                                      pRipple
-                                      icon="pi pi-pencil"
-                                      class="p-button-rounded p-button-success p-mr-2"
-                                      style="margin-right: 5px"
-                                      (click)="editMajor(majorOfCampus)"
-                                    ></button>
-                                    <button
-                                      pButton
-                                      pRipple
-                                      icon="pi pi-trash"
-                                      class="p-button-rounded p-button-warning"
-                                      (click)="deleteMajor(majorOfCampus)"
-                                    ></button>
-                                  </td>
-                              </tr>
-                            </ng-template>
-                            <ng-template pTemplate="emptymessage">
-                              <tr>
-                                <td colspan="3">
-                                  Không có môn nào ở campus này.
-                                </td>
-                              </tr>
-                            </ng-template>
-                          </p-table>
+                  <tr>
+                    <td colspan="6">
+                      <div class="p-p-3">
+                        <div class="row" style="padding: 0 50px; margin-top: 40px;">
+                          <h4 class="sub-title" style="font-weight: 500">
+                            Các ngành học
+                          </h4>
+                          <div class="ml-auto mb-2">
+                            <button
+                              pButton
+                              pRipple
+                              label="Thêm mới"
+                              icon="pi pi-plus"
+                              class="p-button-success p-mr-2"
+                              (click)="openNewMajor()"
+                              pTooltip="Thêm mới ngành học"
+                            ></button>
+                          </div>
                         </div>
-                      </td>
-                    </tr>
-                  </ng-template>
+                        <p-table [value]="campus.majors" dataKey="code">
+                          <ng-template pTemplate="header">
+                            <tr>
+                              <th style="width: 3rem" class="text-center"></th>
+                              <th
+                                pSortableColumn="code"
+                                style="width: 10rem; text-align: left"
+                              >
+                                Mã ngành học
+                                <p-sortIcon field="code"></p-sortIcon>
+                              </th>
+                              <th
+                                style="text-align: left; width: 15rem"
+                                pSortableColumn="name"
+                              >
+                                Tên<p-sortIcon field="name"></p-sortIcon>
+                              </th>
+                              <th style="text-align: left"></th>
+
+                              <th style="text-align: right"></th>
+                              <th></th>
+                              <th style="width: 10rem">Thao tác</th>
+                            </tr>
+                          </ng-template>
+                          <ng-template pTemplate="body" let-majorOfCampus>
+                            <tr>
+                              <td></td>
+                              <td style="text-align: left">
+                                {{ majorOfCampus.code }}
+                              </td>
+                              <td style="text-align: left">
+                                {{ majorOfCampus.name }}
+                              </td>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                              <td>
+                                <button
+                                  pButton
+                                  pRipple
+                                  icon="pi pi-pencil"
+                                  class="
+                                    p-button-rounded p-button-success p-mr-2
+                                  "
+                                  style="margin-right: 5px"
+                                  (click)="editMajor(majorOfCampus)"
+                                  pTooltip="Chỉnh sửa ngành học này"
+                                ></button>
+                                <button
+                                  pButton
+                                  pRipple
+                                  icon="pi pi-lock"
+                                  class="p-button-rounded p-button-danger"
+                                  (click)="deleteMajor(campus, majorOfCampus)"
+                                  pTooltip="Khoá sửa ngành học này"
+                                ></button>
+                              </td>
+                            </tr>
+                          </ng-template>
+                          <ng-template pTemplate="emptymessage">
+                            <tr>
+                              <td></td>
+                              <td colspan="5">
+                                Không có ngành học nào ở campus này.
+                              </td>
+                            </tr>
+                          </ng-template>
+                        </p-table>
+                      </div>
+                    </td>
+                  </tr>
+                </ng-template>
               </p-table>
             </div>
           </div>
@@ -190,13 +247,13 @@
   <!-- campus modal -->
   <p-dialog
     [(visible)]="campusDialog"
-    [style]="{ width: '350px' }"
+    [style]="{ width: '550px' }"
     header="Thông tin campus"
     [modal]="true"
     styleClass="p-fluid"
   >
     <ng-template pTemplate="content">
-      <div class="p-field">
+      <div class="p-field mt-3">
         <label for="name">Tên campus</label>
         <input
           type="text"
@@ -207,19 +264,21 @@
           autofocus
         />
       </div>
-      <div class="p-field">
-      <label for="address">Địa chỉ</label>
-        <input
+      <div class="p-field mt-3">
+        <label for="address">Địa chỉ</label>
+        <textarea
+          rows="2"
+          cols="30"
           type="text"
-          pInputText
           id="address"
           [(ngModel)]="campus.address"
           required
           autofocus
-        />
-    </div>
-    <div class="p-field">
-      <label for="email">Email</label>
+          pInputTextarea
+        ></textarea>
+      </div>
+      <div class="p-field mt-3">
+        <label for="email">Email</label>
         <input
           type="text"
           pInputText
@@ -232,12 +291,12 @@
       <div class="p-field mt-3">
         <label for="image">Logo campus</label>
         <form
-          [formGroup]="formTemplate"
-          (submit)="onSubmit(formTemplate.value)"
+          [formGroup]="campusFormTemplate"
+          (submit)="onSubmit(campusFormTemplate.value)"
         >
           <div class="text-center">
             <img
-              [src]="imgSrc"
+              [src]="campusImgSrc"
               width="350px"
               height="250px"
               (click)="fileUploader.click()"
@@ -249,8 +308,8 @@
               accept="image/*"
               class="form-control"
               #fileUploader
-              formControlName="imageUrl"
-              (change)="showPreview($event)"
+              formControlName="campusImageUrl"
+              (change)="showCampusPreview($event)"
             />
           </div>
         </form>
@@ -286,18 +345,18 @@
     styleClass="p-fluid"
   >
     <ng-template pTemplate="content">
-        <div class="p-field">
-            <label for="code">Mã môn học</label>
-              <input
-                type="text"
-                pInputText
-                id="code"
-                [(ngModel)]="major.code"
-                required
-                autofocus
-              />
-          </div>
-      <div class="p-field">
+      <div class="p-field mt-3">
+        <label for="code">Mã ngành học</label>
+        <input
+          type="text"
+          pInputText
+          id="code"
+          [(ngModel)]="major.code"
+          required
+          autofocus
+        />
+      </div>
+      <div class="p-field mt-3">
         <label for="name">Tên ngành</label>
         <input
           type="text"
@@ -308,7 +367,6 @@
           autofocus
         />
       </div>
-    
     </ng-template>
 
     <ng-template pTemplate="footer">
@@ -326,9 +384,8 @@
         label="Save"
         icon="pi pi-check"
         class="p-button-text"
-        (click)="saveMajor()"
+        (click)="saveMajor(campus, major)"
       ></button>
     </ng-template>
   </p-dialog>
-
 </p-dialog>

@@ -447,6 +447,7 @@ export class CampaignComponent implements OnInit {
   }
   reloadCampaign() {
     this.isShowSpin = true;
+    this.campaigns = null;
     this.campaignService.getReloadCampaigns().subscribe((data) => {
       this.campaigns = data["campaigns"];
       this.messageService.add({

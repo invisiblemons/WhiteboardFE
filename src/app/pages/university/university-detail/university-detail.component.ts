@@ -8,9 +8,9 @@ import { Campus, Major, University } from "../../university/university.model";
 import { UniversityService } from "../university.service";
 
 @Component({
-  selector: 'app-university-detail',
-  templateUrl: './university-detail.component.html',
-  styleUrls: ['./university-detail.component.scss']
+  selector: "app-university-detail",
+  templateUrl: "./university-detail.component.html",
+  styleUrls: ["./university-detail.component.scss"],
 })
 export class UniversityDetailComponent implements OnInit {
   displayBasic: boolean;
@@ -37,6 +37,8 @@ export class UniversityDetailComponent implements OnInit {
 
   major: Major;
 
+  majors: Major[];
+
   imageLogo: string;
 
   data: any;
@@ -44,8 +46,6 @@ export class UniversityDetailComponent implements OnInit {
   statusColumn: string[];
 
   currentDay: Date;
-
-  imgSrc: string;
 
   allReviewData: any;
 
@@ -60,9 +60,19 @@ export class UniversityDetailComponent implements OnInit {
   //properties for upload image
   imageUrl: string;
 
+  imgSrc: string;
+
   formTemplate = new FormGroup({
-    imageUrl: new FormControl('')
-  })
+    imageUrl: new FormControl(""),
+  });
+
+  campusImageUrl: string;
+
+  campusImgSrc: string;
+
+  campusFormTemplate = new FormGroup({
+    campusImageUrl: new FormControl(""),
+  });
 
   constructor(
     private services: UniversityService,
@@ -70,7 +80,7 @@ export class UniversityDetailComponent implements OnInit {
     private router: Router,
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
-    private storage: AngularFireStorage,
+    private storage: AngularFireStorage
   ) {}
 
   ngOnInit(): void {
@@ -78,19 +88,10 @@ export class UniversityDetailComponent implements OnInit {
     this.displayBasic = true;
     this.universityId = this.route.snapshot.paramMap.get("id");
     //get university
-    this.services
-      .searchUniversityWithId(this.universityId)
-      .subscribe((res) => {
-        this.university = res;
-        this.imageLogo = this.university.image;
-      });
-    
-  }
-
-  openCampusesOfUniversity(university) {
-    this.services.getCampuses(university.id).subscribe(res => {
-      this.campuses = res;
-    })
+    this.services.searchUniversityWithId(this.universityId).subscribe((res) => {
+      this.university = res;
+      this.imageLogo = this.university.image;
+    });
   }
 
   //hide detail university modal
@@ -107,20 +108,16 @@ export class UniversityDetailComponent implements OnInit {
 
   deleteCampus(campus: Campus) {
     this.confirmationService.confirm({
-      message: "Bạn có chắc muốn xoá campus " + campus.name + "?",
+      message: "Bạn có chắc muốn khoá campus " + campus.name + " này?",
       header: "Xác nhận",
       icon: "pi pi-exclamation-triangle",
       accept: () => {
         this.services.deleteCampus(campus.id).subscribe((res) => {
           if (res) {
-            this.campuses = this.campuses.filter(
-              (val) => val.id !== campus.id
-            );
-            this.campus = new Campus(null);
             this.messageService.add({
               severity: "success",
               summary: "Thành công!",
-              detail: "Xoá chiến dịch thành công",
+              detail: "Khoá chiến dịch thành công",
               life: 3000,
             });
           }
@@ -132,17 +129,18 @@ export class UniversityDetailComponent implements OnInit {
   openNewCampus() {
     this.campus = new Campus(null);
     this.campusDialog = true;
-    this.campusName = "";
-    this.imgSrc = '/assets/img/weebly_image_sample.png';
+    this.campusImgSrc = "/assets/img/weebly_image_sample.png";
   }
 
-  //control in campus modal
+  hideCampusDialog() {
+    this.campusDialog = false;
+  }
+
   saveCampus() {
-    this.campus.name = this.campusName;
     if (this.campus.name.trim()) {
       //check to upload image
       if (null !== this.selectedImage) {
-        if (this.formTemplate.valid) {
+        if (this.campusFormTemplate.valid) {
           var filePath = `${this.selectedImage.name
             .split(".")
             .slice(0, -1)
@@ -166,29 +164,24 @@ export class UniversityDetailComponent implements OnInit {
       if (this.campus.id) {
         this.services.updateCampus(this.campus).subscribe((res) => {
           if (res) {
-            this.services
-              .getCampuses(this.universityId)
-              .subscribe((data) => (this.campuses = data["campuses"]));
-            this.messageService.add({
-              severity: "success",
-              summary: "Thành công!",
-              detail: "Cập nhật campus thành công",
-              life: 3000,
-            });
+              this.messageService.add({
+                severity: "success",
+                summary: "Thành công!",
+                detail: "Cập nhật campus thành công",
+                life: 3000,
+              });
           }
         });
-      } else { //new campus
+      } else {
+        //new campus
         this.services.insertCampus(this.campus).subscribe((res) => {
           if (res) {
             this.messageService.add({
               severity: "success",
               summary: "Thành công!",
-              detail: "Tạo mới tiêu chí thành công",
+              detail: "Tạo mới campus thành công",
               life: 3000,
             });
-            this.services
-              .getCampuses(this.universityId)
-              .subscribe((data) => (this.campuses = data["campuses"]));
           }
         });
       }
@@ -197,41 +190,37 @@ export class UniversityDetailComponent implements OnInit {
     }
   }
 
-  hideCampusDialog() {
-    this.campusDialog = false;
-  }
-
-  //image
-  showPreview(event: any) {
-    if (event.target.files && event.target.files[0]) {
-      const reader = new FileReader();
-      reader.onload = (e: any) => this.imgSrc = e.target.result;
-      reader.readAsDataURL(event.target.files[0]);
-      this.selectedImage = event.target.files[0];
-    }
-    else {
-      this.imgSrc = '/assets/img/weebly_image_sample.png';
-      this.selectedImage = null;
-    }
-  }
-  resetForm() {
-    this.formTemplate.reset();
-    this.formTemplate.setValue({
-      imageUrl: ''
-    });
-    
-    this.imgSrc = '/assets/img/weebly_image_sample.png';
-    this.selectedImage = null;
-  }
-
-  openMajorOfCampus(campus) {
-    this.services.getMajorsOfCampus(campus.id).subscribe(res => {
-      this.majorsOfCampus = res;
-    })
-  }
-  
   //control in Major modal
-  saveMajor() {
+  editMajor(major: Major) {
+    this.majorDialog = true;
+    this.major = { ...major };
+  }
+
+  openNewMajor() {
+    this.major = new Major(null);
+    this.majorDialog = true;
+  }
+  deleteMajor(campus, major) {
+    this.confirmationService.confirm({
+      message: "Bạn có chắc muốn khoá ngành " + major.name + " này?",
+      header: "Xác nhận",
+      icon: "pi pi-exclamation-triangle",
+      accept: () => {
+        this.services.deleteCampus(major.id).subscribe((res) => {
+          if (res) {
+            this.campuses.filter((val) => val.id !== major.id);
+            this.messageService.add({
+              severity: "success",
+              summary: "Thành công!",
+              detail: "Khoá ngành này thành công",
+              life: 3000,
+            });
+          }
+        });
+      },
+    });
+  }
+  saveMajor(campus) {
     if (this.major.code.trim()) {
       //update Major
       if (this.major.code) {
@@ -243,12 +232,10 @@ export class UniversityDetailComponent implements OnInit {
               detail: "Cập nhật ngành học thành công",
               life: 3000,
             });
-            this.services
-              .getMajorsOfCampus(this.campus.id)
-              .subscribe((data) => (this.majorsOfCampus = data["majors"]));
           }
         });
-      } else { //new Major
+      } else {
+        //new Major
         this.services.insertMajor(this.major).subscribe((res) => {
           if (res) {
             this.messageService.add({
@@ -257,9 +244,6 @@ export class UniversityDetailComponent implements OnInit {
               detail: "Tạo mới ngành học thành công",
               life: 3000,
             });
-            this.services
-              .getMajorsOfCampus(this.campus.id)
-              .subscribe((data) => (this.majorsOfCampus = data["majors"]));
           }
         });
       }
@@ -270,5 +254,45 @@ export class UniversityDetailComponent implements OnInit {
 
   hideMajorDialog() {
     this.majorDialog = false;
+  }
+
+  //image
+  showPreview(event: any) {
+    if (event.target.files && event.target.files[0]) {
+      const reader = new FileReader();
+      reader.onload = (e: any) => (this.imgSrc = e.target.result);
+      reader.readAsDataURL(event.target.files[0]);
+      this.selectedImage = event.target.files[0];
+    } else {
+      this.imgSrc = "/assets/img/weebly_image_sample.png";
+      this.selectedImage = null;
+    }
+  }
+  showCampusPreview(event: any) {
+    if (event.target.files && event.target.files[0]) {
+      const reader = new FileReader();
+      reader.onload = (e: any) => (this.campusImgSrc = e.target.result);
+      reader.readAsDataURL(event.target.files[0]);
+      this.selectedImage = event.target.files[0];
+    } else {
+      this.campusImgSrc = "/assets/img/weebly_image_sample.png";
+      this.selectedImage = null;
+    }
+  }
+  resetForm() {
+    this.selectedImage = null;
+
+    this.formTemplate.reset();
+    this.formTemplate.setValue({
+      imageUrl: "",
+    });
+    this.imgSrc = "/assets/img/weebly_image_sample.png";
+    
+
+    this.campusFormTemplate.reset();
+    this.campusFormTemplate.setValue({
+      campusImageUrl: "",
+    });
+    this.campusImgSrc = "/assets/img/weebly_image_sample.png";
   }
 }

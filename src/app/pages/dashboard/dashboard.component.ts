@@ -4,7 +4,7 @@ import { NgbActiveModal, NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { DashboardService } from "./dashboard.service";
 import { ConfirmationService, MessageService } from "primeng/api";
 import { Review } from "./dashboard.model";
-import { Router } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 
 @Component({
   selector: "app-dashboard",
@@ -16,58 +16,51 @@ export class DashboardComponent implements OnInit {
 
   reviews: Review[];
 
-  unReview: Review;
-
-  isShow: boolean = true;
-
-  unpublishedModal: boolean = false;
-
-  reasons: string[];
+  isShowSpin: boolean = true;
 
   statuses: any[];
 
   message: string;
 
-  selectedReviews: Review[];
+  returnReviewId: string;
 
   constructor(
     private modalService: NgbModal,
     private services: DashboardService,
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit() {
+    this.router.routeReuseStrategy.shouldReuseRoute = function () {
+      return false;
+    };
 
-    this.reasons = [
-      "Lỗi ưu điểm sai sự thật",
-      "Lỗi nhược điểm sai sự thật",
-      "Lỗi hình ảnh không liên quan",
-      "Lỗi dùng từ ngữ thô tục",
-      "Lỗi nội dung chứa thông tin phân biệt chủng tộc, vùng miền",
-    ];
+    this.isShowSpin = true;
+
     this.statuses = [
-      {label: 'Đã xét duyệt', value: 'Published'},
-        {label: 'Chưa xét duyệt', value: 'Unpublished'},
-        {label: 'Đang xét duyệt', value: 'Waiting'}
-    ]
+      { label: "Đang xét duyệt", value: "Waiting" },
+      { label: "Đã xét duyệt", value: "Published" },
+      { label: "Không xét duyệt", value: "Unpublished" },
+    ];
 
     //get reviews
     this.services.getReviews().subscribe((res) => {
       if (null !== res) {
         this.reviews = res["reviews"];
-        this.isShow = false;
+        this.isShowSpin = false;
+        this.route.queryParams.subscribe((params) => {
+          this.returnReviewId = params["id"];
+          this.reviews.forEach((review) => {
+            if (review.id === this.returnReviewId) {
+              review.status = params["status"];
+            }
+          });
+        });
       }
     });
-  }
-
-  openUnpublishedReview(review) {
-    this.unReview = review;
-    this.unpublishedModal = true;
-  }
-  closeUnpublishedReview() {
-    this.unpublishedModal = false;
   }
 
   openDetailReview(review) {
@@ -76,27 +69,33 @@ export class DashboardComponent implements OnInit {
     });
   }
 
-  deleteSelectedReviews() {
-
-  }
-
   reloadReview() {
-    this.isShow = true;
+    this.reviews = null;
+    this.isShowSpin = true;
     this.services.getReloadReviews().subscribe((res) => {
       if (null !== res) {
         this.reviews = res["reviews"];
-        this.isShow = false;
+        this.isShowSpin = false;
+        this.messageService.add({
+          severity: "success",
+          summary: "Thành công!",
+          detail: "Cập nhật bài viết trên redis thành công",
+          life: 3000,
+        });
       }
-      
     });
-    this.services.getReloadPublishedReviews().subscribe( () => {
-      this.messageService.add({
-        severity: "success",
-        summary: "Thành công!",
-        detail: "Cập nhật bài viết trên redis thành công",
-        life: 3000,
-      });
-    });
+    this.services.getReloadPublishedReviews().subscribe();
+    this.services.reloadL2().subscribe();
+    this.services.reloadL3().subscribe();
+    this.services.reloadL4().subscribe();
+    this.services.reloadL5().subscribe((res) => {
+      if (null !== res) {
+        this.messageService.add({
+          severity: "success",
+          summary: "Thành công!",
+          detail: "Cập nhật ",
+          life: 3000,
+        });
+      }});
   }
- 
 }

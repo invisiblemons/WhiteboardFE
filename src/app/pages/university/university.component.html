@@ -6,20 +6,24 @@
         <div class="p-2 w-100 bd-highlight">
           <h2 class="p-m-0" style="font-weight: 500">Quản lý trường đại học</h2>
         </div>
-        <div class="p-2 flex-shrink-0 bd-highlight">
-          <button
-            pButton
-            pRipple
-            label="Thêm mới"
-            icon="pi pi-plus"
-            class="p-button-success p-mr-2"
-            (click)="openNewUniversity()"
-          ></button>
+        <div class="ml-auto">
+          <p-button icon="pi pi-refresh" [loading]="isShow" (onClick)="reloadUniversities()" pTooltip="Reload Redis"></p-button>
         </div>
+        
       </div>
       <div class="row">
-        <span class="mx-auto">
-          <span class="p-input-icon-left">
+        <span class="mr-auto">
+          <div style="margin: 0 0 20px 20px;">
+            <button
+              pButton
+              pRipple
+              label="Thêm mới"
+              icon="pi pi-plus"
+              class="p-button-success p-mr-2"
+              (click)="openNewUniversity()"
+            ></button>
+          </div>
+          <span class="p-input-icon-left" style="margin: 0 0 20px 20px;">
             <i class="pi pi-search"></i>
             <input
               type="text"
@@ -35,17 +39,16 @@
 
     <ng-template pTemplate="header">
       <tr>
-        <th style="width: 3rem" class="text-center"></th>
-        <th pSortableColumn="name" style="width: 15rem">
+        <th style="width: 3rem;text-align: left"></th>
+        <th pSortableColumn="name" style="width: 15rem; text-align: left">
           Tên trường đại học<p-sortIcon
             field="name"
-            class="text-center"
           ></p-sortIcon>
         </th>
         <th class="text-center">Logo</th>
-        <th style="width: 15rem" class="text-center">Email</th>
-        <th style="width: 10rem" class="text-center">Số điện thoại</th>
-        <th></th>
+        <th style="width: 15rem; text-align: left">Email</th>
+        <th style="width: 10rem; text-align: left">Số điện thoại</th>
+        <th style="text-align: left">Thao tác</th>
       </tr>
     </ng-template>
     <ng-template pTemplate="body" let-university let-expanded="expanded">
@@ -83,8 +86,8 @@
           <button
             pButton
             pRipple
-            icon="pi pi-trash"
-            class="p-button-rounded p-button-warning"
+            icon="pi pi-lock"
+            class="p-button-rounded p-button-danger"
             (click)="deleteUni(university)"
           ></button>
         </td>

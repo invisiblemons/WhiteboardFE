@@ -19,8 +19,12 @@ export class UniversityService {
     return this.httpClient.get<University[]>(`${this.baseURL}`);
   }
 
+  getReloadUniversities(): Observable<University[]> {
+    return this.httpClient.get<University[]>(`${this.baseURL}?reloadredis=true`);
+  }
+
   getCampuses(universityId): Observable<Campus[]> {
-    return this.httpClient.get<Campus[]>(`${this.campusURL}?universityId=${universityId}`);
+    return this.httpClient.get<Campus[]>(`${this.campusURL}/${universityId}`);
   }
 
   getMajorsOfCampus(campusId): Observable<Major[]> {

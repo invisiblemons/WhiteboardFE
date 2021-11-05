@@ -155,13 +155,15 @@
             icon="pi pi-pencil"
             class="p-button-rounded p-button-success"
             style="margin-right: 15px"
+            pTooltip="Chỉnh sửa"
             (click)="editCampaign(campaign)"
           ></button>
           <button
             pButton
             pRipple
-            icon="pi pi-trash"
-            class="p-button-rounded p-button-warning"
+            icon="pi pi-lock"
+            class="p-button-rounded p-button-danger"
+            pTooltip="Khoá"
             (click)="deleteCampaign(campaign)"
           ></button>
         </td>
