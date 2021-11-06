@@ -33,3 +33,28 @@
         stroke-dashoffset: -124px;
     }
 }
+
+.OK {
+    //width: auto;
+      background-color: rgb(116, 168, 143);
+      color: rgb(4, 43, 4);
+      font-size: .80em;
+      font-weight: 600;
+      padding: 3px;
+    }
+  
+    .ERROR {
+      background-color: rgb(221, 169, 169);
+      color: rgb(128, 5, 5);
+      font-size: .80em;
+      font-weight: 600;
+      padding: 3px;
+    }
+  
+    .WARNING {
+      background-color: rgb(209, 209, 131);
+      color: rgb(116, 90, 5);
+      font-size: .80em;
+      font-weight: 600;
+      padding: 3px;
+    }

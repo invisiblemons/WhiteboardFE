@@ -18,13 +18,7 @@ import { ActivatedRoute, Router } from "@angular/router";
 export class DashboardComponent implements OnInit {
   // publishReviews: Review[] = null;
 
-  page: number;
-
-  pageSize: number;
-
-  totalRecords: number;
-
-  loading: boolean;
+  first = 0;
 
   rows = 5;
 
@@ -57,19 +51,12 @@ export class DashboardComponent implements OnInit {
       { label: "Không xét duyệt", value: "Unpublished" },
       { label: "Đã khoá", value: "Locked" },
     ];
-  }
 
-  loadReviews(event: LazyLoadEvent) {
-    this.loading = true;
-    this.page = event.first / event.rows;
-    this.pageSize = event.rows;
     //get reviews
-    this.services.getReviews(this.pageSize, this.page).subscribe((res) => {
+    this.services.getReviews().subscribe((res) => {
       if (null !== res) {
         this.reviews = res["reviews"];
-        this.totalRecords = res["totalRows"];
         this.isShowSpin = false;
-        this.loading = false;
         this.route.queryParams.subscribe((params) => {
           this.returnReviewId = params["id"];
           this.reviews.forEach((review) => {
@@ -82,6 +69,32 @@ export class DashboardComponent implements OnInit {
     });
   }
 
+  // paging
+
+  next() {
+    this.first = this.first + this.rows;
+  }
+
+  prev() {
+    this.first = this.first - this.rows;
+  }
+
+  reset() {
+    this.first = 0;
+  }
+
+  isLastPage(): boolean {
+    return this.reviews
+      ? this.first === this.reviews.length - this.rows
+      : true;
+  }
+
+  isFirstPage(): boolean {
+    return this.reviews ? this.first === 0 : true;
+  }
+
+  // end-paging
+
   openDetailReview(review) {
     this.router.navigate(["/dashboard/detail"], {
       queryParams: { id: review.id },
@@ -91,7 +104,7 @@ export class DashboardComponent implements OnInit {
   reloadReview() {
     this.reviews = null;
     this.isShowSpin = true;
-    this.services.getReloadReviews(this.pageSize, this.page).subscribe((res) => {
+    this.services.getReloadReviews().subscribe((res) => {
       if (null !== res) {
         this.reviews = res["reviews"];
         this.isShowSpin = false;

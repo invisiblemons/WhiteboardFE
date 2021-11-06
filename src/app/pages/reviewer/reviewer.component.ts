@@ -41,41 +41,25 @@ import { Campus, University } from "../university/university.model";
 })
 export class ReviewerComponent implements OnInit {
 
-  first = 0;
-
-  rows = 5;
-
   reviewers: Reviewer[];
 
+
   reviewer: Reviewer;
-
   listStatus = [];
-
   reviewerDialog: boolean;
-
   reviewerApproved: boolean;
-
   reviewerSubmitted: boolean;
-
   public selectedStatus = '';
-
   listReview = [];
-
   listReviewer = [];
-
   universities: University[];
 
   university: University;
 
   campus: Campus;
-
+  //isShowSpin: boolean;
   hasUni: boolean = false;
-
   campusList: Campus[];
-
-  isShowSpin:boolean;
-
-  selectedReviewers: Reviewer[];
 
   // name: string;
   // birthday: Date;
@@ -95,49 +79,22 @@ export class ReviewerComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.isShowSpin = true;
     this.service.getReviewer().subscribe((data) => {
       this.reviewers = data['reviewers'];
-      this.isShowSpin = false;
     })
-
     this.listStatus.push(
-      { label: "Đã Xác thực", value: "Verified" },
-      { label: "Chưa xác thực", value: "Unverified" },
-      { label: "Đã Khóa", value: "Locked" }
+      { label: "Xác thực", value: "verified" },
+      { label: "Chưa xác thực", value: "unverified" },
+      { label: "Khóa", value: "locked" }
     );
+
+    this.service.getUni().subscribe((data) => {
+      this.universities = data['universitys'];
+    })
   }
-
-  // paging
-
-  next() {
-    this.first = this.first + this.rows;
-  }
-
-  prev() {
-    this.first = this.first - this.rows;
-  }
-
-  reset() {
-    this.first = 0;
-  }
-
-  isLastPage(): boolean {
-    return this.reviewers
-      ? this.first === this.reviewers.length - this.rows
-      : true;
-  }
-
-  isFirstPage(): boolean {
-    return this.reviewers ? this.first === 0 : true;
-  }
-
-  // end-paging
 
   openDetailReviewer(reviewer: Reviewer) {
-    this.router.navigate(["/reviewer/reviewer-detail"], {
-      queryParams: { id: reviewer.id },
-    });
+    this.router.navigate(['./reviewer/reviewer-detail', { id: reviewer.id }]);
   }
 
   // deleteReviewer(reviewer: Reviewer) {
@@ -215,9 +172,17 @@ export class ReviewerComponent implements OnInit {
     });
   }
 
-  deleteSelectedReviewers() {
-
+  onChangeUni(event) {
+    this.hasUni = true;
+    // this.campusList = event.value['campus'];
+    console.log(event.value);
+    this.service.searchReviewerFromUni(event.value['id']).subscribe(res => {
+      if (null !== res) {
+        this.reviewers = res['reviewers'];
+      } else {
+        this.reviewers = [];
+      }
+      //console.log(this.reviewers);
+    })
   }
-
-  
 }

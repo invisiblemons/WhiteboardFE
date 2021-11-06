@@ -9,7 +9,6 @@
     [showCurrentPageReport]="true"
     currentPageReportTemplate="Hiển thị từ {first} đến {last} của {totalRecords} mục"
     [rowsPerPageOptions]="[5, 10, 20]"
-    [(selection)]="selectedUniversities"
     [globalFilterFields]="['name']"
     [rowHover]="true"
   >
@@ -40,17 +39,7 @@
         </div>
       </div>
       <div class="p-d-flex mr-auto">
-        <button
-          pButton
-          pRipple
-          [label]="Delete"
-          icon="pi pi-trash"
-          class="p-button-danger"
-          (click)="deleteSelectedUniversities()"
-          [disabled]="!selectedUniversities || !selectedUniversities.length"
-          pTooltip="Xoá các trường đại học đã chọn"
-          style="margin-right: 5px"
-        ></button>
+        
         <span class="p-input-icon-left p-ml-auto">
           <i class="pi pi-search"></i>
           <input
@@ -66,9 +55,6 @@
 
     <ng-template pTemplate="header">
       <tr>
-        <th style="width: 3rem; text-align: center">
-          <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
-        </th>
         <th style="width: 5rem; text-align: center">Stt</th>
         <th pSortableColumn="name" style="width: 15rem; text-align: left">
           Tên trường đại học<p-sortIcon field="name"></p-sortIcon>
@@ -81,9 +67,6 @@
     </ng-template>
     <ng-template pTemplate="body" let-university let-rowIndex="rowIndex">
       <tr>
-        <td>
-          <p-tableCheckbox [value]="university"></p-tableCheckbox>
-        </td>
         <td style="text-align: center">{{ rowIndex + 1 }}</td>
         <td style="text-align: left">{{ university.name }}</td>
         <td style="text-align: left">{{ university.email }}</td>
@@ -120,7 +103,7 @@
     </ng-template>
     <ng-template pTemplate="emptymessage">
       <tr>
-        <td colspan="4"></td>
+        <td colspan="3"></td>
         <td colspan="3" *ngIf="isShowSpin">
           <p-progressSpinner
             [style]="{ width: '50px', height: '50px' }"

@@ -4,13 +4,12 @@
   dataKey="name"
   responsiveLayout="scroll"
   [paginator]="true"
-  [rows]="rows"
+  [rows]="5"
   [showCurrentPageReport]="true"
   currentPageReportTemplate="Hiển thị từ {first} đến {last} của {totalRecords} mục"
   [rowsPerPageOptions]="[5, 10, 20]"
   [globalFilterFields]="['email']"
-      [rowHover]="true"
-      [(selection)]="selectedReviewers">
+      [rowHover]="true">
     <ng-template pTemplate="caption">
       <div class="d-flex bd-highlight">
         <div class="p-2 w-100 bd-highlight">
@@ -19,24 +18,13 @@
         
       </div>
       <div class="p-d-flex">
-        <button
-        pButton
-        pRipple
-        [label]="Delete"
-        icon="pi pi-lock"
-        class="p-button-danger"
-        (click)="deleteSelectedReviewers()"
-        [disabled]="!selectedReviewers || !selectedReviewers.length"
-        pTooltip="Khoá các reviewer giá đã chọn"
-        style="margin-right: 5px;"
-      ></button>
         <span class="p-input-icon-left p-ml-auto">
           <i class="pi pi-search"></i>
           <input
             pInputText
             type="text"
             (input)="datatable.filterGlobal($event.target.value, 'contains')"
-            placeholder="Tìm kiếm..."
+            placeholder="Tìm kiếm theo email"
             pTooltip="Tìm kiếm theo email"
           />
         </span>
@@ -45,9 +33,6 @@
 
     <ng-template pTemplate="header">
       <tr>
-        <th style="width: 3rem;text-align: center">
-          <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
-      </th>
         <th style="width: 5rem; text-align: center" >Stt</th>
         <th pSortableColumn="name" style="width: 15rem;text-align: left">
           Tên<p-sortIcon field="name"></p-sortIcon>
@@ -95,25 +80,24 @@
       </tr>
     </ng-template>
 
-    <ng-template pTemplate="body" let-reviewer  let-rowIndex="rowIndex">
+    <ng-template pTemplate="body" let-reviewer let-expanded="expanded" let-rowIndex="rowIndex">
       <tr>
-        <td>
-          <p-tableCheckbox [value]="reviewer"></p-tableCheckbox>
-      </td>
         <td style="text-align: center">{{rowIndex+1}}</td>
         <td style="text-align: left">{{ reviewer.name }}</td>
         <td style="text-align: left">
           {{ reviewer.email }}
         </td>
-        <td style="text-align: left" *ngIf="reviewer.status ==='Unverified'">
-          Chưa xác thực
+        <td style="text-align: left">
+          <div>
+            <span class="OK"
+              *ngIf="reviewer.status.toLowerCase() === 'unverified'">CHƯA XÁC THỰC</span>
+              <span class="ERROR"
+              *ngIf="reviewer.status.toLowerCase() === 'verified'">ĐÃ XÁC THỰC</span>
+              <span class="WARNING" 
+              *ngIf="reviewer.status.toLowerCase() === 'locked'">ĐÃ KHÓA</span>
+          </div>
         </td>
-        <td style="text-align: left" *ngIf="reviewer.status==='Verified'">
-          Đã xác thực
-        </td>
-        <td style="text-align: left" *ngIf="reviewer.status==='Locked'">
-          Đã khoá
-        </td>
+
         <td style="text-align: center">
           <button
             type="button"
@@ -133,22 +117,13 @@
             <button pButton pRipple icon="pi pi-unlock" class="p-button-rounded p-button-success"
               (click)="unDeleteReviewer(reviewer)"></button>
           </td>
-          <td style="text-align: center" *ngIf="reviewer.status ==='Unverified'">
+          <td style="text-align: center" *ngIf="reviewer.status.toLowerCase() ==='unverified'">
           </td>
       </tr>
     </ng-template>
     <ng-template pTemplate="emptymessage">
       <tr>
-        <td colspan="4"></td>
-        <td colspan="2">
-          <p-progressSpinner [style]="{width: '50px', height: '50px'}" styleClass="custom-spinner" strokeWidth="8"
-            fill="#EEEEEE" animationDuration=".5s"></p-progressSpinner>
-        </td>
-      </tr>
-    </ng-template>
-    <ng-template pTemplate="emptymessage">
-      <tr>
-        <td colspan="4"></td>
+        <td colspan="3"></td>
         <td colspan="3" *ngIf="isShowSpin">
           <p-progressSpinner
             [style]="{ width: '50px', height: '50px' }"

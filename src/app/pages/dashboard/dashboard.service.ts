@@ -14,12 +14,12 @@ export class DashboardService {
 
   constructor(private httpClient: HttpClient) { }
 
-  getReviews(pageSize, page): Observable<any> {
-    return this.httpClient.get<Review[]>(`${this.baseURL}?sortby=Date&order=Des&page=${page}&pagesize=${pageSize}`);
+  getReviews(): Observable<any> {
+    return this.httpClient.get<Review[]>(`${this.baseURL}?sortby=Date&order=Des`);
   }
 
-  getReloadReviews(pageSize, page): Observable<Review[]> {
-    return this.httpClient.get<Review[]>(`${this.baseURL}?sortby=Date&order=Des&page=${page}&pagesize=${pageSize}&reloadredis=true`);
+  getReloadReviews(): Observable<Review[]> {
+    return this.httpClient.get<Review[]>(`${this.baseURL}?sortby=Date&order=Des&reloadredis=true`);
   }
 
   getReloadPublishedReviews(): Observable<Review[]> {

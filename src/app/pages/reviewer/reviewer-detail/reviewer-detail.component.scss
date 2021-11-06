@@ -1,3 +1,46 @@
 dd {
     color: #D4D4D8;
 }
+
+.OK {
+  //width: auto;
+    background-color: rgb(116, 168, 143);
+    color: rgb(4, 43, 4);
+    font-size: .80em;
+    font-weight: 600;
+    padding: 3px;
+  }
+
+  .ERROR {
+    background-color: rgb(221, 169, 169);
+    color: rgb(128, 5, 5);
+    font-size: .80em;
+    font-weight: 600;
+    padding: 3px;
+  }
+
+  .WARNING {
+    background-color: rgb(209, 209, 131);
+    color: rgb(116, 90, 5);
+    font-size: .80em;
+    font-weight: 600;
+    padding: 3px;
+  }
+  .NORMAL {
+    background-color: rgba(218, 105, 110, 0.979);
+    color: rgb(80, 3, 3);
+    font-size: .80em;
+    font-weight: 600;
+    padding: 3px;
+  }
+  .ui-message {
+    background-color: green;
+    border: 0 none;
+    margin: 0px;
+    font-size: .75em;
+    color: green;
+    &.ui-messages-info {
+      color: green;
+    }
+  }
+

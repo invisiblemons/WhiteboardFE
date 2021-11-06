@@ -40,6 +40,7 @@ import { Campus, University } from "../university/university.model";
   ],
 })
 export class CampaignComponent implements OnInit {
+  
   first = 0;
 
   rows = 5;
