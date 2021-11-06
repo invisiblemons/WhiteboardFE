@@ -134,53 +134,24 @@ export class ReviewerDetailComponent implements OnInit {
     });
   }
 
-
-  // approveReviewer(reviewer: Reviewer) {
-  //   this.reviewer.status = 'Verified'; 
-  //   if (this.reviewer.id) {
-      
-  //     this.reviewerService.updateReviewer(this.reviewer).subscribe(res => {
-  //       if (res) {
-  //         this.reviewerService.getReviewer().subscribe(res => {
-            
-  //           this.reviewers = res['reviewers'];
-  //           this.reviewers.forEach(reviewer => {
-              
-  //             this.reviewer = { ...reviewer };
-  //           });
-  //         })
-  //         this.messageService.add({
-  //           severity: "success",
-  //           summary: "Thành công!",
-  //           detail: "Phê duyệt reviewer thành công",
-  //           life: 3000,
-  //         });
-  //       }
-  //     })
-  //   }
-  // }
   
   approveReviewer() {
-    
-    if(this.reviewer.id) {
-      this.reviewerService.updateReviewer(this.reviewer).subscribe( res => {
-          if(res) {
-            this.reviewer.status = 'Verified';
-              this.reviewerService.getReviewer().subscribe(res => {
-                  this.reviewers = res['reviewers'];
-                  this.reviewers.forEach(reviewer => {
-                    this.reviewer = { ...reviewer };
-                  });
-              })
-              this.messageService.add({
-                  severity: "success",
-                  summary: "Thành công!",
-                  detail: "Duyệt reviewer thành công",
-                  life: 3000,
-                });
-          }
+    this.reviewer.status = 'Verified';
+    if (this.reviewer.id) {
+      this.reviewerService.updateReviewer(this.reviewer).subscribe(res => {
+        if (res) {          
+          this.reviewer = { ...this.reviewer };
+          this.messageService.add({
+            severity: "success",
+            summary: "Thành công!",
+            detail: "Duyệt reviewer thành công",
+            life: 3000,
+          });
+        }
+        this.router.navigate(['./reviewer']);     
+        window.location.reload();   
       })
-  }
+    }
   }
 
 

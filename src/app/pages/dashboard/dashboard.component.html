@@ -97,9 +97,19 @@
           <td style="text-align: left">
             {{ review.campaignName }}
           </td>
-          <td style="text-align: left" *ngIf="!review.status">
+          <td style="text-align: left">
+            <div>
+              <span class="OK"
+                *ngIf="review.status.toLowerCase() === 'published'">{{review.status.toUpperCase()}}</span>
+              <span class="ERROR"
+                *ngIf="review.status.toLowerCase() === 'locked'">{{review.status.toUpperCase()}}</span>
+              <span class="WARNING"
+                *ngIf="review.status.toLowerCase() === 'waiting'">{{review.status.toUpperCase()}}</span>
+              <span class="NORMAL"
+                *ngIf="review.status.toLowerCase() === 'unpublished'">{{review.status.toUpperCase()}}</span>
+            </div>
           </td>
-          <td style="text-align: left" *ngIf="review.status === 'Unpublished'">
+          <!-- <td style="text-align: left" *ngIf="review.status === 'Unpublished'">
             <span [class]="'review-badge status-' + review.status"
               >Không xét duyệt</span
             >
@@ -118,7 +128,7 @@
             <span [class]="'review-badge status-' + review.status"
               >Đã khoá</span
             >
-          </td>
+          </td> -->
           <td style="text-align: center">
             <button
               type="button"

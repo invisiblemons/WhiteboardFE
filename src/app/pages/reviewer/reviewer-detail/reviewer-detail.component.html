@@ -42,7 +42,15 @@
                 </dd>
                 <dt class="col-sm-4">Status</dt>
                 <dd class="col-sm-6">
-                  {{ reviewer.status }}
+                  <div>
+                    <span class="OK"
+                      *ngIf="reviewer.status.toLowerCase() === 'verified'">{{reviewer.status.toUpperCase()}}</span>
+                    <span class="ERROR"
+                      *ngIf="reviewer.status.toLowerCase() === 'locked'">{{reviewer.status.toUpperCase()}}</span>
+                    <span class="WARNING"
+                      *ngIf="reviewer.status.toLowerCase() === 'unverified'">{{reviewer.status.toUpperCase()}}</span>
+                    
+                  </div>
                 </dd>
               </dl>
               <h6 class="sub-title" style="font-weight: 600">Avatar</h6>
@@ -203,16 +211,16 @@
                   <td style="text-align: left">
                     {{ review.onDateTime | date: 'dd/MM/yyyy':'+1400' }}
                   </td>
-                 
+
                   <td style="text-align: left">
                     <div>
                       <span class="OK"
                         *ngIf="review.status.toLowerCase() === 'published'">{{review.status.toUpperCase()}}</span>
-                        <span class="ERROR"
+                      <span class="ERROR"
                         *ngIf="review.status.toLowerCase() === 'locked'">{{review.status.toUpperCase()}}</span>
-                        <span class="WARNING" 
+                      <span class="WARNING"
                         *ngIf="review.status.toLowerCase() === 'waiting'">{{review.status.toUpperCase()}}</span>
-                        <span class="NORMAL" 
+                      <span class="NORMAL"
                         *ngIf="review.status.toLowerCase() === 'unpublished'">{{review.status.toUpperCase()}}</span>
                     </div>
                   </td>

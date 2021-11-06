@@ -104,7 +104,18 @@
               <h4 class="sub-title">Nội dung bài review!</h4>
               <dl class="dl-horizontal row">
                 <dt class="col-sm-4">Trạng thái</dt>
-                <dd class="col-sm-6">{{ review.status }}</dd>
+                <dd class="col-sm-6">
+                  <div>
+                    <span class="OK"
+                      *ngIf="review.status.toLowerCase() === 'published'">{{review.status.toUpperCase()}}</span>
+                    <span class="ERROR"
+                      *ngIf="review.status.toLowerCase() === 'locked'">{{review.status.toUpperCase()}}</span>
+                    <span class="WARNING"
+                      *ngIf="review.status.toLowerCase() === 'waiting'">{{review.status.toUpperCase()}}</span>
+                    <span class="NORMAL"
+                      *ngIf="review.status.toLowerCase() === 'unpublished'">{{review.status.toUpperCase()}}</span>
+                  </div>
+                </dd>
                 <dt class="col-sm-4">Tiêu đề</dt>
                 <dd class="col-sm-6">{{ review.title }}</dd>
                 <dt class="col-sm-4">Nội dung</dt>

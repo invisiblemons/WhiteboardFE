@@ -89,11 +89,11 @@
         </td>
         <td style="text-align: left">
           <div>
-            <span class="OK"
+            <span class="WARNING"
               *ngIf="reviewer.status.toLowerCase() === 'unverified'">CHƯA XÁC THỰC</span>
-              <span class="ERROR"
+              <span class="OK"
               *ngIf="reviewer.status.toLowerCase() === 'verified'">ĐÃ XÁC THỰC</span>
-              <span class="WARNING" 
+              <span class="ERROR" 
               *ngIf="reviewer.status.toLowerCase() === 'locked'">ĐÃ KHÓA</span>
           </div>
         </td>

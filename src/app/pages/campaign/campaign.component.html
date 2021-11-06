@@ -117,10 +117,20 @@
         <td style="text-align: right">
           {{ campaign.endDay | date: 'dd/MM/yyyy':'+1400' }}
         </td>
-        <td style="text-align: left" *ngIf="campaign.status === 'NotYet'">Chưa bắt đầu</td>
-        <td style="text-align: left" *ngIf="campaign.status === 'OnGoing'">Đang diễn ra</td>
-        <td style="text-align: left" *ngIf="campaign.status === 'Finished'">Đã kết thúc</td>
-        <td style="text-align: left" *ngIf="campaign.status === 'Locked'">Đã khoá</td>
+        <td style="text-align: left">
+          <div>
+            <span class="OK"
+              *ngIf="campaign.status === 'OnGoing'">ĐANG DIỄN RA</span>
+            <span class="ERROR"
+              *ngIf="campaign.status === 'Finished'">ĐÃ KẾT THÚC</span>
+              <span class="NORMAL"
+              *ngIf="campaign.status === 'Locked'">ĐÃ KHÓA</span>
+            <span class="WARNING"
+              *ngIf="campaign.status === 'NotYet'">CHƯA BẮT ĐẦU</span>
+            
+          </div>
+        </td>
+        
         <td style="text-align: center">
           <button
             type="button"

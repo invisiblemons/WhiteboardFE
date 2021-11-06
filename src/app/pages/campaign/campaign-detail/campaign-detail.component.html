@@ -40,7 +40,18 @@
               <dl class="dl-horizontal row">
                 <dt class="col-sm-3">Trạng thái chiến dịch</dt>
                 <dd class="col-sm-9">
-                  <span>{{ campaign.status }}</span>
+                  <!-- <span>{{ campaign.status }}</span> -->
+                  <div>
+                    <span class="OK"
+                      *ngIf="campaign.status === 'Đang diễn ra'"> {{campaign.status.toUpperCase()}}</span>
+                    <span class="ERROR"
+                      *ngIf="campaign.status === 'Đã kết thúc'">{{campaign.status.toUpperCase()}}</span>
+                      <span class="NORMAL"
+                      *ngIf="campaign.status === 'Đã khóa'">{{campaign.status.toUpperCase()}}</span>
+                    <span class="WARNING"
+                      *ngIf="campaign.status === 'Chưa bắt đầu'">{{campaign.status.toUpperCase()}}</span>
+                    
+                  </div>
                 </dd>
                 <dt class="col-sm-3">Tiêu đề</dt>
                 <dd class="col-sm-9">
@@ -399,7 +410,10 @@
                 </td>
                 <td>{{ review.title }}</td>
                 <td>{{ review.onDateTime | date: 'dd/MM/yyyy':'+1400' }}</td>
-                <td>{{ review.status }}</td>
+                <td>
+                    <span class="OK"
+                      *ngIf="review.status === 'Published'">{{review.status.toUpperCase()}}</span>              
+                </td>
               </tr>
             </ng-template>
             <ng-template pTemplate="rowexpansion">
@@ -493,7 +507,11 @@
                 </td>
                 <td>{{ review.title }}</td>
                 <td>{{ review.onDateTime | date: 'dd/MM/yyyy':'+1400' }}</td>
-                <td>{{ review.status }}</td>
+                <td>
+                    <span class="WARNING"
+                      *ngIf="review.status === 'Waiting'">{{review.status.toUpperCase()}}</span>
+                    
+                </td>
               </tr>
             </ng-template>
             <ng-template pTemplate="rowexpansion">
@@ -587,7 +605,11 @@
                 </td>
                 <td>{{ review.title }}</td>
                 <td>{{ review.onDateTime | date: 'dd/MM/yyyy':'+1400' }}</td>
-                <td>{{ review.status }}</td>
+                <td>
+                    <span class="ERROR"
+                      *ngIf="review.status === 'Unpublished'">{{review.status.toUpperCase()}}</span>
+                    
+                </td>
               </tr>
             </ng-template>
             <ng-template pTemplate="rowexpansion">
