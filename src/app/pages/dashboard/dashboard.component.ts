@@ -44,6 +44,7 @@ export class DashboardComponent implements OnInit {
       { label: "Đang xét duyệt", value: "Waiting" },
       { label: "Đã xét duyệt", value: "Published" },
       { label: "Không xét duyệt", value: "Unpublished" },
+      { label: "Đã khoá", value: "Locked" }
     ];
 
     //get reviews
@@ -82,9 +83,7 @@ export class DashboardComponent implements OnInit {
           detail: "Cập nhật bài viết trên redis thành công",
           life: 3000,
         });
-      }
-    });
-    this.services.getReloadPublishedReviews().subscribe();
+        this.services.getReloadPublishedReviews().subscribe();
     this.services.reloadL2().subscribe();
     this.services.reloadL3().subscribe();
     this.services.reloadL4().subscribe();
@@ -99,5 +98,8 @@ export class DashboardComponent implements OnInit {
         });
       }
     });
+      }
+    });
+    
   }
 }

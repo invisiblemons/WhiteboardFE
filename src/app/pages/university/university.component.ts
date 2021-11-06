@@ -36,6 +36,8 @@ export class UniversityComponent implements OnInit {
 
   searchText: string;
 
+  selectedUniversities: University[];
+
   formTemplate = new FormGroup({
     imageUrl: new FormControl(""),
   });
@@ -116,29 +118,7 @@ isFirstPage(): boolean {
     this.newUniverisityDialog = true;
   }
 
-  deleteUni(university: University) {
-    this.confirmationService.confirm({
-      message: "Bạn có chắc muốn xoá trường " + university.name + "?",
-      header: "Xác nhận",
-      icon: "pi pi-exclamation-triangle",
-      accept: () => {
-        this.services.deleteUniversity(university).subscribe((res) => {
-          if (res) {
-            this.universities = this.universities.filter(
-              (val) => val.id !== university.id
-            );
-            this.university = new University(null);
-            this.messageService.add({
-              severity: "success",
-              summary: "Thành công!",
-              detail: "Xoá trường đại học thành công",
-              life: 3000,
-            });
-          }
-        });
-      },
-    });
-  }
+  
 
   //image
   showPreview(event: any) {
@@ -235,5 +215,37 @@ isFirstPage(): boolean {
         });
       }
     });
+  }
+
+  deleteUni(university: University) {
+    this.confirmationService.confirm({
+      message: "Bạn có chắc muốn xoá trường " + university.name + "?",
+      header: "Xác nhận",
+      icon: "pi pi-exclamation-triangle",
+      accept: () => {
+        this.services.deleteUniversity(university).subscribe((res) => {
+          if (res) {
+            this.universities = this.universities.filter(
+              (val) => val.id !== university.id
+            );
+            this.university = new University(null);
+            this.messageService.add({
+              severity: "success",
+              summary: "Thành công!",
+              detail: "Xoá trường đại học thành công",
+              life: 3000,
+            });
+          }
+        });
+      },
+    });
+  }
+
+  unDeleteUni(university) {
+
+  }
+
+  deleteSelectedUniversities(){
+
   }
 }

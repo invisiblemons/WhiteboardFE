@@ -38,6 +38,7 @@ export class Criteria {
     ratings: number[];
 
     constructor() {
+        this.id = "";
         this.name = "";
         this.campaignId = "";
         this.ratings =  [];

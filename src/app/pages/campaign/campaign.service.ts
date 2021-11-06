@@ -28,6 +28,10 @@ export class CampaignService {
     return this.httpClient.get<Campaign[]>(`${this.baseURL}?sortby=StartDay&order=Des&reloadredis=true`);
   }
 
+  reloadL2(): Observable<Review[]> {
+    return this.httpClient.get<Review[]>(`${this.baseURL}?campusId=21111111-1111-1111-1111-111111111111&reloadredis=true`);
+  }
+
   getCriterions(id:string) {
     return this.httpClient.get<Campaign[]>(`${this.baseURL}/${id}`);
   }
@@ -61,7 +65,11 @@ export class CampaignService {
   }
 
   deleteCampaign(campaign: Campaign) {
-    return this.httpClient.delete<boolean>(`${this.baseURL}/${campaign.id}`);
+    return this.httpClient.put<Campaign>(`${this.baseURL}`,campaign);
+  }
+
+  unDeleteCampaign(campaign: Campaign) {
+    return this.httpClient.put<Campaign>(`${this.baseURL}`, campaign);
   }
 
   deleteCriteria(id: string) {
@@ -73,7 +81,7 @@ export class CampaignService {
   }
 
   updateCriteria(criteria: Criteria) {
-    return this.httpClient.put<Campaign>(`${this.criteriaURL}`, criteria);
+    return this.httpClient.put<Criteria>(`${this.criteriaURL}`, criteria);
   }
 
   searchCampaignFromCampus(campusId: string): Observable<Campaign[]> {

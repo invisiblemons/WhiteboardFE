@@ -39,7 +39,7 @@
         <tr>
           <th style="width: 4rem" class="text-center">Stt</th>
           <th class="text-align: left" style="width: 15rem">Tiêu đề</th>
-          <th  pSortableColumn="onDateTime" style="text-align: left; width: 8rem">Ngày đăng<p-sortIcon field="onDateTime"></p-sortIcon></th>
+          <th  pSortableColumn="onDateTime" style="text-align: right; width: 8rem">Ngày đăng<p-sortIcon field="onDateTime"></p-sortIcon></th>
           <th class="text-align: left" style="width: 15rem">Chiến dịch</th>
           <th style="text-align: left; width: 9rem">
             <div class="p-d-flex p-jc-between p-ai-center">
@@ -92,8 +92,8 @@
           </td>
           <td style="text-align: left" *ngIf="!review.title">
           </td>
-          <td style="text-align: left">
-            {{ review.onDateTime | date: "dd/MM/yyyy" }}
+          <td style="text-align: right">
+            {{ review.onDateTime | date: 'dd/MM/yyyy':'+1400' }}
           </td>
           <td style="text-align: left">
             {{ review.campaignName }}
@@ -113,6 +113,11 @@
           <td style="text-align: left" *ngIf="review.status === 'Waiting'">
             <span [class]="'review-badge status-' + review.status"
               >Đang xét duyệt</span
+            >
+          </td>
+          <td style="text-align: left" *ngIf="review.status === 'Locked'">
+            <span [class]="'review-badge status-' + review.status"
+              >Đã khoá</span
             >
           </td>
           <td style="text-align: center">

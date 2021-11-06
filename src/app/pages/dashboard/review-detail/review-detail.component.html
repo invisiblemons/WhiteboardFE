@@ -111,34 +111,26 @@
               <div class="col-sm-12 col-xl-6 p-l-4">
                 <h4 class="sub-title">Nội dung bài review!</h4>
                 <dl class="dl-horizontal row">
-                  <dt class="col-sm-5">Trạng thái</dt>
-                  <dd class="col-sm-9">
-                    {{ review.status }}
-                  </dd>
-                  <dt class="col-sm-5">Tiêu đề</dt>
-                  <dd class="col-sm-9">
-                    {{ review.title }}
-                  </dd>
-                  <dt class="col-sm-5">Nội dung</dt>
-  
-                  <dd class="col-sm-12 col-sm-offset-3">
-                    {{ review.content }}
-                  </dd>
-                  <dt class="col-sm-5">Thời gian</dt>
-  
-                  <dd class="col-sm-12 col-sm-offset-3">
-                    {{ review.onDateTime | date: "dd/MM/yyyy" }}
-                  </dd>
-                  <dt class="col-sm-5 text-truncate">Tiêu chí review</dt>
+                  <dt class="col-sm-4">Trạng thái</dt>
+                  <dd class="col-sm-6">{{ review.status }}</dd>
+                  <dt class="col-sm-4">Tiêu đề</dt>
+                  <dd class="col-sm-6">{{ review.title }}</dd>
+                  <dt class="col-sm-4">Nội dung</dt>
+                  <dd class="col-sm-6">{{ review.content }}</dd>
+                  <dt class="col-sm-4">Thời gian</dt>
+                  <dd class="col-sm-6">{{ review.onDateTime | date: 'dd/MM/yyyy':'+1400' }}</dd>
+                  <dt class="col-sm-4">Chiến dịch</dt>
+                  <dd class="col-sm-6">{{ review.campaignName }}</dd>
+                  <dt class="col-sm-4 text-truncate">Tiêu chí review</dt>
                   <dd class="col-sm-12">
                     <div class="p-d-flex p-ai-center">
                       <ng-container
                         *ngFor="let criteria of review.criterions"
                         ><div class="row mt-2">
-                          <div class="col-sm-5 offset-2">
+                          <div class="col-sm-5 offset-1">
                             {{ criteria.criteriaName }}
                           </div>
-                          <div class="col-sm-5">
+                          <div class="col-sm-6">
                             <div >
                               <p-chip styleClass="p-mr-2">
                                   <p-rating

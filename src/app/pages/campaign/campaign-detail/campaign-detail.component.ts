@@ -161,6 +161,11 @@ export class CampaignDetailComponent implements OnInit {
     });
 
     //get criteria
+    this.getCriterions();
+    
+  }
+
+  getCriterions() {
     this.campaignService.getCriterions(this.campaignId).subscribe((data) => {
       this.criterions = data["criterions"];
       this.criterions.forEach((criteria) => {
@@ -280,9 +285,7 @@ export class CampaignDetailComponent implements OnInit {
       accept: () => {
         this.campaignService.deleteCriteria(criteria.id).subscribe((res) => {
           if (res) {
-            this.criterions = this.criterions.filter(
-              (val) => val.id !== criteria.id
-            );
+            this.getCriterions();
             this.criteria = new Criteria();
             this.messageService.add({
               severity: "success",
@@ -305,11 +308,14 @@ export class CampaignDetailComponent implements OnInit {
   //control in criteria modal
 
   saveCriteria() {
-    this.criteria.name = this.criteriaName;
-    this.criteria.campaignId = this.campaignId;
-    if (this.criteria.name.trim()) {
-      if (this.criteria.id) {
-        this.campaignService.updateCriteria(this.criteria).subscribe((res) => {
+    let changeCriteria: Criteria = new Criteria();
+    changeCriteria.name = this.criteriaName;
+    changeCriteria.id = this.criteria.id;
+    changeCriteria.ratings = this.criteria.ratings;
+    changeCriteria.campaignId = this.campaignId;
+    if (changeCriteria.name.trim()) {
+      if (changeCriteria.id) {
+        this.campaignService.updateCriteria(changeCriteria).subscribe((res) => {
           if (res) {
             this.campaignService
               .getCriterions(this.campaignId)
@@ -323,7 +329,7 @@ export class CampaignDetailComponent implements OnInit {
           }
         });
       } else {
-        this.campaignService.insertCriteria(this.criteria).subscribe((res) => {
+        this.campaignService.insertCriteria(changeCriteria).subscribe((res) => {
           if (res) {
             this.messageService.add({
               severity: "success",

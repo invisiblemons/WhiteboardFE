@@ -45,7 +45,7 @@
           pButton
           pRipple
           [label]="Delete"
-          icon="pi pi-trash"
+          icon="pi pi-lock"
           class="p-button-danger"
           (click)="deleteSelectedCampaigns()"
           [disabled]="!selectedCampaigns || !selectedCampaigns.length"
@@ -129,14 +129,15 @@
         
         <td>{{ campaign.name }}</td>
         <td style="text-align: right">
-          {{ campaign.startDay | date: "dd/MM/yyyy" }}
+          {{ campaign.startDay | date: 'dd/MM/yyyy':'+1400' }}
         </td>
         <td style="text-align: right">
-          {{ campaign.endDay | date: "dd/MM/yyyy" }}
+          {{ campaign.endDay | date: 'dd/MM/yyyy':'+1400' }}
         </td>
         <td style="text-align: left" *ngIf="campaign.status === 'NotYet'">Chưa bắt đầu</td>
         <td style="text-align: left" *ngIf="campaign.status === 'OnGoing'">Đang diễn ra</td>
         <td style="text-align: left" *ngIf="campaign.status === 'Finished'">Đã kết thúc</td>
+        <td style="text-align: left" *ngIf="campaign.status === 'Locked'">Đã khoá</td>
         <td style="text-align: center">
           <button
             type="button"
@@ -165,6 +166,16 @@
             class="p-button-rounded p-button-danger"
             pTooltip="Khoá"
             (click)="deleteCampaign(campaign)"
+            *ngIf="campaign.status!=='Locked'"
+          ></button>
+          <button
+            pButton
+            pRipple
+            icon="pi pi-unlock"
+            class="p-button-rounded p-button-success"
+            pTooltip="Mở khoá"
+            (click)="unDeleteCampaign(campaign)"
+            *ngIf="campaign.status==='Locked'"
           ></button>
         </td>
       </tr>

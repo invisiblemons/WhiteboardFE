@@ -13,6 +13,7 @@
     href="javascript:void(0);"
     [routerLink]="'/'"
       class="simple-text logo-normal"
+      style="font-size: large; font-weight: 700;  margin-top: -2px;"
     >
       Whiteboard
     </a>
@@ -20,7 +21,7 @@
   <ul class="nav">
     <li *ngFor="let menuitem of menuItems" routerLinkActive="active">
       <!--If is a single link-->
-      <a [routerLink]="[menuitem.path]" *ngIf="menuitem.type === 'link'">
+      <a [routerLink]="[menuitem.path]" style="font-size: medium; font-weight: 500;" *ngIf="menuitem.type === 'link'">
         <i class="{{ menuitem.icontype }}"></i>
         <p>{{ menuitem.title }}</p>
       </a>

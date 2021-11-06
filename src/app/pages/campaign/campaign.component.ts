@@ -116,6 +116,7 @@ export class CampaignComponent implements OnInit {
       { label: "Chưa bắt đầu", value: "NotYet" },
       { label: "Đang diễn ra", value: "OnGoing" },
       { label: "Đã kết thúc", value: "Finished" },
+      { label: "Đã khoá", value: "Locked" },
     ];
     this.campaignService.getCampaigns().subscribe((data) => {
       this.campaigns = data["campaigns"];
@@ -175,15 +176,17 @@ export class CampaignComponent implements OnInit {
 
   deleteCampaign(campaign: Campaign) {
     this.confirmationService.confirm({
-      message: "Bạn có chắc muốn xoá chiến dịch " + campaign.name + "?",
+      message: "Bạn có chắc muốn khoá chiến dịch " + campaign.name + "?",
       header: "Xác nhận",
       icon: "pi pi-exclamation-triangle",
       accept: () => {
+        campaign.status = "Locked";
         this.campaignService.deleteCampaign(campaign).subscribe((res) => {
           if (res) {
-            this.campaigns = this.campaigns.filter(
-              (val) => val.id !== campaign.id
-            );
+            this.campaigns.forEach((res,index) => {
+              if(res.id === campaign.id) {this.campaigns[index].status = "Locked"}
+              
+            });
             this.campaign = new Campaign(null);
             this.messageService.add({
               severity: "success",
@@ -197,50 +200,77 @@ export class CampaignComponent implements OnInit {
     });
   }
 
+  unDeleteCampaign(campaign:Campaign) {
+    this.confirmationService.confirm({
+      message: "Bạn có chắc muốn mở khoá chiến dịch " + campaign.name + "?",
+      header: "Xác nhận",
+      icon: "pi pi-exclamation-triangle",
+      accept: () => {
+        this.formatDataCampaign(campaign);
+        this.campaignService.unDeleteCampaign(campaign).subscribe((res) => {
+          if (res) {
+            this.campaigns.forEach((res:Campaign,index) => {
+              if(res.id === campaign.id) {
+                this.formatDataCampaign(this.campaigns[index]);
+              }
+            });
+            this.campaign = new Campaign(null);
+            this.messageService.add({
+              severity: "success",
+              summary: "Thành công!",
+              detail: "Mở khoá chiến dịch thành công",
+              life: 3000,
+            });
+          }
+        });
+      },
+    });
+    
+  }
   // function in modal
   hideCampaignDialog() {
     this.campaignDialog = false;
-    this.campaignSubmitted = false;
-    //update campaign
-    if (this.campaign.id) {
-      this.campaignService.updateCampaign(this.campaign).subscribe((res) => {
-        if (res) {
-          this.campaignService.getCampaigns().subscribe((res) => {
-            this.campaigns = res["campaigns"];
-            this.campaigns.forEach((campaign) => {
-              this.formatDataCampaign(campaign);
-            });
-            this.messageService.add({
-              severity: "success",
-              summary: "Thành công!",
-              detail: "Cập nhật chiến dịch thành công",
-              life: 3000,
-            });
-            this.campaignDialog = false;
-          });
-        }
-      });
-    } else {
-      //create new campaign
-      this.campaignService.insertCampaign(this.campaign).subscribe((res) => {
-        if (res) {
-          this.campaignService.getCampaigns().subscribe((res: Campaign[]) => {
-            this.campaigns = res["campaigns"];
-            this.campaigns.forEach((campaign) => {
-              this.formatDataCampaign(campaign);
-            });
-            this.messageService.add({
-              severity: "success",
-              summary: "Thành công!",
-              detail: "Tạo mớI chiến dịch thành công",
-              life: 3000,
-            });
-            this.campaignDialog = false;
-            this.isShowUniCampus = false;
-          });
-        }
-      });
-    }
+    // this.campaignSubmitted = false;
+    // //update campaign
+    // if (this.campaign.id) {
+    //   this.campaignService.updateCampaign(this.campaign).subscribe((res) => {
+    //     if (res) {
+    //       this.campaignService.getCampaigns().subscribe((res) => {
+    //         this.campaigns = res["campaigns"];
+    //         this.campaigns.forEach((campaign) => {
+    //           this.formatDataCampaign(campaign);
+    //         });
+    //         this.messageService.add({
+    //           severity: "success",
+    //           summary: "Thành công!",
+    //           detail: "Cập nhật chiến dịch thành công",
+    //           life: 3000,
+    //         });
+    //         this.campaignDialog = false;
+    //       });
+    //     }
+    //   });
+    // } else {
+    //   //create new campaign
+    //   this.campaignService.insertCampaign(this.campaign).subscribe((res) => {
+    //     if (res) {
+    //       this.campaignService.getCampaigns().subscribe((res: Campaign[]) => {
+    //         this.campaigns = res["campaigns"];
+    //         this.campaigns.forEach((campaign) => {
+    //           this.formatDataCampaign(campaign);
+    //         });
+    //         this.messageService.add({
+    //           severity: "success",
+    //           summary: "Thành công!",
+    //           detail: "Tạo mớI chiến dịch thành công",
+    //           life: 3000,
+    //         });
+    //         this.campaignDialog = false;
+    //         this.isShowUniCampus = false;
+    //       });
+    //     }
+    //   });
+    // }
   }
 
   saveCampaign() {
@@ -268,16 +298,23 @@ export class CampaignComponent implements OnInit {
                       if (res) {
                         this.campaignService.getCampaigns().subscribe((res) => {
                           this.campaigns = res["campaigns"];
-                          this.campaigns.forEach((campaign) => {
+                          this.campaigns.forEach((campaign, index) => {
                             this.formatDataCampaign(campaign);
+                            if (this.campaign.id === campaign.id) {
+                              this.campaigns[index] = this.campaign;
+                            }
                           });
                         });
+
                         this.messageService.add({
                           severity: "success",
                           summary: "Thành công!",
                           detail: "Cập nhật chiến dịch thành công",
                           life: 3000,
                         });
+                        this.resetForm();
+                        this.campaignDialog = false;
+                        this.campaign = new Campaign(null);
                       }
                     });
                 } else {
@@ -292,43 +329,43 @@ export class CampaignComponent implements OnInit {
                           detail: "Tạo mớI chiến dịch thành công",
                           life: 3000,
                         });
-                        this.campaignService
-                          .getCampaigns()
-                          .subscribe((res: Campaign[]) => {
-                            this.campaigns = res["campaigns"];
-                            this.campaigns.forEach((campaign) => {
-                              this.formatDataCampaign(campaign);
-                            });
-                          });
+                        this.formatDataCampaign(this.campaign);
+                        this.campaigns = [this.campaign].concat(this.campaigns);
+                        this.campaignDialog = false;
+                        this.isShowUniCampus = false;
+                        this.campaign = new Campaign(null);
                       }
                     });
-                  this.isShowUniCampus = false;
                 }
-                this.resetForm();
-                this.campaignDialog = false;
-                this.campaign = new Campaign(null);
               });
             })
           )
           .subscribe();
       }
-    } else if(this.campaign){
+    } else if (this.campaign) {
       //update campaign
       if (this.campaign.id) {
         this.campaignService.updateCampaign(this.campaign).subscribe((res) => {
           if (res) {
             this.campaignService.getCampaigns().subscribe((res) => {
               this.campaigns = res["campaigns"];
-              this.campaigns.forEach((campaign) => {
+              this.campaigns.forEach((campaign, index) => {
                 this.formatDataCampaign(campaign);
+                if (this.campaign.id === campaign.id) {
+                  this.campaigns[index] = this.campaign;
+                }
               });
-            });
+              this.campaignDialog = false;
             this.messageService.add({
               severity: "success",
               summary: "Thành công!",
               detail: "Cập nhật chiến dịch thành công",
               life: 3000,
             });
+            this.resetForm();
+            this.campaign = new Campaign(null);
+            });
+            
           }
         });
       } else {
@@ -341,15 +378,13 @@ export class CampaignComponent implements OnInit {
               detail: "Tạo mớI chiến dịch thành công",
               life: 3000,
             });
-            this.campaignService.getCampaigns().subscribe((res: Campaign[]) => {
-              this.campaigns = res["campaigns"];
-              this.campaigns.forEach((campaign) => {
-                this.formatDataCampaign(campaign);
-              });
-            });
+            this.campaigns = [this.campaign].concat(this.campaigns);
+            this.campaignDialog = false;
+            this.isShowUniCampus = false;
+            this.campaign = new Campaign(null);
+            this.isShowUniCampus = false;
           }
         });
-        this.isShowUniCampus = false;
       }
     }
   }
@@ -460,7 +495,10 @@ export class CampaignComponent implements OnInit {
         this.isShowSpin = false;
         this.formatDataCampaign(campaign);
       });
+      this.campaignService.reloadL2().subscribe();
     });
   }
   deleteSelectedCampaigns() {}
+
+  
 }

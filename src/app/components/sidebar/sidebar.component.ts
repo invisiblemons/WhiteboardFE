@@ -31,13 +31,13 @@ export const ROUTES: RouteInfo[] = [
   
   {
     path: "/dashboard",
-    title: "Review",
+    title: "Bài đánh giá",
     type: "link",
     icontype: "tim-icons icon-chart-pie-36"
   },
   {
     path: "/campaign",
-    title: "Campaign",
+    title: "Chiến dịch",
     type: "link",
     icontype: "tim-icons icon-image-02",
     collapse: "pages",
@@ -45,7 +45,7 @@ export const ROUTES: RouteInfo[] = [
   },
   {
     path: "/university",
-    title: "University",
+    title: "Trường đại học",
     type: "link",
     icontype: "tim-icons icon-molecule-40",
     collapse: "components",
