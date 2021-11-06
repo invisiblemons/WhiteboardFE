@@ -13,11 +13,10 @@ import { UniversityService } from "./university.service";
   styleUrls: ["./university.component.scss"],
 })
 export class UniversityComponent implements OnInit {
-
   first = 0;
 
   rows = 5;
-  
+
   universities: University[];
 
   rootDataUniversities: University[];
@@ -64,25 +63,27 @@ export class UniversityComponent implements OnInit {
   // paging
   next() {
     this.first = this.first + this.rows;
-}
+  }
 
-prev() {
+  prev() {
     this.first = this.first - this.rows;
-}
+  }
 
-reset() {
+  reset() {
     this.first = 0;
-}
+  }
 
-isLastPage(): boolean {
-    return this.universities ? this.first === (this.universities.length - this.rows): true;
-}
+  isLastPage(): boolean {
+    return this.universities
+      ? this.first === this.universities.length - this.rows
+      : true;
+  }
 
-isFirstPage(): boolean {
+  isFirstPage(): boolean {
     return this.universities ? this.first === 0 : true;
-}
+  }
 
-// end-paging
+  // end-paging
 
   openNewUniversity() {
     this.newUniverisityDialog = true;
@@ -118,8 +119,6 @@ isFirstPage(): boolean {
     this.newUniverisityDialog = true;
   }
 
-  
-
   //image
   showPreview(event: any) {
     if (event.target.files && event.target.files[0]) {
@@ -137,7 +136,7 @@ isFirstPage(): boolean {
     this.newUniverisityDialog = false;
   }
 
-  saveUni() {
+  saveUniversity() {
     if (this.university.name.trim()) {
       //check to upload image
       if (null !== this.selectedImage) {
@@ -154,40 +153,93 @@ isFirstPage(): boolean {
               finalize(() => {
                 fileRef.getDownloadURL().subscribe((url) => {
                   this.university.image = url;
-                  this.resetForm();
+                  //update uni
+                  if (this.university.id) {
+                    this.services
+                      .updateUniversity(this.university)
+                      .subscribe((res) => {
+                        if (res) {
+                          this.universities.forEach(
+                            (uni: University, index) => {
+                              if ((this.university.id === uni.id)) {
+                                this.universities[index] = this.university;
+                              }
+                            }
+                          );
+                          this.messageService.add({
+                            severity: "success",
+                            summary: "Thành công!",
+                            detail: "Cập nhật trường đại học thành công",
+                            life: 3000,
+                          });
+                          this.newUniverisityDialog = false;
+                          this.university = new University(null);
+                          this.resetForm();
+                        }
+                      });
+                  } else {
+                    //create new campaign
+                    this.services
+                      .insertUniversity(this.university)
+                      .subscribe((res) => {
+                        if (res) {
+                          this.universities = [this.university].concat(
+                            this.universities
+                          );
+                          this.messageService.add({
+                            severity: "success",
+                            summary: "Thành công!",
+                            detail: "Tạo mới trường đại học thành công",
+                            life: 3000,
+                          });
+                          this.newUniverisityDialog = false;
+                          this.university = new University(null);
+                          this.resetForm();
+                        }
+                      });
+                  }
                 });
               })
             )
             .subscribe();
         }
-      }
-      //update uni
-      if (this.university.id) {
-        this.services.updateUniversity(this.university).subscribe((res) => {
-          if (res) {
-            this.messageService.add({
-              severity: "success",
-              summary: "Thành công!",
-              detail: "Cập nhật trường đại học thành công",
-              life: 3000,
-            });
-          }
-        });
       } else {
-        //create new campaign
-        this.services.insertUniversity(this.university).subscribe((res) => {
-          if (res) {
-            this.messageService.add({
-              severity: "success",
-              summary: "Thành công!",
-              detail: "Tạo mới trường đại học thành công",
-              life: 3000,
-            });
-          }
-        });
+        //update uni
+        if (this.university.id) {
+          this.services.updateUniversity(this.university).subscribe((res) => {
+            if (res) {
+              this.universities.forEach((uni: University, index) => {
+                if ((this.university.id === uni.id)) {
+                  this.universities[index] = this.university;
+                }
+              });
+              this.messageService.add({
+                severity: "success",
+                summary: "Thành công!",
+                detail: "Cập nhật trường đại học thành công",
+                life: 3000,
+              });
+              this.newUniverisityDialog = false;
+              this.university = new University(null);
+            }
+          });
+        } else {
+          //create new campaign
+          this.services.insertUniversity(this.university).subscribe((res) => {
+            if (res) {
+              this.universities = [this.university].concat(this.universities);
+              this.messageService.add({
+                severity: "success",
+                summary: "Thành công!",
+                detail: "Tạo mới trường đại học thành công",
+                life: 3000,
+              });
+              this.newUniverisityDialog = false;
+              this.university = new University(null);
+            }
+          });
+        }
       }
-      this.newUniverisityDialog = false;
-      this.university = new University(null);
     }
   }
 
@@ -241,11 +293,5 @@ isFirstPage(): boolean {
     });
   }
 
-  unDeleteUni(university) {
-
-  }
-
-  deleteSelectedUniversities(){
-
-  }
+  deleteSelectedUniversities() {}
 }

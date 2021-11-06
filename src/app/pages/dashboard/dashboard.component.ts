@@ -2,7 +2,11 @@ import { Component, OnInit } from "@angular/core";
 import Chart from "chart.js";
 import { NgbActiveModal, NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { DashboardService } from "./dashboard.service";
-import { ConfirmationService, MessageService } from "primeng/api";
+import {
+  ConfirmationService,
+  LazyLoadEvent,
+  MessageService,
+} from "primeng/api";
 import { Review } from "./dashboard.model";
 import { ActivatedRoute, Router } from "@angular/router";
 
@@ -13,6 +17,16 @@ import { ActivatedRoute, Router } from "@angular/router";
 })
 export class DashboardComponent implements OnInit {
   // publishReviews: Review[] = null;
+
+  page: number;
+
+  pageSize: number;
+
+  totalRecords: number;
+
+  loading: boolean;
+
+  rows = 5;
 
   reviews: Review[];
 
@@ -34,9 +48,6 @@ export class DashboardComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.router.routeReuseStrategy.shouldReuseRoute = function () {
-      return false;
-    };
 
     this.isShowSpin = true;
 
@@ -44,14 +55,21 @@ export class DashboardComponent implements OnInit {
       { label: "Đang xét duyệt", value: "Waiting" },
       { label: "Đã xét duyệt", value: "Published" },
       { label: "Không xét duyệt", value: "Unpublished" },
-      { label: "Đã khoá", value: "Locked" }
+      { label: "Đã khoá", value: "Locked" },
     ];
+  }
 
+  loadReviews(event: LazyLoadEvent) {
+    this.loading = true;
+    this.page = event.first / event.rows;
+    this.pageSize = event.rows;
     //get reviews
-    this.services.getReviews().subscribe((res) => {
+    this.services.getReviews(this.pageSize, this.page).subscribe((res) => {
       if (null !== res) {
         this.reviews = res["reviews"];
+        this.totalRecords = res["totalRows"];
         this.isShowSpin = false;
+        this.loading = false;
         this.route.queryParams.subscribe((params) => {
           this.returnReviewId = params["id"];
           this.reviews.forEach((review) => {
@@ -73,7 +91,7 @@ export class DashboardComponent implements OnInit {
   reloadReview() {
     this.reviews = null;
     this.isShowSpin = true;
-    this.services.getReloadReviews().subscribe((res) => {
+    this.services.getReloadReviews(this.pageSize, this.page).subscribe((res) => {
       if (null !== res) {
         this.reviews = res["reviews"];
         this.isShowSpin = false;
@@ -84,22 +102,21 @@ export class DashboardComponent implements OnInit {
           life: 3000,
         });
         this.services.getReloadPublishedReviews().subscribe();
-    this.services.reloadL2().subscribe();
-    this.services.reloadL3().subscribe();
-    this.services.reloadL4().subscribe();
-    this.services.reloadL5().subscribe((res) => {
-      if (null !== res) {
-        console.log("test");
-        this.messageService.add({
-          severity: "success",
-          summary: "Thành công!",
-          detail: "Cập nhật ",
-          life: 3000,
+        this.services.reloadL2().subscribe();
+        this.services.reloadL3().subscribe();
+        this.services.reloadL4().subscribe();
+        this.services.reloadL5().subscribe((res) => {
+          if (null !== res) {
+            console.log("test");
+            this.messageService.add({
+              severity: "success",
+              summary: "Thành công!",
+              detail: "Cập nhật ",
+              life: 3000,
+            });
+          }
         });
       }
     });
-      }
-    });
-    
   }
 }

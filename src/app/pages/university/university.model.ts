@@ -19,11 +19,11 @@ export class Campus {
   id: string;
   name: string;
   address: string;
-  phoneNumber: number;
+  phoneNumber: string;
   email: string;
   image: string;
   majors: Major[];
-
+  universityId: string;
   constructor(data) {
     if (null !== data) {
         this.id = data.id;
@@ -32,6 +32,7 @@ export class Campus {
         this.phoneNumber = data.phoneNumber;
         this.email = data.email;
         this.majors = data.majors;
+        this.universityId = data.universityId;
       }
   }
 }
@@ -40,12 +41,14 @@ export class Major {
   id: string;
   name: string;
   code: string;
+  campusId: string;
 
   constructor(data) {
     if (null !== data) {
         this.id = data.id;
         this.name = data.name;
         this.code = data.code;
+        this.campusId = data.campusId;
       }
   }
 }

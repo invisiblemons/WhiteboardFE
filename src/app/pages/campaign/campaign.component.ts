@@ -91,6 +91,7 @@ export class CampaignComponent implements OnInit {
   isShowUniCampus: boolean;
 
   selectedCampaigns: Campaign[];
+  
 
   //image
   imgSrc: string;

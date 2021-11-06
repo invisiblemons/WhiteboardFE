@@ -104,16 +104,19 @@ export class UniversityDetailComponent implements OnInit {
     this.campusDialog = true;
     this.campusName = campus.name;
     this.campus = { ...campus };
+    this.campusImgSrc = this.campus.image;
   }
 
   deleteCampus(campus: Campus) {
+    
     this.confirmationService.confirm({
-      message: "Bạn có chắc muốn khoá campus " + campus.name + " này?",
+      message: "Bạn có chắc muốn xoá campus " + campus.name + " này?",
       header: "Xác nhận",
       icon: "pi pi-exclamation-triangle",
       accept: () => {
-        this.services.deleteCampus(campus.id).subscribe((res) => {
+        this.services.deleteCampus(campus).subscribe((res) => {
           if (res) {
+            this.university.campus.filter((val) => val.id !== campus.id);
             this.messageService.add({
               severity: "success",
               summary: "Thành công!",
@@ -137,9 +140,11 @@ export class UniversityDetailComponent implements OnInit {
   }
 
   saveCampus() {
+    this.campus.majors = null;
+    delete this.campus.majors;
     if (this.campus.name.trim()) {
       //check to upload image
-      if (null !== this.selectedImage) {
+      if (this.selectedImage) {
         if (this.campusFormTemplate.valid) {
           var filePath = `${this.selectedImage.name
             .split(".")
@@ -153,40 +158,97 @@ export class UniversityDetailComponent implements OnInit {
               finalize(() => {
                 fileRef.getDownloadURL().subscribe((url) => {
                   this.campus.image = url;
-                  this.resetForm();
+                  //update campus
+                  if (this.campus.id) {
+                    this.services.updateCampus(this.campus).subscribe((res) => {
+                      if (res) {
+                        this.university.campus.forEach((res: Campus, index) => {
+                          if (this.campus.id === res.id) {
+                            this.university.campus[index].name = this.campus.name;
+                  this.university.campus[index].address = this.campus.address;
+                  this.university.campus[index].phoneNumber = this.campus.phoneNumber;
+                  this.university.campus[index].image = this.campus.image;
+                  this.university.campus[index].email = this.campus.email;
+                          }
+                        });
+                        this.messageService.add({
+                          severity: "success",
+                          summary: "Thành công!",
+                          detail: "Cập nhật campus thành công",
+                          life: 3000,
+                        });
+                        this.campusDialog = false;
+                        this.campus = new Campus(null);
+                        this.resetForm();
+                      }
+                    });
+                  } else {
+                    //new campus
+                    this.campus.universityId = this.universityId;
+                    this.services.insertCampus(this.campus).subscribe((res) => {
+                      if (res) {
+                        this.university.campus = [res].concat(
+                          this.university.campus
+                        );
+                        this.messageService.add({
+                          severity: "success",
+                          summary: "Thành công!",
+                          detail: "Tạo mới campus thành công",
+                          life: 3000,
+                        });
+                        this.campusDialog = false;
+                        this.campus = new Campus(null);
+                        this.resetForm();
+                      }
+                    });
+                  }
                 });
               })
             )
             .subscribe();
         }
-      }
-      //update campus
-      if (this.campus.id) {
-        this.services.updateCampus(this.campus).subscribe((res) => {
-          if (res) {
+      } else {
+        //update campus
+        if (this.campus.id) {
+          this.services.updateCampus(this.campus).subscribe((res) => {
+            if (res) {
+              this.university.campus.forEach((res: Campus, index) => {
+                if (this.campus.id === res.id) {
+                  this.university.campus[index].name = this.campus.name;
+                  this.university.campus[index].address = this.campus.address;
+                  this.university.campus[index].phoneNumber = this.campus.phoneNumber;
+                  this.university.campus[index].image = this.campus.image;
+                  this.university.campus[index].email = this.campus.email;
+                }
+                
+              });
               this.messageService.add({
                 severity: "success",
                 summary: "Thành công!",
                 detail: "Cập nhật campus thành công",
                 life: 3000,
               });
-          }
-        });
-      } else {
-        //new campus
-        this.services.insertCampus(this.campus).subscribe((res) => {
-          if (res) {
-            this.messageService.add({
-              severity: "success",
-              summary: "Thành công!",
-              detail: "Tạo mới campus thành công",
-              life: 3000,
-            });
-          }
-        });
+              this.campusDialog = false;
+              this.campus = new Campus(null);
+            }
+          });
+        } else {
+          //new campus
+          this.services.insertCampus(this.campus).subscribe((res) => {
+            if (res) {
+              this.university.campus = [res].concat(this.university.campus);
+              this.messageService.add({
+                severity: "success",
+                summary: "Thành công!",
+                detail: "Tạo mới campus thành công",
+                life: 3000,
+              });
+              this.campusDialog = false;
+              this.campus = new Campus(null);
+            }
+          });
+        }
       }
-      this.campusDialog = false;
-      this.campus = new Campus(null);
     }
   }
 
@@ -202,17 +264,17 @@ export class UniversityDetailComponent implements OnInit {
   }
   deleteMajor(campus, major) {
     this.confirmationService.confirm({
-      message: "Bạn có chắc muốn khoá ngành " + major.name + " này?",
+      message: "Bạn có chắc muốn xoá ngành " + major.name + " này?",
       header: "Xác nhận",
       icon: "pi pi-exclamation-triangle",
       accept: () => {
-        this.services.deleteCampus(major.id).subscribe((res) => {
+        this.services.deleteMajor(major.id).subscribe((res) => {
           if (res) {
             this.campuses.filter((val) => val.id !== major.id);
             this.messageService.add({
               severity: "success",
               summary: "Thành công!",
-              detail: "Khoá ngành này thành công",
+              detail: "xoá ngành này thành công",
               life: 3000,
             });
           }
@@ -220,12 +282,18 @@ export class UniversityDetailComponent implements OnInit {
       },
     });
   }
-  saveMajor(campus) {
-    if (this.major.code.trim()) {
+  saveMajor(campus: Campus, major: Major) {
+    major.campusId = campus.id;
+    if (major.code.trim()) {
       //update Major
-      if (this.major.code) {
-        this.services.updateMajor(this.major).subscribe((res) => {
+      if (major.id) {
+        this.services.updateMajor(major).subscribe((res) => {
           if (res) {
+            campus.majors.forEach((res: Major, index) => {
+              if (res.id === major.id) {
+                campus.majors[index] = major;
+              }
+            });
             this.messageService.add({
               severity: "success",
               summary: "Thành công!",
@@ -236,8 +304,9 @@ export class UniversityDetailComponent implements OnInit {
         });
       } else {
         //new Major
-        this.services.insertMajor(this.major).subscribe((res) => {
+        this.services.insertMajor(major).subscribe((res) => {
           if (res) {
+            campus.majors = [major].concat(campus.majors);
             this.messageService.add({
               severity: "success",
               summary: "Thành công!",
@@ -254,6 +323,10 @@ export class UniversityDetailComponent implements OnInit {
 
   hideMajorDialog() {
     this.majorDialog = false;
+  }
+
+  openMajorsOfUniversity(campus: Campus) {
+    this.campus = campus;
   }
 
   //image
@@ -287,7 +360,6 @@ export class UniversityDetailComponent implements OnInit {
       imageUrl: "",
     });
     this.imgSrc = "/assets/img/weebly_image_sample.png";
-    
 
     this.campusFormTemplate.reset();
     this.campusFormTemplate.setValue({

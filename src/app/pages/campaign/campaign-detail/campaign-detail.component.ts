@@ -311,8 +311,6 @@ export class CampaignDetailComponent implements OnInit {
     let changeCriteria: Criteria = new Criteria();
     changeCriteria.name = this.criteriaName;
     changeCriteria.id = this.criteria.id;
-    changeCriteria.ratings = this.criteria.ratings;
-    changeCriteria.campaignId = this.campaignId;
     if (changeCriteria.name.trim()) {
       if (changeCriteria.id) {
         this.campaignService.updateCriteria(changeCriteria).subscribe((res) => {

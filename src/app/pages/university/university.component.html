@@ -1,5 +1,6 @@
 <div class="content">
   <p-table
+    #datatable
     [value]="universities"
     dataKey="name"
     responsiveLayout="scroll"
@@ -9,6 +10,8 @@
     currentPageReportTemplate="Hiển thị từ {first} đến {last} của {totalRecords} mục"
     [rowsPerPageOptions]="[5, 10, 20]"
     [(selection)]="selectedUniversities"
+    [globalFilterFields]="['name']"
+    [rowHover]="true"
   >
     <ng-template pTemplate="caption">
       <div class="d-flex bd-highlight">
@@ -25,40 +28,40 @@
         </div>
       </div>
       <div class="row">
-        <div class="mr-auto" style="margin: 0 0 20px 20px;">
-            <button
-              pButton
-              pRipple
-              label="Thêm mới"
-              icon="pi pi-plus"
-              class="p-button-success p-mr-2"
-              (click)="openNewUniversity()"
-            ></button>
-          </div>
+        <div class="mr-auto" style="margin: 0 0 20px 20px">
+          <button
+            pButton
+            pRipple
+            label="Thêm mới"
+            icon="pi pi-plus"
+            class="p-button-success p-mr-2"
+            (click)="openNewUniversity()"
+          ></button>
         </div>
-        <div class="p-d-flex mr-auto">
-            <button
-              pButton
-              pRipple
-              [label]="Delete"
-              icon="pi pi-lock"
-              class="p-button-danger"
-              (click)="deleteSelectedUniversities()"
-              [disabled]="!selectedUniversities || !selectedUniversities.length"
-              pTooltip="Khoá các trường đại học đã chọn"
-              style="margin-right: 5px"
-            ></button>
-            <span class="p-input-icon-left p-ml-auto">
-              <i class="pi pi-search"></i>
-              <input
-                type="text"
-                pInputText
-                [(ngModel)]="searchText"
-                placeholder="Tìm kiếm tên trường đại học"
-                (change)="searchUni()"
-              />
-            </span>
-          </div>
+      </div>
+      <div class="p-d-flex mr-auto">
+        <button
+          pButton
+          pRipple
+          [label]="Delete"
+          icon="pi pi-trash"
+          class="p-button-danger"
+          (click)="deleteSelectedUniversities()"
+          [disabled]="!selectedUniversities || !selectedUniversities.length"
+          pTooltip="Xoá các trường đại học đã chọn"
+          style="margin-right: 5px"
+        ></button>
+        <span class="p-input-icon-left p-ml-auto">
+          <i class="pi pi-search"></i>
+          <input
+            pInputText
+            type="text"
+            (input)="datatable.filterGlobal($event.target.value, 'contains')"
+            placeholder="Tìm kiếm theo tên trường đại học"
+            pTooltip="Tìm kiếm theo tên trường đại học"
+          />
+        </span>
+      </div>
     </ng-template>
 
     <ng-template pTemplate="header">
@@ -66,32 +69,23 @@
         <th style="width: 3rem; text-align: center">
           <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
         </th>
-        <th style="width: 5rem; text-align: center" >Stt</th>
+        <th style="width: 5rem; text-align: center">Stt</th>
         <th pSortableColumn="name" style="width: 15rem; text-align: left">
           Tên trường đại học<p-sortIcon field="name"></p-sortIcon>
         </th>
-        <th class="text-center">Logo</th>
         <th style="width: 15rem; text-align: left">Email</th>
         <th style="width: 10rem; text-align: right">Số điện thoại</th>
         <th style="width: 10rem; text-align: center">Xem chi tiết</th>
         <th style="text-align: center">Thao tác</th>
       </tr>
     </ng-template>
-    <ng-template pTemplate="body" let-university  let-rowIndex="rowIndex">
+    <ng-template pTemplate="body" let-university let-rowIndex="rowIndex">
       <tr>
         <td>
           <p-tableCheckbox [value]="university"></p-tableCheckbox>
         </td>
-        <td style="text-align: center">{{rowIndex+1}}</td>
+        <td style="text-align: center">{{ rowIndex + 1 }}</td>
         <td style="text-align: left">{{ university.name }}</td>
-        <td>
-          <img
-            [src]="university.image"
-            [alt]="university.name"
-            width="150"
-            class="p-shadow-4 rounded mx-auto d-block"
-          />
-        </td>
         <td style="text-align: left">{{ university.email }}</td>
         <td style="text-align: right">{{ university.phoneNumber }}</td>
         <td style="text-align: center">
@@ -117,18 +111,9 @@
           <button
             pButton
             pRipple
-            icon="pi pi-lock"
+            icon="pi pi-trash"
             class="p-button-rounded p-button-danger"
             (click)="deleteUni(university)"
-            *ngIf="university.status!=='Locked'"
-          ></button>
-          <button
-            pButton
-            pRipple
-            icon="pi pi-unlock"
-            class="p-button-rounded p-button-success"
-            (click)="unDeleteUni(university)"
-            *ngIf="university.status==='Locked'"
           ></button>
         </td>
       </tr>
@@ -136,7 +121,7 @@
     <ng-template pTemplate="emptymessage">
       <tr>
         <td colspan="4"></td>
-        <td colspan="4" *ngIf="isShowSpin">
+        <td colspan="3" *ngIf="isShowSpin">
           <p-progressSpinner
             [style]="{ width: '50px', height: '50px' }"
             styleClass="custom-spinner"
@@ -145,7 +130,7 @@
             animationDuration=".5s"
           ></p-progressSpinner>
         </td>
-        <td colspan="4" *ngIf="!isShowSpin">Không có trường đại học.</td>
+        <td colspan="3" *ngIf="!isShowSpin">Không có trường đại học.</td>
       </tr>
     </ng-template>
   </p-table>
@@ -157,6 +142,7 @@
     header="Thông tin trường đại học"
     [modal]="true"
     styleClass="p-fluid"
+    [dismissableMask]="true"
   >
     <ng-template pTemplate="content">
       <div class="p-field">
@@ -177,6 +163,17 @@
           pInputText
           id="email"
           [(ngModel)]="university.email"
+          required
+          autofocus
+        />
+      </div>
+      <div class="p-field">
+        <label for="link">Website</label>
+        <input
+          type="text"
+          pInputText
+          id="link"
+          [(ngModel)]="university.link"
           required
           autofocus
         />
@@ -236,7 +233,7 @@
         label="Save"
         icon="pi pi-check"
         class="p-button-text"
-        (click)="saveCampaign()"
+        (click)="saveUniversity()"
       ></button>
     </ng-template>
   </p-dialog>

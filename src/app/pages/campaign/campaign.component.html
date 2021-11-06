@@ -5,7 +5,7 @@
     dataKey="name"
     responsiveLayout="scroll"
     [paginator]="true"
-    [rows]="5"
+    [rows]="rows"
     [showCurrentPageReport]="true"
     currentPageReportTemplate="Hiển thị từ {first} đến {last} của {totalRecords} mục"
     [rowsPerPageOptions]="[5, 10, 20]"
@@ -56,6 +56,7 @@
             <i class="pi pi-search"></i>
             <input
               pInputText
+              id="search"
               type="text"
               (input)="datatable.filterGlobal($event.target.value, 'contains')"
               placeholder="Tìm kiếm theo tiêu đề chiến dịch"

@@ -66,7 +66,7 @@
         <app-card [headerContent]="'Quản lý Campus thuộc trường đại học'">
           <div class="row">
             <div class="col-sm-12 col-xl-12">
-              <div class="row">
+              <div class="row" style="padding: 0 15px">
                 <h4 class="sub-title" style="font-weight: 600">
                   Quản lý Campus thuộc trường đại học
                 </h4>
@@ -134,6 +134,16 @@
                         class="p-button-rounded p-button-danger"
                         (click)="deleteCampus(campus)"
                         pTooltip="Khoá campus"
+                        *ngIf="campus.status !=='Locked'"
+                      ></button>
+                      <button
+                        pButton
+                        pRipple
+                        icon="pi pi-unlock"
+                        class="p-button-rounded p-button-success"
+                        (click)="unDeleteCampus(campus)"
+                        pTooltip="Mở khoá campus"
+                        *ngIf="campus.status ==='Locked'"
                       ></button>
                     </td>
                   </tr>
@@ -170,7 +180,7 @@
                               <th style="width: 3rem" class="text-center"></th>
                               <th
                                 pSortableColumn="code"
-                                style="width: 10rem; text-align: left"
+                                style="width: 15rem; text-align: left"
                               >
                                 Mã ngành học
                                 <p-sortIcon field="code"></p-sortIcon>
@@ -218,7 +228,7 @@
                                   icon="pi pi-lock"
                                   class="p-button-rounded p-button-danger"
                                   (click)="deleteMajor(campus, majorOfCampus)"
-                                  pTooltip="Khoá sửa ngành học này"
+                                  pTooltip="Khoá ngành học này"
                                 ></button>
                               </td>
                             </tr>
@@ -251,6 +261,7 @@
     header="Thông tin campus"
     [modal]="true"
     styleClass="p-fluid"
+    [dismissableMask]="true"
   >
     <ng-template pTemplate="content">
       <div class="p-field mt-3">
@@ -284,6 +295,17 @@
           pInputText
           id="email"
           [(ngModel)]="campus.email"
+          required
+          autofocus
+        />
+      </div>
+      <div class="p-field mt-3">
+        <label for="phoneNumber">Số điện thoại</label>
+        <input
+          type="number"
+          pInputText
+          id="phoneNumber"
+          [(ngModel)]="campus.phoneNumber"
           required
           autofocus
         />
@@ -343,6 +365,7 @@
     header="Thông tin campus"
     [modal]="true"
     styleClass="p-fluid"
+    [dismissableMask]="true"
   >
     <ng-template pTemplate="content">
       <div class="p-field mt-3">

@@ -55,12 +55,16 @@ export class UniversityService {
     return this.httpClient.put<Major>(`${this.majorURL}`, major);
   }
 
-  deleteUniversity(university: University) {
-    return this.httpClient.delete<boolean>(`${this.baseURL}/${university.id}`);
+  deleteUniversity(id) {
+    return this.httpClient.delete<boolean>(`${this.baseURL}/${id}`);
   }
 
-  deleteCampus(id: string) {
+  deleteCampus(id) {
     return this.httpClient.delete<boolean>(`${this.campusURL}/${id}`);
+  }
+
+  deleteMajor(id) {
+    return this.httpClient.delete<boolean>(`${this.majorURL}/${id}`);
   }
 
   searchUniversityWithId(id: string): Observable<University> {

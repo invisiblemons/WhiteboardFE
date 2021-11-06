@@ -41,23 +41,36 @@ import { Campus, University } from "../university/university.model";
 })
 export class ReviewerComponent implements OnInit {
 
+  first = 0;
+
+  rows = 5;
+
   reviewers: Reviewer[];
 
-
   reviewer: Reviewer;
+
   listStatus = [];
+
   reviewerDialog: boolean;
+
   reviewerApproved: boolean;
+
   reviewerSubmitted: boolean;
+
   public selectedStatus = '';
+
   listReview = [];
+
   listReviewer = [];
+
   universities: University[];
 
   university: University;
 
   campus: Campus;
+
   hasUni: boolean = false;
+
   campusList: Campus[];
 
   isShowSpin:boolean;
@@ -94,6 +107,32 @@ export class ReviewerComponent implements OnInit {
       { label: "Đã Khóa", value: "Locked" }
     );
   }
+
+  // paging
+
+  next() {
+    this.first = this.first + this.rows;
+  }
+
+  prev() {
+    this.first = this.first - this.rows;
+  }
+
+  reset() {
+    this.first = 0;
+  }
+
+  isLastPage(): boolean {
+    return this.reviewers
+      ? this.first === this.reviewers.length - this.rows
+      : true;
+  }
+
+  isFirstPage(): boolean {
+    return this.reviewers ? this.first === 0 : true;
+  }
+
+  // end-paging
 
   openDetailReviewer(reviewer: Reviewer) {
     this.router.navigate(["/reviewer/reviewer-detail"], {

@@ -2,13 +2,8 @@
     <p-table
       #datatable
       [value]="reviews"
-      dataKey="email"
-      responsiveLayout="scroll"
-      [paginator]="true"
-      [rows]="5"
-      [showCurrentPageReport]="true"
-      currentPageReportTemplate="Hiển thị từ {first} đến {last} của {totalRecords} mục"
-      [rowsPerPageOptions]="[5, 10, 20]"
+      [lazy]="true" (onLazyLoad)="loadReviews($event)" responsiveLayout="scroll"
+    [paginator]="true" [rows]="5" [totalRecords]="totalRecords" [loading]="loading"
       [globalFilterFields]="['title']"
       [rowHover]="true"
     >
