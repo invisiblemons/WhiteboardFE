@@ -122,7 +122,7 @@ export class UniversityDetailComponent implements OnInit {
             this.messageService.add({
               severity: "success",
               summary: "Thành công!",
-              detail: "Khoá chiến dịch thành công",
+              detail: "Xoá chiến dịch thành công",
               life: 3000,
             });
         });
@@ -293,8 +293,9 @@ export class UniversityDetailComponent implements OnInit {
           if (res) {
             campus.majors.forEach((res: Major, index) => {
               if (res.id === major.id) {
-                this.services.getMajorOfCampus(major.id).subscribe((result) => {
-                  campus.majors[index] = result;
+                this.services.searchUniversityWithId(this.universityId).subscribe((res) => {
+                  this.university = res;
+                  this.imageLogo = this.university.image;
                 })
               }
             });
@@ -310,8 +311,9 @@ export class UniversityDetailComponent implements OnInit {
         //new Major
         this.services.insertMajor(major).subscribe((res) => {
           if (res) {
-            this.services.getMajorsOfCampus(campus.id).subscribe((result) => {
-              campus.majors = result;
+            this.services.searchUniversityWithId(this.universityId).subscribe((res) => {
+              this.university = res;
+              this.imageLogo = this.university.image;
             })
             this.messageService.add({
               severity: "success",
