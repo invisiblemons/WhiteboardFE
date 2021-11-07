@@ -44,11 +44,11 @@
                 <dd class="col-sm-6">
                   <div>
                     <span class="OK"
-                      *ngIf="reviewer.status.toLowerCase() === 'verified'">{{reviewer.status.toUpperCase()}}</span>
+                      *ngIf="reviewer.status === 'Verified'">{{reviewer.status}}</span>
                     <span class="ERROR"
-                      *ngIf="reviewer.status.toLowerCase() === 'locked'">{{reviewer.status.toUpperCase()}}</span>
+                      *ngIf="reviewer.status === 'Locked'">{{reviewer.status}}</span>
                     <span class="WARNING"
-                      *ngIf="reviewer.status.toLowerCase() === 'unverified'">{{reviewer.status.toUpperCase()}}</span>
+                      *ngIf="reviewer.status === 'Unverified'">{{reviewer.status}}</span>
                     
                   </div>
                 </dd>
@@ -215,13 +215,13 @@
                   <td style="text-align: left">
                     <div>
                       <span class="OK"
-                        *ngIf="review.status.toLowerCase() === 'published'">{{review.status.toUpperCase()}}</span>
+                        *ngIf="review.status === 'Published'">{{review.status}}</span>
                       <span class="ERROR"
-                        *ngIf="review.status.toLowerCase() === 'locked'">{{review.status.toUpperCase()}}</span>
+                        *ngIf="review.status === 'Locked'">{{review.status}}</span>
                       <span class="WARNING"
-                        *ngIf="review.status.toLowerCase() === 'waiting'">{{review.status.toUpperCase()}}</span>
+                        *ngIf="review.status === 'Waiting'">{{review.status}}</span>
                       <span class="NORMAL"
-                        *ngIf="review.status.toLowerCase() === 'unpublished'">{{review.status.toUpperCase()}}</span>
+                        *ngIf="review.status === 'Unpublished'">{{review.status}}</span>
                     </div>
                   </td>
                   <td style="text-align: center">

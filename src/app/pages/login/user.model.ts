@@ -3,7 +3,7 @@ export class user {
   firebaseUId: string;
   exp: Date;
   name?: string;
-  avatar?: string;
+  avatarURL?: string;
   email?: string;
   birthday?: string;
   phoneNumbers?: string;

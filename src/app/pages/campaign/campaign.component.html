@@ -155,20 +155,10 @@
           <button
             pButton
             pRipple
-            icon="pi pi-lock"
+            icon="pi pi-trash"
             class="p-button-rounded p-button-danger"
-            pTooltip="Khoá"
+            pTooltip="Xoá"
             (click)="deleteCampaign(campaign)"
-            *ngIf="campaign.status!=='Locked'"
-          ></button>
-          <button
-            pButton
-            pRipple
-            icon="pi pi-unlock"
-            class="p-button-rounded p-button-success"
-            pTooltip="Mở khoá"
-            (click)="unDeleteCampaign(campaign)"
-            *ngIf="campaign.status==='Locked'"
           ></button>
         </td>
       </tr>

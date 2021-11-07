@@ -90,11 +90,11 @@
         <td style="text-align: left">
           <div>
             <span class="WARNING"
-              *ngIf="reviewer.status.toLowerCase() === 'unverified'">CHƯA XÁC THỰC</span>
+              *ngIf="reviewer.status === 'Unverified'">CHƯA XÁC THỰC</span>
               <span class="OK"
-              *ngIf="reviewer.status.toLowerCase() === 'verified'">ĐÃ XÁC THỰC</span>
+              *ngIf="reviewer.status === 'Verified'">ĐÃ XÁC THỰC</span>
               <span class="ERROR" 
-              *ngIf="reviewer.status.toLowerCase() === 'locked'">ĐÃ KHÓA</span>
+              *ngIf="reviewer.status === 'Locked'">ĐÃ KHÓA</span>
           </div>
         </td>
 
@@ -117,7 +117,7 @@
             <button pButton pRipple icon="pi pi-unlock" class="p-button-rounded p-button-success"
               (click)="unDeleteReviewer(reviewer)"></button>
           </td>
-          <td style="text-align: center" *ngIf="reviewer.status.toLowerCase() ==='unverified'">
+          <td style="text-align: center" *ngIf="reviewer.status ==='Unverified'">
           </td>
       </tr>
     </ng-template>

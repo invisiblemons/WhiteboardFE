@@ -114,16 +114,17 @@ export class UniversityDetailComponent implements OnInit {
       header: "Xác nhận",
       icon: "pi pi-exclamation-triangle",
       accept: () => {
-        this.services.deleteCampus(campus).subscribe((res) => {
-          if (res) {
-            this.university.campus.filter((val) => val.id !== campus.id);
+        this.services.deleteCampus(campus.id).subscribe((res) => {
+            this.services.searchUniversityWithId(this.universityId).subscribe((res) => {
+              this.university = res;
+              this.imageLogo = this.university.image;
+            })
             this.messageService.add({
               severity: "success",
               summary: "Thành công!",
               detail: "Khoá chiến dịch thành công",
               life: 3000,
             });
-          }
         });
       },
     });
@@ -269,15 +270,16 @@ export class UniversityDetailComponent implements OnInit {
       icon: "pi pi-exclamation-triangle",
       accept: () => {
         this.services.deleteMajor(major.id).subscribe((res) => {
-          if (res) {
-            this.campuses.filter((val) => val.id !== major.id);
+          this.services.searchUniversityWithId(this.universityId).subscribe((res) => {
+            this.university = res;
+            this.imageLogo = this.university.image;
+          })
             this.messageService.add({
               severity: "success",
               summary: "Thành công!",
               detail: "xoá ngành này thành công",
               life: 3000,
             });
-          }
         });
       },
     });
@@ -291,7 +293,9 @@ export class UniversityDetailComponent implements OnInit {
           if (res) {
             campus.majors.forEach((res: Major, index) => {
               if (res.id === major.id) {
-                campus.majors[index] = major;
+                this.services.getMajorOfCampus(major.id).subscribe((result) => {
+                  campus.majors[index] = result;
+                })
               }
             });
             this.messageService.add({
@@ -306,7 +310,9 @@ export class UniversityDetailComponent implements OnInit {
         //new Major
         this.services.insertMajor(major).subscribe((res) => {
           if (res) {
-            campus.majors = [major].concat(campus.majors);
+            this.services.getMajorsOfCampus(campus.id).subscribe((result) => {
+              campus.majors = result;
+            })
             this.messageService.add({
               severity: "success",
               summary: "Thành công!",

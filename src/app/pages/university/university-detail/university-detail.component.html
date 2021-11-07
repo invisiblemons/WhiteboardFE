@@ -130,20 +130,10 @@
                       <button
                         pButton
                         pRipple
-                        icon="pi pi-lock"
+                        icon="pi pi-trash"
                         class="p-button-rounded p-button-danger"
                         (click)="deleteCampus(campus)"
-                        pTooltip="Khoá campus"
-                        *ngIf="campus.status !=='Locked'"
-                      ></button>
-                      <button
-                        pButton
-                        pRipple
-                        icon="pi pi-unlock"
-                        class="p-button-rounded p-button-success"
-                        (click)="unDeleteCampus(campus)"
-                        pTooltip="Mở khoá campus"
-                        *ngIf="campus.status ==='Locked'"
+                        pTooltip="Xoá campus"
                       ></button>
                     </td>
                   </tr>
@@ -151,7 +141,7 @@
                 <ng-template pTemplate="emptymessage">
                   <tr>
                     <td></td>
-                    <td colspan="6">Trường đại học này không có campus.</td>
+                    <td colspan="5">Trường đại học này không có campus.</td>
                   </tr>
                 </ng-template>
                 <ng-template pTemplate="rowexpansion" let-campus>
@@ -199,7 +189,7 @@
                             </tr>
                           </ng-template>
                           <ng-template pTemplate="body" let-majorOfCampus>
-                            <tr>
+                            <tr *ngIf="majorOfCampus.status !=='Deleted'">
                               <td></td>
                               <td style="text-align: left">
                                 {{ majorOfCampus.code }}
@@ -225,10 +215,10 @@
                                 <button
                                   pButton
                                   pRipple
-                                  icon="pi pi-lock"
+                                  icon="pi pi-trash"
                                   class="p-button-rounded p-button-danger"
                                   (click)="deleteMajor(campus, majorOfCampus)"
-                                  pTooltip="Khoá ngành học này"
+                                  pTooltip="Xoá ngành học này"
                                 ></button>
                               </td>
                             </tr>
@@ -236,7 +226,7 @@
                           <ng-template pTemplate="emptymessage">
                             <tr>
                               <td></td>
-                              <td colspan="5">
+                              <td colspan="4">
                                 Không có ngành học nào ở campus này.
                               </td>
                             </tr>

@@ -79,6 +79,7 @@ export class ReviewDetailComponent implements OnInit {
           detail: "Bài đánh giá đã được xét duyệt",
           life: 3000,
         });
+        this.onDiscard();
       }
     });
   }
@@ -94,6 +95,7 @@ export class ReviewDetailComponent implements OnInit {
           detail: "Bài đánh giá bị từ chối xét duyệt",
           life: 3000,
         });
+        this.onDiscard();
       }
     });
   }

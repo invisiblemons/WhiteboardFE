@@ -89,7 +89,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.userToken = this.localStorageService.getUserToken();
     let user: user = JSON.parse(this.userToken);
-    this.avatarUrl = user.avatar;
+    this.avatarUrl = user.avatarURL;
     this.name = user.name;
     window.addEventListener("resize", this.updateColor);
     this.listTitles = ROUTES.filter(listTitle => listTitle);

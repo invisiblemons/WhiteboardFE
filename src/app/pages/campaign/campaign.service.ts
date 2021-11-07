@@ -28,8 +28,8 @@ export class CampaignService {
     return this.httpClient.get<Campaign[]>(`${this.baseURL}?sortby=StartDay&order=Des&reloadredis=true`);
   }
 
-  reloadL2(): Observable<Review[]> {
-    return this.httpClient.get<Review[]>(`${this.baseURL}?campusId=21111111-1111-1111-1111-111111111111&reloadredis=true`);
+  reloadL2(): Observable<Campaign[]> {
+    return this.httpClient.get<Campaign[]>(`${this.baseURL}?campusId=21111111-1111-1111-1111-111111111111&reloadredis=true`);
   }
 
   getCriterions(id:string) {

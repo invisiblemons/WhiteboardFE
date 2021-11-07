@@ -31,6 +31,10 @@ export class UniversityService {
     return this.httpClient.get<Major[]>(`${this.majorURL}?campusId=${campusId}`);
   }
 
+  getMajorOfCampus(id): Observable<Major> {
+    return this.httpClient.get<Major>(`${this.majorURL}/${id}`);
+  }
+
   insertUniversity(university: University) {
     return this.httpClient.post<University>(`${this.baseURL}`, university);
   }

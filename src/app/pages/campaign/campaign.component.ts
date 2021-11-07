@@ -178,15 +178,15 @@ export class CampaignComponent implements OnInit {
 
   deleteCampaign(campaign: Campaign) {
     this.confirmationService.confirm({
-      message: "Bạn có chắc muốn khoá chiến dịch " + campaign.name + "?",
+      message: "Bạn có chắc muốn xoá chiến dịch " + campaign.name + "?",
       header: "Xác nhận",
       icon: "pi pi-exclamation-triangle",
       accept: () => {
-        campaign.status = "Locked";
+        campaign.status = "deleted";
         this.campaignService.deleteCampaign(campaign).subscribe((res) => {
           if (res) {
             this.campaigns.forEach((res,index) => {
-              if(res.id === campaign.id) {this.campaigns[index].status = "Locked"}
+              if(res.id === campaign.id) {delete this.campaigns[index].status}
               
             });
             this.campaign = new Campaign(null);
@@ -202,33 +202,6 @@ export class CampaignComponent implements OnInit {
     });
   }
 
-  unDeleteCampaign(campaign:Campaign) {
-    this.confirmationService.confirm({
-      message: "Bạn có chắc muốn mở khoá chiến dịch " + campaign.name + "?",
-      header: "Xác nhận",
-      icon: "pi pi-exclamation-triangle",
-      accept: () => {
-        this.formatDataCampaign(campaign);
-        this.campaignService.unDeleteCampaign(campaign).subscribe((res) => {
-          if (res) {
-            this.campaigns.forEach((res:Campaign,index) => {
-              if(res.id === campaign.id) {
-                this.formatDataCampaign(this.campaigns[index]);
-              }
-            });
-            this.campaign = new Campaign(null);
-            this.messageService.add({
-              severity: "success",
-              summary: "Thành công!",
-              detail: "Mở khoá chiến dịch thành công",
-              life: 3000,
-            });
-          }
-        });
-      },
-    });
-    
-  }
   // function in modal
   hideCampaignDialog() {
     this.campaignDialog = false;

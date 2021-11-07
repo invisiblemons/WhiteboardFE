@@ -107,13 +107,13 @@
                 <dd class="col-sm-6">
                   <div>
                     <span class="OK"
-                      *ngIf="review.status.toLowerCase() === 'published'">{{review.status.toUpperCase()}}</span>
+                      *ngIf="review.status === 'Published'">{{review.status}}</span>
                     <span class="ERROR"
-                      *ngIf="review.status.toLowerCase() === 'locked'">{{review.status.toUpperCase()}}</span>
+                      *ngIf="review.status === 'Locked'">{{review.status}}</span>
                     <span class="WARNING"
-                      *ngIf="review.status.toLowerCase() === 'waiting'">{{review.status.toUpperCase()}}</span>
+                      *ngIf="review.status === 'Waiting'">{{review.status}}</span>
                     <span class="NORMAL"
-                      *ngIf="review.status.toLowerCase() === 'unpublished'">{{review.status.toUpperCase()}}</span>
+                      *ngIf="review.status === 'Unpublished'">{{review.status}}</span>
                   </div>
                 </dd>
                 <dt class="col-sm-4">Tiêu đề</dt>
