@@ -41,7 +41,6 @@ export class Criteria {
         this.id = "";
         this.name = "";
         this.campaignId = "";
-        this.ratings =  [];
     }
 }
 

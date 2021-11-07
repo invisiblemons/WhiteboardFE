@@ -60,7 +60,7 @@ export class CampaignService {
     return this.httpClient.post<Campaign>(`${this.baseURL}`, campaign);
   }
 
-  insertCriteria(criteria: Criteria) {
+  insertCriteria(criteria: any) {
     return this.httpClient.post<Criteria>(`${this.criteriaURL}`, criteria);
   }
 
@@ -80,7 +80,7 @@ export class CampaignService {
     return this.httpClient.put<Campaign>(`${this.baseURL}`, campaign);
   }
 
-  updateCriteria(criteria: Criteria) {
+  updateCriteria(criteria: any) {
     return this.httpClient.put<Criteria>(`${this.criteriaURL}`, criteria);
   }
 

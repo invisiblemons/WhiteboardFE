@@ -57,7 +57,7 @@ export class ReviewerComponent implements OnInit {
   university: University;
 
   campus: Campus;
-  //isShowSpin: boolean;
+  isShowSpin: boolean;
   hasUni: boolean = false;
   campusList: Campus[];
 
@@ -79,8 +79,10 @@ export class ReviewerComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.isShowSpin = true;
     this.service.getReviewer().subscribe((data) => {
       this.reviewers = data['reviewers'];
+      this.isShowSpin = false;
     })
     this.listStatus.push(
       { label: "Xác thực", value: "verified" },

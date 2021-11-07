@@ -308,11 +308,9 @@ export class CampaignDetailComponent implements OnInit {
   //control in criteria modal
 
   saveCriteria() {
-    let changeCriteria: Criteria = new Criteria();
-    changeCriteria.name = this.criteriaName;
-    changeCriteria.id = this.criteria.id;
-    if (changeCriteria.name.trim()) {
-      if (changeCriteria.id) {
+    
+      if (this.criteria.id) {
+        let changeCriteria = {"id": this.criteria.id ,"name": this.criteriaName, "campaignId":this.campaignId};
         this.campaignService.updateCriteria(changeCriteria).subscribe((res) => {
           if (res) {
             this.campaignService
@@ -327,6 +325,7 @@ export class CampaignDetailComponent implements OnInit {
           }
         });
       } else {
+    let changeCriteria = {"name": this.criteriaName, "campaignId":this.campaignId};
         this.campaignService.insertCriteria(changeCriteria).subscribe((res) => {
           if (res) {
             this.messageService.add({
@@ -343,7 +342,6 @@ export class CampaignDetailComponent implements OnInit {
       }
       this.criteriaDialog = false;
       this.criteria = new Criteria();
-    }
   }
 
   hideCriteriaDialog() {
