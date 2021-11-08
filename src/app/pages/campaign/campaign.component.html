@@ -1,6 +1,6 @@
 <div class="content">
   <p-table
-    id="table"
+  #datatable
     [value]="campaigns"
     dataKey="name"
     responsiveLayout="scroll"
@@ -238,6 +238,21 @@
         ></p-dropdown>
       </div>
 
+      <div class="p-field mt-3" *ngIf="isShowCriteria" >
+        <label for="criterions">Tạo tiêu chí</label>
+        <button
+                    pButton
+                    pRipple
+                    label="Thêm mới"
+                    icon="pi pi-plus"
+                    class="p-button-success p-mr-2"
+                    (click)="openNewCriteria()"
+                  ></button>
+                  <ng-container *ngFor="let criName of criterionsList"><p-chip [removable]="true" (onRemove)="removeNewCri(criName)" label="{{criName}}"></p-chip></ng-container>
+                  
+      </div>
+
+
       <div class="p-formgrid p-grid">
         <div class="p-field p-col-12 mt-3">
           <label for="startDay">Ngày bắt đầu</label>
@@ -305,6 +320,48 @@
         icon="pi pi-check"
         class="p-button-text"
         (click)="saveCampaign()"
+      ></button>
+    </ng-template>
+  </p-dialog>
+
+  <!-- criteria modal -->
+  <p-dialog
+    [(visible)]="criteriaDialog"
+    [style]="{ width: '350px' }"
+    header="Thông tin tiêu chí"
+    [modal]="true"
+    styleClass="p-fluid"
+  >
+    <ng-template pTemplate="content">
+      <div class="p-field">
+        <label for="name">Tên tiêu chí</label>
+        <input
+          type="text"
+          pInputText
+          id="name"
+          [(ngModel)]="criteriaName"
+          required
+          autofocus
+        />
+      </div>
+    </ng-template>
+
+    <ng-template pTemplate="footer">
+      <button
+        pButton
+        pRipple
+        label="Cancel"
+        icon="pi pi-times"
+        class="p-button-text"
+        (click)="hideCriteriaDialog()"
+      ></button>
+      <button
+        pButton
+        pRipple
+        label="Save"
+        icon="pi pi-check"
+        class="p-button-text"
+        (click)="saveCriteria()"
       ></button>
     </ng-template>
   </p-dialog>

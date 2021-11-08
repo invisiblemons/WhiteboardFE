@@ -38,8 +38,7 @@ export class ReviewDetailComponent implements OnInit {
     this.isShow = true;
     this.unpublishedModal = false;
     this.reasons = [
-      "lỗi ưu điểm sai sự thật",
-      "lỗi nhược điểm sai sự thật",
+      "lỗi nội dung sai sự thật",
       "lỗi hình ảnh không liên quan",
       "lỗi dùng từ ngữ thô tục",
       "lỗi nội dung chứa thông tin phân biệt chủng tộc, vùng miền",

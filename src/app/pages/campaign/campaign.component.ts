@@ -92,6 +92,12 @@ export class CampaignComponent implements OnInit {
   isShowUniCampus: boolean;
 
   selectedCampaigns: Campaign[];
+
+  criteriaName: string;
+
+  criterionsList: any[] = [];
+
+  isShowCriteria: boolean;
   
 
   //image
@@ -113,6 +119,7 @@ export class CampaignComponent implements OnInit {
 
   ngOnInit() {
     this.isShowUniCampus = false;
+    this.isShowCriteria = false;
     this.isShowSpin = true;
     this.statuses = [
       { label: "Chưa bắt đầu", value: "NotYet" },
@@ -167,6 +174,7 @@ export class CampaignComponent implements OnInit {
     this.campaignSubmitted = false;
     this.campaignDialog = true;
     this.isShowUniCampus = true;
+    this.isShowCriteria = true;
   }
 
   // open modal edit & delete
@@ -174,6 +182,7 @@ export class CampaignComponent implements OnInit {
     this.imgSrc = campaign.image;
     this.campaign = { ...campaign };
     this.campaignDialog = true;
+    this.isShowCriteria = false;
   }
 
   deleteCampaign(campaign: Campaign) {
@@ -294,6 +303,12 @@ export class CampaignComponent implements OnInit {
                     });
                 } else {
                   //create new campaign
+                  let criObject:any = [];
+                  this.criterionsList.forEach(cri => {
+                    let criteriaN = {"name":cri};
+                    criObject.push(criteriaN);
+                  });
+                  this.campaign.criterions = criObject;
                   this.campaignService
                     .insertCampaign(this.campaign)
                     .subscribe((res) => {
@@ -309,6 +324,9 @@ export class CampaignComponent implements OnInit {
                         this.campaignDialog = false;
                         this.isShowUniCampus = false;
                         this.campaign = new Campaign(null);
+                        this.universityModal = null;
+                        this.campusModal = null;
+                        this.criterionsList = [];
                       }
                     });
                 }
@@ -345,6 +363,12 @@ export class CampaignComponent implements OnInit {
         });
       } else {
         //create new campaign
+        let criObject:any = [];
+                  this.criterionsList.forEach(cri => {
+                    let criteriaN = {"name":cri};
+                    criObject.push(criteriaN);
+                  });
+                  this.campaign.criterions = criObject;
         this.campaignService.insertCampaign(this.campaign).subscribe((res) => {
           if (res) {
             this.messageService.add({
@@ -358,6 +382,9 @@ export class CampaignComponent implements OnInit {
             this.isShowUniCampus = false;
             this.campaign = new Campaign(null);
             this.isShowUniCampus = false;
+            this.universityModal = null;
+                        this.campusModal = null;
+                        this.criterionsList = [];
           }
         });
       }
@@ -473,7 +500,28 @@ export class CampaignComponent implements OnInit {
       this.campaignService.reloadL2().subscribe();
     });
   }
-  deleteSelectedCampaigns() {}
-
   
+  openNewCriteria() {
+    this.criteriaDialog = true;
+    this.criteriaName = "";
+  }
+
+  hideCriteriaDialog() {
+    this.criteriaDialog = false;
+  }
+
+  saveCriteria() {
+  this.criterionsList.push(this.criteriaName);
+  this.criteriaDialog = false;
+}
+
+removeNewCri(criName) {
+  let list = [];
+  this.criterionsList.forEach((element, index) => {
+    if(criName !== element){
+      list.push(element);
+    }
+  });
+  this.criterionsList = list;
+}
 }
