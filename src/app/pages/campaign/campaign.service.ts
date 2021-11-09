@@ -65,7 +65,7 @@ export class CampaignService {
   }
 
   deleteCampaign(campaign: Campaign) {
-    return this.httpClient.put<Campaign>(`${this.baseURL}`,campaign);
+    return this.httpClient.delete<Campaign>(`${this.baseURL}/${campaign.id}`);
   }
 
   unDeleteCampaign(campaign: Campaign) {
