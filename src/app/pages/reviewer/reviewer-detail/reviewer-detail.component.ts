@@ -64,8 +64,8 @@ export class ReviewerDetailComponent implements OnInit {
     });
     //get review
     this.reviewerService.getReview(this.reviewerId).subscribe((res) => {
-      this.reviews = res["reviews"];
-      this.rootReviews = res["reviews"];
+      this.reviews = res;
+      this.rootReviews = res;
 
       //get success review
       this.reviews.forEach((review) => {
@@ -73,7 +73,6 @@ export class ReviewerDetailComponent implements OnInit {
           this.successReviews.push(review);
         }
       });
-      console.log(this.successReviews)
       this.countSuccessReviews = this.successReviews.length;
 
       //get waiting review
