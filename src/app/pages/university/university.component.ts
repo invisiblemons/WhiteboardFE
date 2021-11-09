@@ -275,7 +275,7 @@ export class UniversityComponent implements OnInit {
       header: "Xác nhận",
       icon: "pi pi-exclamation-triangle",
       accept: () => {
-        this.services.deleteUniversity(university).subscribe((res) => {
+        this.services.deleteUniversity(university.id).subscribe((res) => {
           if (res) {
             this.universities = this.universities.filter(
               (val) => val.id !== university.id
