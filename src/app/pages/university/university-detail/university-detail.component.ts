@@ -291,14 +291,10 @@ export class UniversityDetailComponent implements OnInit {
       if (major.id) {
         this.services.updateMajor(major).subscribe((res) => {
           if (res) {
-            campus.majors.forEach((res: Major, index) => {
-              if (res.id === major.id) {
-                this.services.searchUniversityWithId(this.universityId).subscribe((res) => {
-                  this.university = res;
-                  this.imageLogo = this.university.image;
-                })
-              }
-            });
+            this.services.searchUniversityWithId(this.universityId).subscribe((res) => {
+              this.university = res;
+              this.imageLogo = this.university.image;
+            })
             this.messageService.add({
               severity: "success",
               summary: "Thành công!",
