@@ -194,9 +194,13 @@ export class CampaignComponent implements OnInit {
         campaign.status = "deleted";
         this.campaignService.deleteCampaign(campaign).subscribe((res) => {
           if (res) {
-            this.campaigns.forEach((res,index) => {
-              if(res.id === campaign.id) {delete this.campaigns[index].status}
-              
+            this.isShowSpin = true;
+            this.campaignService.getReloadCampaigns().subscribe((data) => {
+              this.campaigns = data["campaigns"];
+              this.campaigns.forEach((campaign) => {
+                this.formatDataCampaign(campaign);
+                this.isShowSpin = false;
+              });
             });
             this.campaign = new Campaign(null);
             this.messageService.add({
