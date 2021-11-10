@@ -42,7 +42,7 @@ export class ReviewerService {
   }
 
   getReview(reviewerId): Observable<Review[]> {
-    return this.httpClient.get<Review[]>(`${this.reviewUrL}?reviewerid=${reviewerId}`);
+    return this.httpClient.get<Review[]>(`${this.reviewUrL}?reviewerid=${reviewerId}&reloadredis=true`);
   }
 
   deleteReview(id: string) {
