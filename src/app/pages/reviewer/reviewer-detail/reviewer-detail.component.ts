@@ -64,8 +64,8 @@ export class ReviewerDetailComponent implements OnInit {
     });
     //get review
     this.reviewerService.getReview(this.reviewerId).subscribe((res) => {
-      this.reviews = res;
-      this.rootReviews = res;
+      this.reviews = res["reviews"];
+      this.rootReviews = res["reviews"];
 
       //get success review
       this.reviews.forEach((review) => {
