@@ -45,6 +45,7 @@ import { ChipModule } from 'primeng/chip';
 import {ConfirmPopupModule} from 'primeng/confirmpopup';
 import {FieldsetModule} from 'primeng/fieldset';
 import { TooltipModule } from "primeng/tooltip";
+import {ImageModule} from "primeng/image";
 
 
 @NgModule({
@@ -86,7 +87,8 @@ import { TooltipModule } from "primeng/tooltip";
     ChipModule,
     ConfirmPopupModule,
     FieldsetModule,
-    TooltipModule
+    TooltipModule,
+    ImageModule
   ],
   declarations: [
     FooterComponent,
@@ -133,7 +135,8 @@ import { TooltipModule } from "primeng/tooltip";
     ChipModule,
     ConfirmPopupModule,
     FieldsetModule,
-    TooltipModule
+    TooltipModule,
+    ImageModule
   ],
 })
 export class ComponentsModule {}
