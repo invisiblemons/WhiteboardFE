@@ -33,7 +33,7 @@ export class ReviewerService {
   }
 
   searchReviewerFromUni(uniId: string): Observable<Reviewer[]> {
-    return this.httpClient.get<Reviewer[]>(`${this.baseUrl}?universityId=${uniId}`);
+    return this.httpClient.get<Reviewer[]>(`${this.baseUrl}?universityid=${uniId}`);
   }
 
   getReviewerById(Id: string): Observable<Reviewer> {
@@ -41,7 +41,7 @@ export class ReviewerService {
   }
 
   getReview(reviewerId): Observable<Review[]> {
-    return this.httpClient.get<Review[]>(`${this.reviewUrL}?reviewerId=${reviewerId}`);
+    return this.httpClient.get<Review[]>(`${this.reviewUrL}?reviewerid=${reviewerId}`);
   }
 
   deleteReview(id: string) {
