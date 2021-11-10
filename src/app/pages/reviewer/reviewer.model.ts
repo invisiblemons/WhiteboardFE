@@ -11,6 +11,8 @@ export class Reviewer {
     publishedReview: number;
     waitingReviews: string;
     status: string;
+    campusName: string;
+    uniName: string;
 
     constructor(res) {
         if(null !== res) {
