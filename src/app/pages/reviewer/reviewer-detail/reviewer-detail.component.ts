@@ -4,7 +4,7 @@ import { ReviewerService } from '../reviewer.service';
 import { ConfirmationService, MessageService } from "primeng/api";
 import { Review } from '../../dashboard/dashboard.model';
 import { Reviewer } from '../reviewer.model';
-import { Campus, University } from '../../university/university.model';
+import { Campus, Major, University } from '../../university/university.model';
 
 @Component({
   selector: 'app-reviewer-detail',
@@ -53,6 +53,8 @@ export class ReviewerDetailComponent implements OnInit {
 
   criteriaDialog: boolean;
 
+  major: Major;
+
   constructor(
     private reviewerService: ReviewerService,
     private route: ActivatedRoute,
@@ -66,6 +68,9 @@ export class ReviewerDetailComponent implements OnInit {
     this.reviewerId = this.route.snapshot.paramMap.get("id");
     this.reviewerService.getReviewerById(this.reviewerId).subscribe((res) => {
       this.reviewer = res;
+      this.reviewerService.getMajorById(this.reviewer.majorId).subscribe(result => {
+        this.major = result;
+      })
     });
     //get review
     this.reviewerService.getReview(this.reviewerId).subscribe((res) => {
