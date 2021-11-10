@@ -4,6 +4,7 @@ import { ReviewerService } from '../reviewer.service';
 import { ConfirmationService, MessageService } from "primeng/api";
 import { Review } from '../../dashboard/dashboard.model';
 import { Reviewer } from '../reviewer.model';
+import { Campus, University } from '../../university/university.model';
 
 @Component({
   selector: 'app-reviewer-detail',
@@ -29,11 +30,16 @@ export class ReviewerDetailComponent implements OnInit {
   countWaitingReviews: number = 0;
 
   countUnpublishReviews: number = 0;
+
   review: Review;
 
   reviewers: Reviewer[];
 
   reviewer: Reviewer;
+
+  university: University;
+
+  campus: Campus;
 
   displayBasic: boolean;
 
@@ -42,7 +48,6 @@ export class ReviewerDetailComponent implements OnInit {
   data: any;
 
   revieweStatusList = [];
-
 
   currentDay: Date;
 
@@ -60,7 +65,7 @@ export class ReviewerDetailComponent implements OnInit {
     this.displayBasic = true;
     this.reviewerId = this.route.snapshot.paramMap.get("id");
     this.reviewerService.getReviewerById(this.reviewerId).subscribe((res) => {
-      this.reviewer = res
+      this.reviewer = res;
     });
     //get review
     this.reviewerService.getReview(this.reviewerId).subscribe((res) => {

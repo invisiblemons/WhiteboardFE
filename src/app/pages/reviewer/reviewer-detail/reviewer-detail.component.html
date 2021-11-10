@@ -23,24 +23,33 @@
                 Chi tiết Reviewer
               </h4>
               <dl class="dl-horizontal row">
-                <dt class="col-sm-4">Name</dt>
+                <dt class="col-sm-4 mt-2">Name</dt>
                 <dd class="col-sm-6">
                   <span>{{ reviewer.name }}</span>
                 </dd>
-                <dt class="col-sm-4">Birthday</dt>
+                <dt class="col-sm-4 mt-2">Birthday</dt>
                 <dd class="col-sm-6">
                   {{ reviewer.birthday | date: "dd/MM/yyyy" }}
                 </dd>
-                <dt class="col-sm-4">Email</dt>
+                <dt class="col-sm-4 mt-2">Email</dt>
 
                 <dd class="col-sm-6 col-sm-offset-3">
                   {{ reviewer.email }}
                 </dd>
-                <dt class="col-sm-4">Phone number</dt>
+                <dt class="col-sm-4 mt-2">Phone number</dt>
                 <dd class="col-sm-6">
                   {{ reviewer.phoneNumber }}
                 </dd>
-                <dt class="col-sm-4">Status</dt>
+
+                <dt class="col-sm-4 mt-2">Trường đại học</dt>
+                <dd class="col-sm-6">
+                  {{ reviews[0].universityName }}
+                </dd>
+                <dt class="col-sm-4 mt-2">Campus</dt>
+                <dd class="col-sm-6">
+                  {{ reviews[0].campusName }}
+                </dd>
+                <dt class="col-sm-4 mt-2">Status</dt>
                 <dd class="col-sm-6">
                   <div>
                     <span class="OK"
@@ -53,7 +62,7 @@
                   </div>
                 </dd>
               </dl>
-              <h6 class="sub-title" style="font-weight: 600">Avatar</h6>
+              <h6 class="sub-title mt-2" style="font-weight: 600">Avatar</h6>
               <mat-card class="example-card">
                 <img mat-card-image style="width: 260px; height: 280px" src="{{ reviewer.avatar }}"
                   alt="Photo of an avatar">
