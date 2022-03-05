@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Reviewer } from './reviewer.model';
-import { Campus, University } from '../university/university.model';
+import { Campus, Major, University } from '../university/university.model';
 import { CriterionsOfReview, PictureForReview, Review } from '../dashboard/dashboard.model';
 
 @Injectable({
@@ -15,6 +15,7 @@ export class ReviewerService {
   uniURL: string = environment.apiUrl + '/api/v1.0/universities';
   reviewUrL: string = environment.apiUrl + '/api/v1.0/reviews';
   picturesReviewUrL: string = environment.apiUrl + '/api/v1.0/picturesreview';
+  majorUrl = environment.apiUrl+ '/api/v1.0/majors'
   campusUrl = environment.apiUrl+ '/api/v1.0/campuses'; 
   
   criterionReviewUrL: string = environment.apiUrl + '/api/v1.0/reviewcriterion';
@@ -63,5 +64,9 @@ export class ReviewerService {
 
   getCriterionsReview(): Observable<CriterionsOfReview[]> {
     return this.httpClient.get<CriterionsOfReview[]>(`${this.criterionReviewUrL}`);
+  }
+  
+  getMajorById(majorId): Observable<Major> {
+    return this.httpClient.get<Major>(`${this.majorUrl}/${majorId}`);
   }
 }

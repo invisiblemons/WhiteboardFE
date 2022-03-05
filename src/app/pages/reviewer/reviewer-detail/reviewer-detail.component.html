@@ -14,7 +14,7 @@
               <h6 class="sub-title" style="font-weight: 600">Certificate</h6>
               <div class="card">
                 <div class="profile-wrap animated">
-                  <p-image src="{{ reviewer.certification }}" alt="Photo of an Certification" height="500" width="470"></p-image>
+                  <img style="width: 470px; height: 500px" src="{{ reviewer.certification }}" />
                 </div>
               </div>
             </div>
@@ -49,6 +49,11 @@
                 <dd class="col-sm-6">
                   {{ reviewer.campusName }}
                 </dd>
+
+                <dt class="col-sm-4">Ngành học</dt>
+                <dd class="col-sm-6">
+                  {{ major.name }}
+                </dd>
                 <dt class="col-sm-4">Status</dt>
                 <dd class="col-sm-6">
                   <div>
@@ -63,7 +68,10 @@
                 </dd>
               </dl>
               <h6 class="sub-title mt-2" style="font-weight: 600">Avatar</h6>
-                <p-image src="{{ reviewer.avatar }}" alt="Photo of an avatar" height="188" width="188"></p-image>
+              <mat-card class="example-card">
+                <img mat-card-image style="width: 260px; height: 280px" src="{{ reviewer.avatar }}"
+                  alt="Photo of an avatar">
+              </mat-card>
             </div>
 
           </div>
