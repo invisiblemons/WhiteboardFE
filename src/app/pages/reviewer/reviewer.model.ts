@@ -13,7 +13,6 @@ export class Reviewer {
     status: string;
     campusName: string;
     uniName: string;
-    majorId: string;
 
     constructor(res) {
         if(null !== res) {
